@@ -108,7 +108,248 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/12/11/hello-world/" data-id="cm4jyo8pi0000fctb22yibius" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/12/11/hello-world/" data-id="cm4jypllk00005gtb6w4x78yo" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-柯西交错定理的证明" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/12/11/%E6%9F%AF%E8%A5%BF%E4%BA%A4%E9%94%99%E5%AE%9A%E7%90%86%E7%9A%84%E8%AF%81%E6%98%8E/" class="article-date">
+  <time class="dt-published" datetime="2024-12-11T12:53:30.000Z" itemprop="datePublished">2024-12-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/12/11/%E6%9F%AF%E8%A5%BF%E4%BA%A4%E9%94%99%E5%AE%9A%E7%90%86%E7%9A%84%E8%AF%81%E6%98%8E/">柯西交错定理的证明</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <!--  #柯西交错定理 -->
+
+<h2 id="一、定理陈述"><a href="#一、定理陈述" class="headerlink" title="一、定理陈述"></a>一、定理陈述</h2><p>设(A&#x3D;\left[\begin{array}{ll}a &amp; y^{*} \ y &amp; B\end{array}\right])是(n)阶Hermitian矩阵，(B)是(A)的(n - 1)阶主子矩阵，(\mu_{2} \leq \mu_{3} \leq \cdots \leq \mu_{n})是(B)的特征值，(\lambda_{1} \leq \lambda_{2} \leq \cdots \leq \lambda_{n})是(A)的特征值，则(\lambda_{n} \leq \mu_{n} \leq \lambda_{n - 1} \leq \mu_{n - 1} \leq \cdots \leq \lambda_{2} \leq \mu_{2} \leq \lambda_{1})。</p>
+<h2 id="二、证明过程"><a href="#二、证明过程" class="headerlink" title="二、证明过程"></a>二、证明过程</h2><h3 id="（一）特殊情况证明（-mu-n"><a href="#（一）特殊情况证明（-mu-n" class="headerlink" title="（一）特殊情况证明（(\mu_{n}&lt;\mu_{n - 1}&lt;\cdots&lt;\mu_{3}&lt;\mu_{2})且(z_{i} \neq 0)，(i &#x3D; 2,3,\cdots,n)）"></a>（一）特殊情况证明（(\mu_{n}&lt;\mu_{n - 1}&lt;\cdots&lt;\mu_{3}&lt;\mu_{2})且(z_{i} \neq 0)，(i &#x3D; 2,3,\cdots,n)）</h3><ol>
+<li><strong>酉矩阵的构造</strong><ul>
+<li>通过同时置换(A)的行和列（若必要），假设子矩阵(B)占据(A)的第(2,3,\cdots,n)行和列，即(A&#x3D;\left[\begin{array}{ll}a &amp; y^{*} \ y &amp; B\end{array}\right])。</li>
+<li>因为(B)是Hermitian矩阵，存在(n - 1)阶酉矩阵(U)使得(U^{<em>} B U &#x3D; D)，其中(D&#x3D;\text{diag}(\mu_{2},\mu_{3},\cdots,\mu_{n}))。设(U^{</em>} y &#x3D; z&#x3D;(z_{2},z_{3},\cdots,z_{n})^{T})。</li>
+<li>构造酉矩阵(V&#x3D;\left[\begin{array}{ll}1 &amp; 0^{T} \ 0 &amp; U\end{array}\right])，则(V^{<em>} A V&#x3D;\left[\begin{array}{cc}a &amp; z^{</em>} \ z &amp; D\end{array}\right])。</li>
+</ul>
+</li>
+<li><strong>行列式变换</strong><ul>
+<li>首先，对(V^{*} A V)的行列式变换进行说明：<ul>
+<li>酉矩阵的性质：<ul>
+<li>首先，(V)是酉矩阵，酉矩阵满足(V^{<em>}V &#x3D; VV^{</em>}&#x3D;I)，其中(V^{*})是(V)的共轭转置，(I)是单位矩阵。</li>
+</ul>
+</li>
+<li>相似矩阵的行列式性质：<ul>
+<li>对于任意方阵(A)和可逆矩阵(P)，有(\text{det}(P^{-1}AP)&#x3D;\text{det}(A))。</li>
+<li>在当前情况下，(V)是酉矩阵，(V^{*}&#x3D;V^{-1})。</li>
+<li>所以(V^{<em>}AV)和(A)是相似矩阵，根据相似矩阵的行列式性质，(\text{det}(xI - A)&#x3D;\text{det}(xI - V^{</em>}AV))。具体来说，设(y &#x3D; xI - A)，(z &#x3D; xI - V^{<em>}AV)，则(z &#x3D; V^{</em>}(xI - A)V &#x3D; V^{*}yV)。</li>
+<li>由于(\text{det}(V^{<em>}yV)&#x3D;\text{det}(V^{</em>})\text{det}(y)\text{det}(V))，又因为(\text{det}(V^{<em>})&#x3D;\overline{\text{det}(V)})且(\text{det}(V)\overline{\text{det}(V)} &#x3D; 1)（酉矩阵性质），所以(\text{det}(V^{</em>}yV)&#x3D;\text{det}(y))，即(\text{det}(xI - A)&#x3D;\text{det}(xI - V^{*}AV))。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>然后将(\text{det}(xI - V^{*} A V))沿第一行展开得到：<ul>
+<li>(f(x)&#x3D;(x - a)(x-\mu_{2}) \cdots(x-\mu_{n})-\sum_{i &#x3D; 2}^{n} f_{i}(x))</li>
+<li>其中(f_{i}(x)&#x3D;\vert z_{i}\vert^{2}(x-\mu_{2}) \cdots(x\widehat{-}\mu_{i}) \cdots(x-\mu_{n}))（(i &#x3D; 2,3,\cdots,n)），这里((x\widehat{-}\mu_{i}))表示去掉((x - \mu_{i}))这一项。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>(f_{i}(x))正负性质的判断</strong><ul>
+<li>分析(f_{i}(x))的值可知：<ul>
+<li>当(j \neq i)时，(f_{i}(\mu_{j}) &#x3D; 0)。</li>
+<li>当(i)为偶数时，(f_{i}\left(\mu_{i}\right)&gt;0)；当(i)为奇数时，(f_{i}\left(\mu_{i}\right)&lt;0)。其原因如下：<ul>
+<li>当(i)为奇数时，考虑(f_{i}(\mu_{i})&#x3D;\vert z_{i}\vert^{2}(\mu_{i} - \mu_{2})\cdots(\mu_{i} - \mu_{i - 1})(\mu_{i} - \mu_{i + 1})\cdots(\mu_{i} - \mu_{n}))这一乘积：<ul>
+<li>对于这一乘积：<ul>
+<li>当(i)为奇数时，(\mu_{i})小于它前面的偶数位置的(\mu_{j})（(j &lt; i)且(j)为偶数），所以((\mu_{i} - \mu_{j})&lt;0)（(j &lt; i)且(j)为偶数）。</li>
+<li>同时，(\mu_{i})大于它后面的偶数位置的(\mu_{k})（(k &gt; i)且(k)为偶数），所以((\mu_{i} - \mu_{k})&lt;0)（(k &gt; i)且(k)为偶数）。</li>
+<li>而对于奇数位置的(\mu_{l})（(l\neq i)），((\mu_{i} - \mu_{l}))的正负情况交替出现，但总体乘积的符号由偶数位置的(\mu)决定。</li>
+</ul>
+</li>
+<li>因为有偶数个((\mu_{i} - \mu_{j})&lt;0)（(j)为偶数且(j\neq i)），所以((\mu_{i} - \mu_{2})\cdots(\mu_{i} - \mu_{i - 1})(\mu_{i} - \mu_{i + 1})\cdots(\mu_{i} - \mu_{n})&lt;0)。</li>
+<li>又因为(\vert z_{i}\vert^{2}&gt;0)，所以(f_{i}(\mu_{i})&#x3D;\vert z_{i}\vert^{2}(\mu_{i} - \mu_{2})\cdots(\mu_{i} - \mu_{i - 1})(\mu_{i} - \mu_{i + 1})\cdots(\mu_{i} - \mu_{n})&lt;0)。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>进而得到(f\left(\mu_{i}\right))的正负性：<ul>
+<li>当(i)为偶数时，(f\left(\mu_{i}\right)&lt;0)；当(i)为奇数时，(f\left(\mu_{i}\right)&gt;0)（(i &#x3D; 2,3,\cdots,n)）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>根的讨论</strong><ul>
+<li>由于(f(x))是首项系数为正的(n)次多项式，根据中间值定理可知方程(f(x)&#x3D;0)存在(n)个根(\lambda_{1},\lambda_{2},\cdots,\lambda_{n})，使得(\lambda_{n}&lt;\mu_{n}&lt;\lambda_{n - 1}&lt;\mu_{n - 1}&lt;\cdots&lt;\lambda_{2}&lt;\mu_{2}&lt;\lambda_{1})。</li>
+</ul>
+</li>
+</ol>
+<h3 id="（二）一般情况证明"><a href="#（二）一般情况证明" class="headerlink" title="（二）一般情况证明"></a>（二）一般情况证明</h3><ol>
+<li><strong>构造趋近矩阵</strong><ul>
+<li>设(\epsilon_{1},\epsilon_{2},\cdots)是一列正实数，满足(\epsilon_{k} \downarrow 0)，(z_{i}+\epsilon_{k} \neq 0)（(i &#x3D; 2,3,\cdots,n)；(k &#x3D; 1,2,\cdots)）且(D+\epsilon_{k}\text{diag}(2,3,\cdots,n))的对角元对固定的(k)是不同的。</li>
+<li>对(k &#x3D; 1,2,\cdots)，定义(C_{k}&#x3D;\left[\begin{array}{cc}a &amp; z\left(\epsilon_{k}\right)^{<em>} \ z\left(\epsilon_{k}\right) &amp; D\left(\epsilon_{k}\right)\end{array}\right])，其中(z\left(\epsilon_{k}\right)&#x3D;z+\epsilon_{k}(1,1,\cdots,1)^{T})，(D\left(\epsilon_{k}\right)&#x3D;D+\epsilon_{k}\text{diag}(2,3,\cdots,n))，且(A_{k}&#x3D;V C_{k} V^{</em>})，则(A_{k})是Hermitian矩阵且(A_{k} \to A)。</li>
+</ul>
+</li>
+<li><strong>特征值关系</strong><ul>
+<li>设(\lambda_{n}^{(k)} \leq\lambda_{n - 1}^{(k)} \leq\cdots \leq\lambda_{2}^{(k)} \leq\lambda_{1}^{(k)})是(A_{k})的特征值，则(\lambda_{n}^{(k)}&lt;\mu_{n}+n\epsilon_{k}&lt;\lambda_{n - 1}^{(k)}&lt;\mu_{n - 1}+(n - 1)\epsilon_{k}&lt;\cdots&lt;\lambda_{2}^{(k)}&lt;\mu_{2}+2\epsilon_{k}&lt;\lambda_{1}^{(k)})。</li>
+</ul>
+</li>
+<li><strong>极限情况</strong><ul>
+<li>因为(\lambda_{n}^{(k)},\lambda_{n - 1}^{(k)},\cdots,\lambda_{1}^{(k)})是(\text{det}(xI - A_{k}) &#x3D; 0)的(n)个不同根且(y&#x3D;\text{det}(xI - A_{k}))的图像与(y&#x3D;\text{det}(xI - A))的图像充分接近，所以((\lambda_{n}^{(k)},\lambda_{n - 1}^{(k)},\cdots,\lambda_{1}^{(k)}) \to (\lambda_{n},\lambda_{n - 1},\cdots,\lambda_{1}))，证明完成。</li>
+</ul>
+</li>
+</ol>
+<p>通过以上特殊情况和一般情况的证明，柯西交错定理得证。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/12/11/%E6%9F%AF%E8%A5%BF%E4%BA%A4%E9%94%99%E5%AE%9A%E7%90%86%E7%9A%84%E8%AF%81%E6%98%8E/" data-id="cm4jypllo00015gtb0jd84frf" data-title="柯西交错定理的证明" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-浅谈Johnson算法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/11/17/%E6%B5%85%E8%B0%88Johnson%E7%AE%97%E6%B3%95/" class="article-date">
+  <time class="dt-published" datetime="2024-11-17T14:09:36.000Z" itemprop="datePublished">2024-11-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/11/17/%E6%B5%85%E8%B0%88Johnson%E7%AE%97%E6%B3%95/">浅谈 Johnson 算法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <!-- # Johnson 算法 -->
+
+<h2 id="1-算法思想"><a href="#1-算法思想" class="headerlink" title="1. 算法思想"></a>1. 算法思想</h2><p>Johnson 算法用于解决带权有向图中所有节点对之间的最短路径问题，它结合了 Bellman-Ford 算法和 Dijkstra 算法的优点。<br>首先，通过添加一个虚拟节点 <code>s</code> 到图中，将所有边的权重进行重新赋值（重赋权技巧），使得图中不存在负权环的同时，利用 Bellman-Ford 算法计算出从虚拟节点 <code>s</code> 到图中每个节点的最短距离 <code>h(v)</code>。<br>然后，对于图中的每一对节点 <code>u</code> 和 <code>v</code>，将原边权重 <code>w(u, v)</code> 替换为新的权重 <code>w&#39;(u, v) = w(u, v) + h(u) - h(v)</code>，这样处理后可以保证新的权重是非负的（通过利用最短距离的性质）。<br>最后，针对每一个节点作为源点，使用 Dijkstra 算法来计算经过重赋权后的图中到其他节点的最短路径，再根据重赋权的关系将计算出的距离转换回原图中的最短路径距离。</p>
+<h2 id="2-代码示例"><a href="#2-代码示例" class="headerlink" title="2. 代码示例"></a>2. 代码示例</h2><p>（Python 代码，以下是简化实现，假设输入的图用邻接矩阵表示，图中不存在负权环，节点编号从 0 开始）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">bellman_ford</span>(<span class="params">graph, num_vertices</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Bellman-Ford 算法，用于计算从虚拟源点到各节点的最短距离</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 初始化距离数组，初始设为无穷大</span></span><br><span class="line">    dist = [math.inf] * num_vertices</span><br><span class="line">    dist[<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices - <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> u <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">            <span class="keyword">for</span> v <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">                <span class="keyword">if</span> graph[u][v]!= math.inf:</span><br><span class="line">                    <span class="keyword">if</span> dist[u] + graph[u][v] &lt; dist[v]:</span><br><span class="line">                        dist[v] = dist[u] + graph[u][v]</span><br><span class="line">    <span class="keyword">return</span> dist</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dijkstra</span>(<span class="params">graph, source, num_vertices</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Dijkstra 算法，用于计算从给定源点到其他节点的最短路径</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 初始化距离数组，初始设为无穷大</span></span><br><span class="line">    dist = [math.inf] * num_vertices</span><br><span class="line">    dist[source] = <span class="number">0</span></span><br><span class="line">    visited = [false] * num_vertices</span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">        min_dist = math.inf</span><br><span class="line">        min_index = -<span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> v <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> visited[v] <span class="keyword">and</span> dist[v] &lt; min_dist:</span><br><span class="line">                min_dist = dist[v]</span><br><span class="line">                min_index = v</span><br><span class="line">        visited[min_index] = true</span><br><span class="line">        <span class="keyword">for</span> v <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">            <span class="keyword">if</span> graph[min_index][v]!= math.inf <span class="keyword">and</span> dist[min_index] + graph[min_index][v] &lt; dist[v]:</span><br><span class="line">                dist[v] = dist[min_index] + graph[min_index][v]</span><br><span class="line">    <span class="keyword">return</span> dist</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">johnson</span>(<span class="params">graph</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Johnson 算法实现</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    num_vertices = <span class="built_in">len</span>(graph)</span><br><span class="line">    <span class="comment"># 添加虚拟源点，构建新的图</span></span><br><span class="line">    new_graph = [[math.inf] * (num_vertices + <span class="number">1</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices + <span class="number">1</span>)]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">            new_graph[i][j] = graph[i][j]</span><br><span class="line">    <span class="comment"># 运行 Bellman-Ford 算法</span></span><br><span class="line">    h = bellman_ford(new_graph, num_vertices + <span class="number">1</span>)[<span class="number">0</span>:num_vertices]</span><br><span class="line">    <span class="comment"># 重赋权边</span></span><br><span class="line">    new_weight_graph = [[math.inf] * num_vertices <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices)]</span><br><span class="line">    <span class="keyword">for</span> u <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">    <span class="keyword">for</span> v <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">        <span class="keyword">if</span> graph[u][v]!= math.inf:</span><br><span class="line">            new_weight_graph[u][v] = graph[u][v] + h[u] - h[v]</span><br><span class="line">    <span class="comment"># 对每个节点作为源点运行 Dijkstra 算法，存储所有节点对最短路径结果</span></span><br><span class="line">    all_pairs_shortest_paths = []</span><br><span class="line">    <span class="keyword">for</span> source <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">        dist = dijkstra(new_weight_graph, source, num_vertices)</span><br><span class="line">        <span class="comment"># 还原原权重下的最短路径距离</span></span><br><span class="line">        <span class="keyword">for</span> v <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">            <span class="keyword">if</span> dist[v]!= math.inf:</span><br><span class="line">                dist[v] = dist[v] - h[source] + h[v]</span><br><span class="line">        all_pairs_shortest_paths.append(dist)</span><br><span class="line">    <span class="keyword">return</span> all_pairs_shortest_paths</span><br></pre></td></tr></table></figure>
+
+<p>你可以使用以下方式调用这个函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 示例图，用邻接矩阵表示，无穷大表示无边相连</span></span><br><span class="line">graph = [</span><br><span class="line">    [<span class="number">0</span>, <span class="number">3</span>, math.inf, <span class="number">7</span>],</span><br><span class="line">    [<span class="number">8</span>, <span class="number">0</span>, <span class="number">2</span>, math.inf],</span><br><span class="line">    [<span class="number">5</span>, math.inf, <span class="number">0</span>, <span class="number">1</span>],</span><br><span class="line">    [<span class="number">2</span>, math.inf, math.inf, <span class="number">0</span>]</span><br><span class="line">]</span><br><span class="line">shortest_paths = johnson(graph)</span><br><span class="line"><span class="built_in">print</span>(shortest_paths)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-复杂度分析"><a href="#3-复杂度分析" class="headerlink" title="3. 复杂度分析"></a>3. 复杂度分析</h2><ul>
+<li><p><strong>时间复杂度</strong>：</p>
+<ul>
+<li><p>第一步 Bellman-Ford 算法的时间复杂度为 $O(V^3)$，其中 <code>V</code> 是图中节点的数量，因为它要对每条边进行 <code>V - 1</code> 次松弛操作，每次松弛操作遍历所有边（在邻接矩阵表示下），时间复杂度为 $O(V^2)$，整体就是 $O(V^3)$。</p>
+</li>
+<li><p>第二步对每个节点运行 Dijkstra 算法，若使用二叉堆实现优先队列的 Dijkstra 算法，每次时间复杂度为 $O((V + E) \log V)$，<code>E</code> 是边数，总共运行 <code>V</code> 次，这部分时间复杂度就是 $O(V (V + E) \log V)$。在稀疏图（<code>E</code> 接近 <code>V</code>）情况下，时间复杂度约为 $O(V^2 \log V)$，在稠密图（<code>E</code> 接近 $V^2$）情况下，时间复杂度约为 $O(V^3 \log V)$。所以 Johnson 算法总的时间复杂度在最坏情况下为 $O(V^3 \log V)$。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>空间复杂度</strong>：需要存储图的相关信息（如邻接矩阵等）、距离数组等，在 Bellman-Ford 和 Dijkstra 算法执行过程中还需要一些临时空间，总体空间复杂度主要取决于图的表示方式以及节点数量，一般来说在 $O(V^2)$ 级别（使用邻接矩阵表示图时），<code>V</code> 为节点数量。</p>
+</li>
+</ul>
+<h2 id="4-正确性证明"><a href="#4-正确性证明" class="headerlink" title="4. 正确性证明"></a>4. 正确性证明</h2><ul>
+<li><p><strong>重赋权后不存在负权边</strong>：<br>根据 Bellman-Ford 算法计算出的 <code>h(v)</code> 是从虚拟节点 <code>s</code> 到节点 <code>v</code> 的最短距离。对于图中任意边 <code>(u, v)</code>，有 <code>w&#39;(u, v) = w(u, v) + h(u) - h(v)</code>，根据最短路径的三角不等式（从 <code>s</code> 到 <code>v</code> 的最短路径长度不会大于从 <code>s</code> 经过 <code>u</code> 再到 <code>v</code> 的路径长度），可得 <code>h(v) ≤ h(u) + w(u, v)</code>，移项后就是 <code>w&#39;(u, v) = w(u, v) + h(u) - h(v) ≥ 0</code>，所以重赋权后的边权重都是非负的。</p>
+</li>
+<li><p><strong>计算的最短路径等价于原图最短路径</strong>：<br>设 <code>d(u, v)</code> 是原图中从 <code>u</code> 到 <code>v</code> 的最短路径距离，<code>d&#39;(u, v)</code> 是重赋权后图中从 <code>u</code> 到 <code>v</code> 的最短路径距离。根据重赋权的定义以及最短路径的性质，对于任意节点对 <code>u</code> 和 <code>v</code>，有 <code>d&#39;(u, v) = d(u, v) + h(u) - h(v)</code>，在计算出重赋权后图中的最短路径 <code>d&#39;(u, v)</code> 后，通过还原操作 <code>d(u, v) = d&#39;(u, v) - h(u) + h(v)</code> 就可以得到原图中的最短路径距离，所以 Johnson 算法最终计算出的所有节点对之间的最短路径是正确的。</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/11/17/%E6%B5%85%E8%B0%88Johnson%E7%AE%97%E6%B3%95/" data-id="cm4jypllt00025gtbca3ecuwu" data-title="浅谈 Johnson 算法" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-浅谈A-算法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/11/17/%E6%B5%85%E8%B0%88A-%E7%AE%97%E6%B3%95/" class="article-date">
+  <time class="dt-published" datetime="2024-11-17T14:09:36.000Z" itemprop="datePublished">2024-11-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/11/17/%E6%B5%85%E8%B0%88A-%E7%AE%97%E6%B3%95/">浅谈A*算法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <!-- # A* 算法 -->
+
+<h2 id="1-算法思想"><a href="#1-算法思想" class="headerlink" title="1. 算法思想"></a>1. 算法思想</h2><pre><code>A* 算法是一种启发式搜索算法，常用于在图中寻找从起始节点到目标节点的最短路径。它结合了 Dijkstra 算法（保证能找到最优解的广度优先搜索拓展）的特点以及启发式函数来引导搜索方向，以减少搜索空间。
+算法维护两个集合，一个是已探索的节点集合，另一个是待探索的节点集合（通常用优先队列实现，按照节点的评估函数值排序）。每个节点都有一个评估函数 `f(n)`，它由两部分组成：从起始节点到当前节点 `n` 的实际代价 `g(n)`（类似 Dijkstra 算法中的距离度量），以及从当前节点 `n` 到目标节点的预估代价 `h(n)`（启发式函数），即 `f(n) = g(n) + h(n)`。
+在搜索过程中，每次从待探索集合中取出 `f(n)` 值最小的节点进行扩展，直到找到目标节点或者待探索集合为空。启发式函数 `h(n)` 需要满足一定的条件（可采纳性，即 `h(n)` 始终小于等于节点 `n` 到目标节点的实际最短距离），这样才能保证 A* 算法最终找到的是最优解。
+</code></pre>
+<h2 id="2-代码示例"><a href="#2-代码示例" class="headerlink" title="2. 代码示例"></a>2. 代码示例</h2><p>（Python 代码，以简单的二维网格地图为例，寻找起点到终点的最短路径，地图中 0 表示可通行，1 表示障碍物）</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> heapq</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义四个方向的移动向量（上下左右）</span></span><br><span class="line">dx = [-<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>]</span><br><span class="line">dy = [<span class="number">0</span>, <span class="number">0</span>, -<span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">heuristic</span>(<span class="params">a, b</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    启发式函数，这里使用曼哈顿距离（在二维网格中常用），计算两点之间的预估距离</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">abs</span>(a[<span class="number">0</span>] - b[<span class="number">0</span>]) + <span class="built_in">abs</span>(a[<span class="number">1</span>] - b[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">a_star</span>(<span class="params">grid, start, goal</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    A* 算法实现</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    rows = <span class="built_in">len</span>(grid)</span><br><span class="line">    cols = <span class="built_in">len</span>(grid[<span class="number">0</span>])</span><br><span class="line">    <span class="comment"># 初始化 g 值，初始设为无穷大</span></span><br><span class="line">    g_scores = [[<span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>)] * cols <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(rows)]</span><br><span class="line">    g_scores[start[<span class="number">0</span>]][start[<span class="number">1</span>]] = <span class="number">0</span></span><br><span class="line">    <span class="comment"># 初始化 f 值，初始设为无穷大</span></span><br><span class="line">    f_scores = [[<span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>)] * cols <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(rows)]</span><br><span class="line">    f_scores[start[<span class="number">0</span>]][start[<span class="number">1</span>]] = heuristic(start, goal)</span><br><span class="line">    <span class="comment"># 优先队列，存储待探索的节点，元素为 (f值, (x坐标, y坐标))</span></span><br><span class="line">    open_set = [(f_scores[start[<span class="number">0</span>]][start[<span class="number">1</span>]], start)]</span><br><span class="line">    came_from = &#123;&#125;</span><br><span class="line">    <span class="keyword">while</span> open_set:</span><br><span class="line">        _, current = heapq.heappop(open_set)</span><br><span class="line">        <span class="keyword">if</span> current == goal:</span><br><span class="line">            path = []</span><br><span class="line">            <span class="keyword">while</span> current <span class="keyword">in</span> came_from:</span><br><span class="line">                path.append(current)</span><br><span class="line">                current = came_from[current]</span><br><span class="line">            path.append(start)</span><br><span class="line">            <span class="keyword">return</span> path[::-<span class="number">1</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">            new_x = current[<span class="number">0</span>] + dx[i]</span><br><span class="line">            new_y = current[<span class="number">1</span>] + dy[i]</span><br><span class="line">            <span class="keyword">if</span> <span class="number">0</span> &lt;= new_x &lt; rows <span class="keyword">and</span> <span class="number">0</span> &lt;= new_y &lt; cols <span class="keyword">and</span> grid[new_x][new_y] == <span class="number">0</span>:</span><br><span class="line">                tentative_g_score = g_scores[current[<span class="number">0</span>]][current[<span class="number">1</span>]] + <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> tentative_g_score &lt; g_scores[new_x][new_y]:</span><br><span class="line">                    came_from[(new_x, new_y)] = current</span><br><span class="line">                    g_scores[new_x][new_y] = tentative_g_score</span><br><span class="line">                    f_scores[new_x][new_y] = tentative_g_score + heuristic((new_x, new_y), goal)</span><br><span class="line">                    heapq.heappush(open_set, (f_scores[new_x][new_y], (new_x, new_y)))</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br></pre></td></tr></table></figure>
+</code></pre>
+<p>你可以使用以下方式调用这个函数：</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 示例地图</span></span><br><span class="line">grid = [</span><br><span class="line">    [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">    [<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">    [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">    [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]</span><br><span class="line">]</span><br><span class="line">start = (<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">goal = (<span class="number">3</span>, <span class="number">3</span>)</span><br><span class="line">path = a_star(grid, start, goal)</span><br><span class="line"><span class="built_in">print</span>(path)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</code></pre>
+<h2 id="3-复杂度分析"><a href="#3-复杂度分析" class="headerlink" title="3. 复杂度分析"></a>3. 复杂度分析</h2><ul>
+<li><strong>时间复杂度</strong>：在最坏情况下（比如启发式函数不够好，接近均匀搜索整个图空间时），A* 算法的时间复杂度与图中节点数 <code>n</code> 和边数 <code>m</code> 相关，类似于 Dijkstra 算法，时间复杂度为 $O((n + m) \log n)$，其中 $\log n$ 来自于优先队列操作的复杂度。但如果启发式函数非常好，能有效引导搜索方向，实际运行时间可以大大优于这个复杂度，接近最优解所在路径长度的线性复杂度。</li>
+<li><strong>空间复杂度</strong>：需要存储每个节点的 <code>g</code> 值、<code>f</code> 值以及记录节点的前驱等信息，在最坏情况下，空间复杂度为 $O(n)$，<code>n</code> 为图中节点的数量，主要取决于节点数以及需要记录的辅助信息占用的空间。</li>
+</ul>
+<h2 id="4-正确性证明（基于可采纳性）"><a href="#4-正确性证明（基于可采纳性）" class="headerlink" title="4. 正确性证明（基于可采纳性）"></a>4. 正确性证明（基于可采纳性）</h2><ul>
+<li>假设存在一条从起始节点 <code>s</code> 到目标节点 <code>t</code> 的最优路径 <code>P</code>，其长度为 <code>L</code>。我们要证明 A* 算法一定能找到这条最优路径。</li>
+<li>由于启发式函数 <code>h(n)</code> 满足可采纳性，即对于任意节点 <code>n</code>，<code>h(n)</code> 始终小于等于节点 <code>n</code> 到目标节点的实际最短距离。</li>
+<li>当 A* 算法扩展节点时，它总是选择 <code>f(n)</code> 值最小的节点进行扩展，其中 <code>f(n) = g(n) + h(n)</code>。因为 <code>h(n)</code> 不会高估到目标的距离，所以如果某个节点 <code>n</code> 在最优路径 <code>P</code> 上，那么最终 <code>f(n)</code> 值会小于等于 <code>L</code>（最优路径长度），且沿着最优路径上的节点依次被扩展，直到到达目标节点 <code>t</code>。</li>
+<li>而且，不会出现因为优先选择了其他非最优路径上的节点而错过最优路径的情况，因为那些非最优路径上的节点最终计算出的 <code>f</code> 值必然大于最优路径对应的 <code>f</code> 值（由于 <code>h</code> 函数的可采纳性以及实际代价 <code>g</code> 的累积），所以 A* 算法最终一定会沿着最优路径扩展到目标节点，从而找到最优解。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/11/17/%E6%B5%85%E8%B0%88A-%E7%AE%97%E6%B3%95/" data-id="cm4jypllt00035gtbgjs8a1ol" data-title="浅谈A*算法" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -138,7 +379,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a></li></ul>
     </div>
   </div>
 
@@ -152,6 +393,18 @@
         
           <li>
             <a href="/2024/12/11/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2024/12/11/%E6%9F%AF%E8%A5%BF%E4%BA%A4%E9%94%99%E5%AE%9A%E7%90%86%E7%9A%84%E8%AF%81%E6%98%8E/">柯西交错定理的证明</a>
+          </li>
+        
+          <li>
+            <a href="/2024/11/17/%E6%B5%85%E8%B0%88Johnson%E7%AE%97%E6%B3%95/">浅谈 Johnson 算法</a>
+          </li>
+        
+          <li>
+            <a href="/2024/11/17/%E6%B5%85%E8%B0%88A-%E7%AE%97%E6%B3%95/">浅谈A*算法</a>
           </li>
         
       </ul>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>柯西交错定理的证明 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="一、定理陈述设(A&#x3D;\left[\begin{array}{ll}a &amp; y^{*} \ y &amp; B\end{array}\right])是(n)阶Hermitian矩阵，(B)是(A)的(n - 1)阶主子矩阵，(\mu_{2} \leq \mu_{3} \leq \cdots \leq \mu_{n})是(B)的特征值，(\lambda_{1} \leq \lam">
+<meta property="og:type" content="article">
+<meta property="og:title" content="柯西交错定理的证明">
+<meta property="og:url" content="http://example.com/2024/12/11/%E6%9F%AF%E8%A5%BF%E4%BA%A4%E9%94%99%E5%AE%9A%E7%90%86%E7%9A%84%E8%AF%81%E6%98%8E/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、定理陈述设(A&#x3D;\left[\begin{array}{ll}a &amp; y^{*} \ y &amp; B\end{array}\right])是(n)阶Hermitian矩阵，(B)是(A)的(n - 1)阶主子矩阵，(\mu_{2} \leq \mu_{3} \leq \cdots \leq \mu_{n})是(B)的特征值，(\lambda_{1} \leq \lam">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-12-11T12:53:30.000Z">
+<meta property="article:modified_time" content="2024-12-11T13:50:30.932Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-柯西交错定理的证明" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/12/11/%E6%9F%AF%E8%A5%BF%E4%BA%A4%E9%94%99%E5%AE%9A%E7%90%86%E7%9A%84%E8%AF%81%E6%98%8E/" class="article-date">
+  <time class="dt-published" datetime="2024-12-11T12:53:30.000Z" itemprop="datePublished">2024-12-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      柯西交错定理的证明
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <!--  #柯西交错定理 -->
+
+<h2 id="一、定理陈述"><a href="#一、定理陈述" class="headerlink" title="一、定理陈述"></a>一、定理陈述</h2><p>设(A&#x3D;\left[\begin{array}{ll}a &amp; y^{*} \ y &amp; B\end{array}\right])是(n)阶Hermitian矩阵，(B)是(A)的(n - 1)阶主子矩阵，(\mu_{2} \leq \mu_{3} \leq \cdots \leq \mu_{n})是(B)的特征值，(\lambda_{1} \leq \lambda_{2} \leq \cdots \leq \lambda_{n})是(A)的特征值，则(\lambda_{n} \leq \mu_{n} \leq \lambda_{n - 1} \leq \mu_{n - 1} \leq \cdots \leq \lambda_{2} \leq \mu_{2} \leq \lambda_{1})。</p>
+<h2 id="二、证明过程"><a href="#二、证明过程" class="headerlink" title="二、证明过程"></a>二、证明过程</h2><h3 id="（一）特殊情况证明（-mu-n"><a href="#（一）特殊情况证明（-mu-n" class="headerlink" title="（一）特殊情况证明（(\mu_{n}&lt;\mu_{n - 1}&lt;\cdots&lt;\mu_{3}&lt;\mu_{2})且(z_{i} \neq 0)，(i &#x3D; 2,3,\cdots,n)）"></a>（一）特殊情况证明（(\mu_{n}&lt;\mu_{n - 1}&lt;\cdots&lt;\mu_{3}&lt;\mu_{2})且(z_{i} \neq 0)，(i &#x3D; 2,3,\cdots,n)）</h3><ol>
+<li><strong>酉矩阵的构造</strong><ul>
+<li>通过同时置换(A)的行和列（若必要），假设子矩阵(B)占据(A)的第(2,3,\cdots,n)行和列，即(A&#x3D;\left[\begin{array}{ll}a &amp; y^{*} \ y &amp; B\end{array}\right])。</li>
+<li>因为(B)是Hermitian矩阵，存在(n - 1)阶酉矩阵(U)使得(U^{<em>} B U &#x3D; D)，其中(D&#x3D;\text{diag}(\mu_{2},\mu_{3},\cdots,\mu_{n}))。设(U^{</em>} y &#x3D; z&#x3D;(z_{2},z_{3},\cdots,z_{n})^{T})。</li>
+<li>构造酉矩阵(V&#x3D;\left[\begin{array}{ll}1 &amp; 0^{T} \ 0 &amp; U\end{array}\right])，则(V^{<em>} A V&#x3D;\left[\begin{array}{cc}a &amp; z^{</em>} \ z &amp; D\end{array}\right])。</li>
+</ul>
+</li>
+<li><strong>行列式变换</strong><ul>
+<li>首先，对(V^{*} A V)的行列式变换进行说明：<ul>
+<li>酉矩阵的性质：<ul>
+<li>首先，(V)是酉矩阵，酉矩阵满足(V^{<em>}V &#x3D; VV^{</em>}&#x3D;I)，其中(V^{*})是(V)的共轭转置，(I)是单位矩阵。</li>
+</ul>
+</li>
+<li>相似矩阵的行列式性质：<ul>
+<li>对于任意方阵(A)和可逆矩阵(P)，有(\text{det}(P^{-1}AP)&#x3D;\text{det}(A))。</li>
+<li>在当前情况下，(V)是酉矩阵，(V^{*}&#x3D;V^{-1})。</li>
+<li>所以(V^{<em>}AV)和(A)是相似矩阵，根据相似矩阵的行列式性质，(\text{det}(xI - A)&#x3D;\text{det}(xI - V^{</em>}AV))。具体来说，设(y &#x3D; xI - A)，(z &#x3D; xI - V^{<em>}AV)，则(z &#x3D; V^{</em>}(xI - A)V &#x3D; V^{*}yV)。</li>
+<li>由于(\text{det}(V^{<em>}yV)&#x3D;\text{det}(V^{</em>})\text{det}(y)\text{det}(V))，又因为(\text{det}(V^{<em>})&#x3D;\overline{\text{det}(V)})且(\text{det}(V)\overline{\text{det}(V)} &#x3D; 1)（酉矩阵性质），所以(\text{det}(V^{</em>}yV)&#x3D;\text{det}(y))，即(\text{det}(xI - A)&#x3D;\text{det}(xI - V^{*}AV))。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>然后将(\text{det}(xI - V^{*} A V))沿第一行展开得到：<ul>
+<li>(f(x)&#x3D;(x - a)(x-\mu_{2}) \cdots(x-\mu_{n})-\sum_{i &#x3D; 2}^{n} f_{i}(x))</li>
+<li>其中(f_{i}(x)&#x3D;\vert z_{i}\vert^{2}(x-\mu_{2}) \cdots(x\widehat{-}\mu_{i}) \cdots(x-\mu_{n}))（(i &#x3D; 2,3,\cdots,n)），这里((x\widehat{-}\mu_{i}))表示去掉((x - \mu_{i}))这一项。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>(f_{i}(x))正负性质的判断</strong><ul>
+<li>分析(f_{i}(x))的值可知：<ul>
+<li>当(j \neq i)时，(f_{i}(\mu_{j}) &#x3D; 0)。</li>
+<li>当(i)为偶数时，(f_{i}\left(\mu_{i}\right)&gt;0)；当(i)为奇数时，(f_{i}\left(\mu_{i}\right)&lt;0)。其原因如下：<ul>
+<li>当(i)为奇数时，考虑(f_{i}(\mu_{i})&#x3D;\vert z_{i}\vert^{2}(\mu_{i} - \mu_{2})\cdots(\mu_{i} - \mu_{i - 1})(\mu_{i} - \mu_{i + 1})\cdots(\mu_{i} - \mu_{n}))这一乘积：<ul>
+<li>对于这一乘积：<ul>
+<li>当(i)为奇数时，(\mu_{i})小于它前面的偶数位置的(\mu_{j})（(j &lt; i)且(j)为偶数），所以((\mu_{i} - \mu_{j})&lt;0)（(j &lt; i)且(j)为偶数）。</li>
+<li>同时，(\mu_{i})大于它后面的偶数位置的(\mu_{k})（(k &gt; i)且(k)为偶数），所以((\mu_{i} - \mu_{k})&lt;0)（(k &gt; i)且(k)为偶数）。</li>
+<li>而对于奇数位置的(\mu_{l})（(l\neq i)），((\mu_{i} - \mu_{l}))的正负情况交替出现，但总体乘积的符号由偶数位置的(\mu)决定。</li>
+</ul>
+</li>
+<li>因为有偶数个((\mu_{i} - \mu_{j})&lt;0)（(j)为偶数且(j\neq i)），所以((\mu_{i} - \mu_{2})\cdots(\mu_{i} - \mu_{i - 1})(\mu_{i} - \mu_{i + 1})\cdots(\mu_{i} - \mu_{n})&lt;0)。</li>
+<li>又因为(\vert z_{i}\vert^{2}&gt;0)，所以(f_{i}(\mu_{i})&#x3D;\vert z_{i}\vert^{2}(\mu_{i} - \mu_{2})\cdots(\mu_{i} - \mu_{i - 1})(\mu_{i} - \mu_{i + 1})\cdots(\mu_{i} - \mu_{n})&lt;0)。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>进而得到(f\left(\mu_{i}\right))的正负性：<ul>
+<li>当(i)为偶数时，(f\left(\mu_{i}\right)&lt;0)；当(i)为奇数时，(f\left(\mu_{i}\right)&gt;0)（(i &#x3D; 2,3,\cdots,n)）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>根的讨论</strong><ul>
+<li>由于(f(x))是首项系数为正的(n)次多项式，根据中间值定理可知方程(f(x)&#x3D;0)存在(n)个根(\lambda_{1},\lambda_{2},\cdots,\lambda_{n})，使得(\lambda_{n}&lt;\mu_{n}&lt;\lambda_{n - 1}&lt;\mu_{n - 1}&lt;\cdots&lt;\lambda_{2}&lt;\mu_{2}&lt;\lambda_{1})。</li>
+</ul>
+</li>
+</ol>
+<h3 id="（二）一般情况证明"><a href="#（二）一般情况证明" class="headerlink" title="（二）一般情况证明"></a>（二）一般情况证明</h3><ol>
+<li><strong>构造趋近矩阵</strong><ul>
+<li>设(\epsilon_{1},\epsilon_{2},\cdots)是一列正实数，满足(\epsilon_{k} \downarrow 0)，(z_{i}+\epsilon_{k} \neq 0)（(i &#x3D; 2,3,\cdots,n)；(k &#x3D; 1,2,\cdots)）且(D+\epsilon_{k}\text{diag}(2,3,\cdots,n))的对角元对固定的(k)是不同的。</li>
+<li>对(k &#x3D; 1,2,\cdots)，定义(C_{k}&#x3D;\left[\begin{array}{cc}a &amp; z\left(\epsilon_{k}\right)^{<em>} \ z\left(\epsilon_{k}\right) &amp; D\left(\epsilon_{k}\right)\end{array}\right])，其中(z\left(\epsilon_{k}\right)&#x3D;z+\epsilon_{k}(1,1,\cdots,1)^{T})，(D\left(\epsilon_{k}\right)&#x3D;D+\epsilon_{k}\text{diag}(2,3,\cdots,n))，且(A_{k}&#x3D;V C_{k} V^{</em>})，则(A_{k})是Hermitian矩阵且(A_{k} \to A)。</li>
+</ul>
+</li>
+<li><strong>特征值关系</strong><ul>
+<li>设(\lambda_{n}^{(k)} \leq\lambda_{n - 1}^{(k)} \leq\cdots \leq\lambda_{2}^{(k)} \leq\lambda_{1}^{(k)})是(A_{k})的特征值，则(\lambda_{n}^{(k)}&lt;\mu_{n}+n\epsilon_{k}&lt;\lambda_{n - 1}^{(k)}&lt;\mu_{n - 1}+(n - 1)\epsilon_{k}&lt;\cdots&lt;\lambda_{2}^{(k)}&lt;\mu_{2}+2\epsilon_{k}&lt;\lambda_{1}^{(k)})。</li>
+</ul>
+</li>
+<li><strong>极限情况</strong><ul>
+<li>因为(\lambda_{n}^{(k)},\lambda_{n - 1}^{(k)},\cdots,\lambda_{1}^{(k)})是(\text{det}(xI - A_{k}) &#x3D; 0)的(n)个不同根且(y&#x3D;\text{det}(xI - A_{k}))的图像与(y&#x3D;\text{det}(xI - A))的图像充分接近，所以((\lambda_{n}^{(k)},\lambda_{n - 1}^{(k)},\cdots,\lambda_{1}^{(k)}) \to (\lambda_{n},\lambda_{n - 1},\cdots,\lambda_{1}))，证明完成。</li>
+</ul>
+</li>
+</ol>
+<p>通过以上特殊情况和一般情况的证明，柯西交错定理得证。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/12/11/%E6%9F%AF%E8%A5%BF%E4%BA%A4%E9%94%99%E5%AE%9A%E7%90%86%E7%9A%84%E8%AF%81%E6%98%8E/" data-id="cm4jypllo00015gtb0jd84frf" data-title="柯西交错定理的证明" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2024/12/11/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2024/11/17/%E6%B5%85%E8%B0%88Johnson%E7%AE%97%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">浅谈 Johnson 算法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/12/11/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2024/12/11/%E6%9F%AF%E8%A5%BF%E4%BA%A4%E9%94%99%E5%AE%9A%E7%90%86%E7%9A%84%E8%AF%81%E6%98%8E/">柯西交错定理的证明</a>
+          </li>
+        
+          <li>
+            <a href="/2024/11/17/%E6%B5%85%E8%B0%88Johnson%E7%AE%97%E6%B3%95/">浅谈 Johnson 算法</a>
+          </li>
+        
+          <li>
+            <a href="/2024/11/17/%E6%B5%85%E8%B0%88A-%E7%AE%97%E6%B3%95/">浅谈A*算法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

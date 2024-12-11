@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>浅谈 Johnson 算法 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1. 算法思想Johnson 算法用于解决带权有向图中所有节点对之间的最短路径问题，它结合了 Bellman-Ford 算法和 Dijkstra 算法的优点。首先，通过添加一个虚拟节点 s 到图中，将所有边的权重进行重新赋值（重赋权技巧），使得图中不存在负权环的同时，利用 Bellman-Ford 算法计算出从虚拟节点 s 到图中每个节点的最短距离 h(v)。然后，对于图中的每一对节点 u 和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈 Johnson 算法">
+<meta property="og:url" content="http://example.com/2024/11/17/%E6%B5%85%E8%B0%88Johnson%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1. 算法思想Johnson 算法用于解决带权有向图中所有节点对之间的最短路径问题，它结合了 Bellman-Ford 算法和 Dijkstra 算法的优点。首先，通过添加一个虚拟节点 s 到图中，将所有边的权重进行重新赋值（重赋权技巧），使得图中不存在负权环的同时，利用 Bellman-Ford 算法计算出从虚拟节点 s 到图中每个节点的最短距离 h(v)。然后，对于图中的每一对节点 u 和">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-11-17T14:09:36.000Z">
+<meta property="article:modified_time" content="2024-12-11T13:29:35.578Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-浅谈Johnson算法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/11/17/%E6%B5%85%E8%B0%88Johnson%E7%AE%97%E6%B3%95/" class="article-date">
+  <time class="dt-published" datetime="2024-11-17T14:09:36.000Z" itemprop="datePublished">2024-11-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      浅谈 Johnson 算法
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <!-- # Johnson 算法 -->
+
+<h2 id="1-算法思想"><a href="#1-算法思想" class="headerlink" title="1. 算法思想"></a>1. 算法思想</h2><p>Johnson 算法用于解决带权有向图中所有节点对之间的最短路径问题，它结合了 Bellman-Ford 算法和 Dijkstra 算法的优点。<br>首先，通过添加一个虚拟节点 <code>s</code> 到图中，将所有边的权重进行重新赋值（重赋权技巧），使得图中不存在负权环的同时，利用 Bellman-Ford 算法计算出从虚拟节点 <code>s</code> 到图中每个节点的最短距离 <code>h(v)</code>。<br>然后，对于图中的每一对节点 <code>u</code> 和 <code>v</code>，将原边权重 <code>w(u, v)</code> 替换为新的权重 <code>w&#39;(u, v) = w(u, v) + h(u) - h(v)</code>，这样处理后可以保证新的权重是非负的（通过利用最短距离的性质）。<br>最后，针对每一个节点作为源点，使用 Dijkstra 算法来计算经过重赋权后的图中到其他节点的最短路径，再根据重赋权的关系将计算出的距离转换回原图中的最短路径距离。</p>
+<h2 id="2-代码示例"><a href="#2-代码示例" class="headerlink" title="2. 代码示例"></a>2. 代码示例</h2><p>（Python 代码，以下是简化实现，假设输入的图用邻接矩阵表示，图中不存在负权环，节点编号从 0 开始）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">bellman_ford</span>(<span class="params">graph, num_vertices</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Bellman-Ford 算法，用于计算从虚拟源点到各节点的最短距离</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 初始化距离数组，初始设为无穷大</span></span><br><span class="line">    dist = [math.inf] * num_vertices</span><br><span class="line">    dist[<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices - <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> u <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">            <span class="keyword">for</span> v <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">                <span class="keyword">if</span> graph[u][v]!= math.inf:</span><br><span class="line">                    <span class="keyword">if</span> dist[u] + graph[u][v] &lt; dist[v]:</span><br><span class="line">                        dist[v] = dist[u] + graph[u][v]</span><br><span class="line">    <span class="keyword">return</span> dist</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dijkstra</span>(<span class="params">graph, source, num_vertices</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Dijkstra 算法，用于计算从给定源点到其他节点的最短路径</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 初始化距离数组，初始设为无穷大</span></span><br><span class="line">    dist = [math.inf] * num_vertices</span><br><span class="line">    dist[source] = <span class="number">0</span></span><br><span class="line">    visited = [false] * num_vertices</span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">        min_dist = math.inf</span><br><span class="line">        min_index = -<span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> v <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> visited[v] <span class="keyword">and</span> dist[v] &lt; min_dist:</span><br><span class="line">                min_dist = dist[v]</span><br><span class="line">                min_index = v</span><br><span class="line">        visited[min_index] = true</span><br><span class="line">        <span class="keyword">for</span> v <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">            <span class="keyword">if</span> graph[min_index][v]!= math.inf <span class="keyword">and</span> dist[min_index] + graph[min_index][v] &lt; dist[v]:</span><br><span class="line">                dist[v] = dist[min_index] + graph[min_index][v]</span><br><span class="line">    <span class="keyword">return</span> dist</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">johnson</span>(<span class="params">graph</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Johnson 算法实现</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    num_vertices = <span class="built_in">len</span>(graph)</span><br><span class="line">    <span class="comment"># 添加虚拟源点，构建新的图</span></span><br><span class="line">    new_graph = [[math.inf] * (num_vertices + <span class="number">1</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices + <span class="number">1</span>)]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">            new_graph[i][j] = graph[i][j]</span><br><span class="line">    <span class="comment"># 运行 Bellman-Ford 算法</span></span><br><span class="line">    h = bellman_ford(new_graph, num_vertices + <span class="number">1</span>)[<span class="number">0</span>:num_vertices]</span><br><span class="line">    <span class="comment"># 重赋权边</span></span><br><span class="line">    new_weight_graph = [[math.inf] * num_vertices <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices)]</span><br><span class="line">    <span class="keyword">for</span> u <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">    <span class="keyword">for</span> v <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">        <span class="keyword">if</span> graph[u][v]!= math.inf:</span><br><span class="line">            new_weight_graph[u][v] = graph[u][v] + h[u] - h[v]</span><br><span class="line">    <span class="comment"># 对每个节点作为源点运行 Dijkstra 算法，存储所有节点对最短路径结果</span></span><br><span class="line">    all_pairs_shortest_paths = []</span><br><span class="line">    <span class="keyword">for</span> source <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">        dist = dijkstra(new_weight_graph, source, num_vertices)</span><br><span class="line">        <span class="comment"># 还原原权重下的最短路径距离</span></span><br><span class="line">        <span class="keyword">for</span> v <span class="keyword">in</span> <span class="built_in">range</span>(num_vertices):</span><br><span class="line">            <span class="keyword">if</span> dist[v]!= math.inf:</span><br><span class="line">                dist[v] = dist[v] - h[source] + h[v]</span><br><span class="line">        all_pairs_shortest_paths.append(dist)</span><br><span class="line">    <span class="keyword">return</span> all_pairs_shortest_paths</span><br></pre></td></tr></table></figure>
+
+<p>你可以使用以下方式调用这个函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 示例图，用邻接矩阵表示，无穷大表示无边相连</span></span><br><span class="line">graph = [</span><br><span class="line">    [<span class="number">0</span>, <span class="number">3</span>, math.inf, <span class="number">7</span>],</span><br><span class="line">    [<span class="number">8</span>, <span class="number">0</span>, <span class="number">2</span>, math.inf],</span><br><span class="line">    [<span class="number">5</span>, math.inf, <span class="number">0</span>, <span class="number">1</span>],</span><br><span class="line">    [<span class="number">2</span>, math.inf, math.inf, <span class="number">0</span>]</span><br><span class="line">]</span><br><span class="line">shortest_paths = johnson(graph)</span><br><span class="line"><span class="built_in">print</span>(shortest_paths)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-复杂度分析"><a href="#3-复杂度分析" class="headerlink" title="3. 复杂度分析"></a>3. 复杂度分析</h2><ul>
+<li><p><strong>时间复杂度</strong>：</p>
+<ul>
+<li><p>第一步 Bellman-Ford 算法的时间复杂度为 $O(V^3)$，其中 <code>V</code> 是图中节点的数量，因为它要对每条边进行 <code>V - 1</code> 次松弛操作，每次松弛操作遍历所有边（在邻接矩阵表示下），时间复杂度为 $O(V^2)$，整体就是 $O(V^3)$。</p>
+</li>
+<li><p>第二步对每个节点运行 Dijkstra 算法，若使用二叉堆实现优先队列的 Dijkstra 算法，每次时间复杂度为 $O((V + E) \log V)$，<code>E</code> 是边数，总共运行 <code>V</code> 次，这部分时间复杂度就是 $O(V (V + E) \log V)$。在稀疏图（<code>E</code> 接近 <code>V</code>）情况下，时间复杂度约为 $O(V^2 \log V)$，在稠密图（<code>E</code> 接近 $V^2$）情况下，时间复杂度约为 $O(V^3 \log V)$。所以 Johnson 算法总的时间复杂度在最坏情况下为 $O(V^3 \log V)$。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>空间复杂度</strong>：需要存储图的相关信息（如邻接矩阵等）、距离数组等，在 Bellman-Ford 和 Dijkstra 算法执行过程中还需要一些临时空间，总体空间复杂度主要取决于图的表示方式以及节点数量，一般来说在 $O(V^2)$ 级别（使用邻接矩阵表示图时），<code>V</code> 为节点数量。</p>
+</li>
+</ul>
+<h2 id="4-正确性证明"><a href="#4-正确性证明" class="headerlink" title="4. 正确性证明"></a>4. 正确性证明</h2><ul>
+<li><p><strong>重赋权后不存在负权边</strong>：<br>根据 Bellman-Ford 算法计算出的 <code>h(v)</code> 是从虚拟节点 <code>s</code> 到节点 <code>v</code> 的最短距离。对于图中任意边 <code>(u, v)</code>，有 <code>w&#39;(u, v) = w(u, v) + h(u) - h(v)</code>，根据最短路径的三角不等式（从 <code>s</code> 到 <code>v</code> 的最短路径长度不会大于从 <code>s</code> 经过 <code>u</code> 再到 <code>v</code> 的路径长度），可得 <code>h(v) ≤ h(u) + w(u, v)</code>，移项后就是 <code>w&#39;(u, v) = w(u, v) + h(u) - h(v) ≥ 0</code>，所以重赋权后的边权重都是非负的。</p>
+</li>
+<li><p><strong>计算的最短路径等价于原图最短路径</strong>：<br>设 <code>d(u, v)</code> 是原图中从 <code>u</code> 到 <code>v</code> 的最短路径距离，<code>d&#39;(u, v)</code> 是重赋权后图中从 <code>u</code> 到 <code>v</code> 的最短路径距离。根据重赋权的定义以及最短路径的性质，对于任意节点对 <code>u</code> 和 <code>v</code>，有 <code>d&#39;(u, v) = d(u, v) + h(u) - h(v)</code>，在计算出重赋权后图中的最短路径 <code>d&#39;(u, v)</code> 后，通过还原操作 <code>d(u, v) = d&#39;(u, v) - h(u) + h(v)</code> 就可以得到原图中的最短路径距离，所以 Johnson 算法最终计算出的所有节点对之间的最短路径是正确的。</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/11/17/%E6%B5%85%E8%B0%88Johnson%E7%AE%97%E6%B3%95/" data-id="cm4jypllt00025gtbca3ecuwu" data-title="浅谈 Johnson 算法" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2024/12/11/%E6%9F%AF%E8%A5%BF%E4%BA%A4%E9%94%99%E5%AE%9A%E7%90%86%E7%9A%84%E8%AF%81%E6%98%8E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          柯西交错定理的证明
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2024/11/17/%E6%B5%85%E8%B0%88A-%E7%AE%97%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">浅谈A*算法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/12/11/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2024/12/11/%E6%9F%AF%E8%A5%BF%E4%BA%A4%E9%94%99%E5%AE%9A%E7%90%86%E7%9A%84%E8%AF%81%E6%98%8E/">柯西交错定理的证明</a>
+          </li>
+        
+          <li>
+            <a href="/2024/11/17/%E6%B5%85%E8%B0%88Johnson%E7%AE%97%E6%B3%95/">浅谈 Johnson 算法</a>
+          </li>
+        
+          <li>
+            <a href="/2024/11/17/%E6%B5%85%E8%B0%88A-%E7%AE%97%E6%B3%95/">浅谈A*算法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
