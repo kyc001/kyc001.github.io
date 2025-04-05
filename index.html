@@ -351,15 +351,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/11/17/%E6%B5%85%E8%B0%88Johnson%E7%AE%97%E6%B3%95/" target="_self">
-          浅谈 Johnson 算法
+        <a href="/2024/11/17/%E6%B5%85%E8%B0%88A-%E7%AE%97%E6%B3%95/" target="_self">
+          浅谈A*算法
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/17/%E6%B5%85%E8%B0%88Johnson%E7%AE%97%E6%B3%95/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/17/%E6%B5%85%E8%B0%88A-%E7%AE%97%E6%B3%95/" target="_self">
         <div>
-          1. 算法思想Johnson 算法用于解决带权有向图中所有节点对之间的最短路径问题，它结合了 Bellman-Ford 算法和 Dijkstra 算法的优点。首先，通过添加一个虚拟节点 s 到图中，将所有边的权重进行重新赋值（重赋权技巧），使得图中不存在负权环的同时，利用 Bellman-Ford 算法计算出从虚拟节点 s 到图中每个节点的最短距离 h(v)。然后，对于图中的每一对节点 u 和
+          1. 算法思想A* 算法是一种启发式搜索算法，常用于在图中寻找从起始节点到目标节点的最短路径。它结合了 Dijkstra 算法（保证能找到最优解的广度优先搜索拓展）的特点以及启发式函数来引导搜索方向，以减少搜索空间。 算法维护两个集合，一个是已探索的节点集合，另一个是待探索的节点集合（通常用优先队列实现，按照节点的评估函数值排序）。每个节点都有一个评估函数 `f(n)`，它由两部分组成：从起始
         </div>
       </a>
 
@@ -384,15 +384,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/11/17/%E6%B5%85%E8%B0%88A-%E7%AE%97%E6%B3%95/" target="_self">
-          浅谈A*算法
+        <a href="/2024/11/17/%E6%B5%85%E8%B0%88Johnson%E7%AE%97%E6%B3%95/" target="_self">
+          浅谈 Johnson 算法
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/17/%E6%B5%85%E8%B0%88A-%E7%AE%97%E6%B3%95/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/17/%E6%B5%85%E8%B0%88Johnson%E7%AE%97%E6%B3%95/" target="_self">
         <div>
-          1. 算法思想A* 算法是一种启发式搜索算法，常用于在图中寻找从起始节点到目标节点的最短路径。它结合了 Dijkstra 算法（保证能找到最优解的广度优先搜索拓展）的特点以及启发式函数来引导搜索方向，以减少搜索空间。 算法维护两个集合，一个是已探索的节点集合，另一个是待探索的节点集合（通常用优先队列实现，按照节点的评估函数值排序）。每个节点都有一个评估函数 `f(n)`，它由两部分组成：从起始
+          1. 算法思想Johnson 算法用于解决带权有向图中所有节点对之间的最短路径问题，它结合了 Bellman-Ford 算法和 Dijkstra 算法的优点。首先，通过添加一个虚拟节点 s 到图中，将所有边的权重进行重新赋值（重赋权技巧），使得图中不存在负权环的同时，利用 Bellman-Ford 算法计算出从虚拟节点 s 到图中每个节点的最短距离 h(v)。然后，对于图中的每一对节点 u 和
         </div>
       </a>
 
