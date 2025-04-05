@@ -87,7 +87,7 @@
 
 
   
-<meta name="generator" content="Hexo 7.3.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 <body>
@@ -260,7 +260,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2024/12/12/Graham-Pollak%E5%AE%9A%E7%90%86%E7%9A%84%E8%AF%81%E6%98%8E/" target="_self">
         <div>
-          一、定理陈述 Graham - Pollak定理：任何KnK_nKn​（完全图，有nnn个顶点）的分解中至少需要n−1n - 1n−1个完全二部图。  二、符号定义  对于图中的每个顶点vi∈Vv_i \in Vvi​∈V，定义一个实变量xix_ixi​，其中VVV是图中所有顶点的集合。 对于第kkk个二部图，将其左侧顶点集记为LkL_kLk​，右侧顶点集记为RkR_kRk​。 对于任意顶点集
+          一、定理陈述Graham - Pollak定理：任何$K_n$（完全图，有$n$个顶点）的分解中至少需要$n - 1$个完全二部图。 二、符号定义 对于图中的每个顶点$v_i \in V$，定义一个实变量$x_i$，其中$V$是图中所有顶点的集合。 对于第$k$个二部图，将其左侧顶点集记为$L_k$，右侧顶点集记为$R_k$。 对于任意顶点集$S$，定义$X(S)&#x3D;\sum_{v_i
         </div>
       </a>
 
@@ -293,7 +293,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2024/12/12/Mantel%E5%AE%9A%E7%90%86%E7%9A%84%E8%AF%81%E6%98%8E/" target="_self">
         <div>
-          一、定理陈述 Mantel定理：对于一个具有 nnn 个顶点的简单无向图 GGG，其边数 mmm 满足 m≤n24m\leq\frac{n^2}{4}m≤4n2​，当且仅当图 GGG 是一个完全二部图 K⌊n2⌋,⌈n2⌉K_{\lfloor\frac{n}{2}\rfloor,\lceil\frac{n}{2}\rceil}K⌊2n​⌋,⌈2n​⌉​ 时等号成立。  二、证明过程  （一）基
+          一、定理陈述Mantel定理：对于一个具有 $n$ 个顶点的简单无向图 $G$，其边数 $m$ 满足 $m\leq\frac{n^2}{4}$，当且仅当图 $G$ 是一个完全二部图 $K_{\lfloor\frac{n}{2}\rfloor,\lceil\frac{n}{2}\rceil}$ 时等号成立。 二、证明过程（一）基本设定和握手引理的应用 设 $xy$ 是图 $G$ 的一条边，其中
         </div>
       </a>
 
@@ -326,7 +326,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2024/12/11/%E6%9F%AF%E8%A5%BF%E4%BA%A4%E9%94%99%E5%AE%9A%E7%90%86%E7%9A%84%E8%AF%81%E6%98%8E/" target="_self">
         <div>
-          一、定理陈述 柯西交错定理： 设 A=[ay∗yB]A=\begin{bmatrix}a &amp; y^{*} \\ y &amp; B\end{bmatrix}A=[ay​y∗B​] 是 nnn 阶 Hermitian 矩阵，BBB 是 AAA 的 n−1n - 1n−1 阶主子矩阵，μ2≤μ3≤⋯≤μn\mu_{2} \leq \mu_{3} \leq \cdots \leq \mu_{
+          一、定理陈述柯西交错定理： 设 $A&#x3D;\begin{bmatrix}a &amp; y^{*} \ y &amp; B\end{bmatrix}$ 是 $n$ 阶 Hermitian 矩阵，$B$ 是 $A$ 的 $n - 1$ 阶主子矩阵，$\mu_{2} \leq \mu_{3} \leq \cdots \leq \mu_{n}$ 是 $B$ 的特征值，$\lambda_{1}
         </div>
       </a>
 
@@ -351,15 +351,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/11/17/%E6%B5%85%E8%B0%88A-%E7%AE%97%E6%B3%95/" target="_self">
-          浅谈A*算法
+        <a href="/2024/11/17/%E6%B5%85%E8%B0%88Johnson%E7%AE%97%E6%B3%95/" target="_self">
+          浅谈 Johnson 算法
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/17/%E6%B5%85%E8%B0%88A-%E7%AE%97%E6%B3%95/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/17/%E6%B5%85%E8%B0%88Johnson%E7%AE%97%E6%B3%95/" target="_self">
         <div>
-          1. 算法思想 A* 算法是一种启发式搜索算法，常用于在图中寻找从起始节点到目标节点的最短路径。它结合了 Dijkstra 算法（保证能找到最优解的广度优先搜索拓展）的特点以及启发式函数来引导搜索方向，以减少搜索空间。 算法维护两个集合，一个是已探索的节点集合，另一个是待探索的节点集合（通常用优先队列实现，按照节点的评估函数值排序）。每个节点都有一个评估函数 `f(n)`，它由两部分组成：从起
+          1. 算法思想Johnson 算法用于解决带权有向图中所有节点对之间的最短路径问题，它结合了 Bellman-Ford 算法和 Dijkstra 算法的优点。首先，通过添加一个虚拟节点 s 到图中，将所有边的权重进行重新赋值（重赋权技巧），使得图中不存在负权环的同时，利用 Bellman-Ford 算法计算出从虚拟节点 s 到图中每个节点的最短距离 h(v)。然后，对于图中的每一对节点 u 和
         </div>
       </a>
 
@@ -384,15 +384,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/11/17/%E6%B5%85%E8%B0%88Johnson%E7%AE%97%E6%B3%95/" target="_self">
-          浅谈 Johnson 算法
+        <a href="/2024/11/17/%E6%B5%85%E8%B0%88A-%E7%AE%97%E6%B3%95/" target="_self">
+          浅谈A*算法
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/17/%E6%B5%85%E8%B0%88Johnson%E7%AE%97%E6%B3%95/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/11/17/%E6%B5%85%E8%B0%88A-%E7%AE%97%E6%B3%95/" target="_self">
         <div>
-          1. 算法思想 Johnson 算法用于解决带权有向图中所有节点对之间的最短路径问题，它结合了 Bellman-Ford 算法和 Dijkstra 算法的优点。 首先，通过添加一个虚拟节点 s 到图中，将所有边的权重进行重新赋值（重赋权技巧），使得图中不存在负权环的同时，利用 Bellman-Ford 算法计算出从虚拟节点 s 到图中每个节点的最短距离 h(v)。 然后，对于图中的每一对节点
+          1. 算法思想A* 算法是一种启发式搜索算法，常用于在图中寻找从起始节点到目标节点的最短路径。它结合了 Dijkstra 算法（保证能找到最优解的广度优先搜索拓展）的特点以及启发式函数来引导搜索方向，以减少搜索空间。 算法维护两个集合，一个是已探索的节点集合，另一个是待探索的节点集合（通常用优先队列实现，按照节点的评估函数值排序）。每个节点都有一个评估函数 `f(n)`，它由两部分组成：从起始
         </div>
       </a>
 
@@ -425,7 +425,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2024/11/17/hello-world/" target="_self">
         <div>
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.  Quic
+          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick
         </div>
       </a>
 
