@@ -19,21 +19,21 @@
   <meta name="author" content="kyc">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、定理陈述Graham - Pollak定理：任何$K_n$（完全图，有$n$个顶点）的分解中至少需要$n - 1$个完全二部图。 二、符号定义 对于图中的每个顶点$v_i \in V$，定义一个实变量$x_i$，其中$V$是图中所有顶点的集合。 对于第$k$个二部图，将其左侧顶点集记为$L_k$，右侧顶点集记为$R_k$。 对于任意顶点集$S$，定义$X(S)&#x3D;\sum_{v_i">
+    <meta name="description" content="一、简介OpenGL（Open Graphics Library）是一个跨编程语言、跨平台的编程图形程序接口，它将计算机的资源抽象称为一个个OpenGL的对象，对这些资源的操作抽象为一个个的OpenGL指令。    OpenGL有着以下主要特性: 1. 低层次的渲染 APIOpenGL 提供了直接与图形硬件进行交互的能力。这使得它非常强大，因为它可以充分利用图形处理器（GPU）的性能。然而，这">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Graham-Pollak定理的证明">
-<meta property="og:url" content="https://kyc001.github.io/2024/12/12/Graham-Pollak%E5%AE%9A%E7%90%86%E7%9A%84%E8%AF%81%E6%98%8E/index.html">
+<meta property="og:title" content="OpenGL学习笔记">
+<meta property="og:url" content="https://kyc001.github.io/2025/04/10/OpenGL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="kycの个人网站">
-<meta property="og:description" content="一、定理陈述Graham - Pollak定理：任何$K_n$（完全图，有$n$个顶点）的分解中至少需要$n - 1$个完全二部图。 二、符号定义 对于图中的每个顶点$v_i \in V$，定义一个实变量$x_i$，其中$V$是图中所有顶点的集合。 对于第$k$个二部图，将其左侧顶点集记为$L_k$，右侧顶点集记为$R_k$。 对于任意顶点集$S$，定义$X(S)&#x3D;\sum_{v_i">
+<meta property="og:description" content="一、简介OpenGL（Open Graphics Library）是一个跨编程语言、跨平台的编程图形程序接口，它将计算机的资源抽象称为一个个OpenGL的对象，对这些资源的操作抽象为一个个的OpenGL指令。    OpenGL有着以下主要特性: 1. 低层次的渲染 APIOpenGL 提供了直接与图形硬件进行交互的能力。这使得它非常强大，因为它可以充分利用图形处理器（GPU）的性能。然而，这">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-12-12T03:00:46.000Z">
-<meta property="article:modified_time" content="2025-04-05T08:51:11.859Z">
+<meta property="article:published_time" content="2025-04-10T13:19:58.000Z">
+<meta property="article:modified_time" content="2025-04-10T14:06:48.006Z">
 <meta property="article:author" content="kyc">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Graham-Pollak定理的证明 - kycの个人网站</title>
+  <title>OpenGL学习笔记 - kycの个人网站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -222,7 +222,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Graham-Pollak定理的证明"></span>
+            <span id="subtitle" data-typed-text="OpenGL学习笔记"></span>
           
         </div>
 
@@ -233,8 +233,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-12-12 11:00" pubdate>
-          2024年12月12日 上午
+        <time datetime="2025-04-10 21:19" pubdate>
+          2025年4月10日 晚上
         </time>
       </span>
     
@@ -245,7 +245,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          493 字
+          2.1k 字
         
       </span>
     
@@ -256,7 +256,7 @@
         
         
         
-          5 分钟
+          18 分钟
         
       </span>
     
@@ -293,39 +293,42 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Graham-Pollak定理的证明</h1>
+            <h1 id="seo-header">OpenGL学习笔记</h1>
             
             
               <div class="markdown-body">
                 
-                <!--  # Graham-Pollak定理 -->
+                <!--  # OpenGL学习笔记 -->
 
-<h2 id="一、定理陈述"><a href="#一、定理陈述" class="headerlink" title="一、定理陈述"></a>一、定理陈述</h2><p>Graham - Pollak定理：任何$K_n$（完全图，有$n$个顶点）的分解中至少需要$n - 1$个完全二部图。</p>
-<h2 id="二、符号定义"><a href="#二、符号定义" class="headerlink" title="二、符号定义"></a>二、符号定义</h2><ol>
-<li>对于图中的每个顶点$v_i \in V$，定义一个实变量$x_i$，其中$V$是图中所有顶点的集合。</li>
-<li>对于第$k$个二部图，将其左侧顶点集记为$L_k$，右侧顶点集记为$R_k$。</li>
-<li>对于任意顶点集$S$，定义$X(S)&#x3D;\sum_{v_i \in S} x_i$，即$S$中顶点对应的变量之和。</li>
-</ol>
-<h2 id="三、用变量表示图的边"><a href="#三、用变量表示图的边" class="headerlink" title="三、用变量表示图的边"></a>三、用变量表示图的边</h2><ol>
-<li>完全图$K_n$的边可以表示为$\sum_{1\leq i &lt; j\leq n}x_ix_j$。</li>
-<li>因为二部图$k$覆盖了完全图的边，所以有$\sum_{1\leq i &lt; j\leq n}x_ix_j&#x3D;\sum_{k}X(L_k)X(R_k)$。</li>
-</ol>
-<h2 id="四、构建线性方程组"><a href="#四、构建线性方程组" class="headerlink" title="四、构建线性方程组"></a>四、构建线性方程组</h2><ol>
-<li>考虑线性方程组$X(V) &#x3D; 0$和$X(L_k)&#x3D;0$，$X(R_k)&#x3D;0$对每个$k$成立。</li>
-<li>对于任意满足上述线性方程组的解，有：<ul>
-<li>$0 &#x3D; X(V)^2&#x3D;\left(\sum_{i}x_i\right)^2&#x3D;\sum_{i}x_i^2 + 2\sum_{1\leq i &lt; j\leq n}x_ix_j$。</li>
-<li>由$\sum_{1\leq i &lt; j\leq n}x_ix_j&#x3D;\sum_{k}X(L_k)X(R_k)$，可得$0&#x3D;\sum_{i}x_i^2+ 2\sum_{k}X(L_k)X(R_k)$。</li>
-</ul>
-</li>
-</ol>
-<h2 id="五、矛盾推导"><a href="#五、矛盾推导" class="headerlink" title="五、矛盾推导"></a>五、矛盾推导</h2><ol>
-<li>注意到$\sum_{i}x_i^2$是实变量的平方和。</li>
-<li>对于实变量的平方和，只有当所有变量都为零时，其和才为零。</li>
-<li>如果使用的二部图数量少于$n - 1$，则线性方程组中的方程数量少于变量数量（变量数量为$n$，方程数量少于$n$）。</li>
-<li>根据线性代数知识，这样的齐次线性方程组会有非零解。</li>
-<li>但如果存在非零解，就会导致$\sum_{i}x_i^2 &#x3D; 0$的矛盾（因为非零解意味着至少有一个$x_i$不为零，平方和就不可能为零）。</li>
-</ol>
-<h2 id="六、结论"><a href="#六、结论" class="headerlink" title="六、结论"></a>六、结论</h2><p>因此，为了避免这种矛盾，完全图$K_n$的分解中至少需要$n - 1$个完全二部图，这就证明了Graham - Pollak定理。</p>
+<h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>OpenGL（Open Graphics Library）是一个跨编程语言、跨平台的编程图形程序接口，它将计算机的资源抽象称为一个个OpenGL的对象，对这些资源的操作抽象为一个个的OpenGL指令。<br>    OpenGL有着以下主要特性:</p>
+<h3 id="1-低层次的渲染-API"><a href="#1-低层次的渲染-API" class="headerlink" title="1. 低层次的渲染 API"></a>1. 低层次的渲染 API</h3><p>OpenGL 提供了直接与图形硬件进行交互的能力。这使得它非常强大，因为它可以充分利用图形处理器（GPU）的性能。然而，这也意味着使用 OpenGL 需要对计算机图形学有深入的理解。</p>
+<h3 id="2-状态机"><a href="#2-状态机" class="headerlink" title="2. 状态机"></a>2. 状态机</h3><p>OpenGL 是一个状态机，这意味着你可以通过一系列的函数调用来改变它的内部状态，然后这些状态会影响后续的渲染操作。</p>
+<h3 id="3-可扩展性"><a href="#3-可扩展性" class="headerlink" title="3. 可扩展性"></a>3. 可扩展性</h3><p>OpenGL 的一个重要特性是它的可扩展性。硬件制造商可以为他们的硬件特性定义新的 OpenGL 函数和参数。这些扩展可以通过 OpenGL 的扩展机制被查询和使用。</p>
+<h3 id="4-跨平台和跨语言"><a href="#4-跨平台和跨语言" class="headerlink" title="4. 跨平台和跨语言"></a>4. 跨平台和跨语言</h3><p>OpenGL 可以在所有主要的操作系统（如 Windows、macOS 和 Linux）上运行，并且有各种编程语言的绑定，包括 C、C++、Python、Java 和许多其他语言。</p>
+<h3 id="5-显示列表和着色器"><a href="#5-显示列表和着色器" class="headerlink" title="5. 显示列表和着色器"></a>5. 显示列表和着色器</h3><p>OpenGL 提供了两种主要的方式来指定如何渲染图形。一种是通过使用显示列表来指定一系列的顶点和参数。另一种是通过使用着色器，这是一种在 GPU 上运行的小程序，可以控制图形的最终颜色和位置。</p>
+<h2 id="二、前置知识"><a href="#二、前置知识" class="headerlink" title="二、前置知识"></a>二、前置知识</h2><p>在学习OpenGL之前，以下是一些应该需要了解的技术和知识：</p>
+<h3 id="1-编程语言"><a href="#1-编程语言" class="headerlink" title="1.编程语言"></a>1.编程语言</h3><p>OpenGL 是一个 C 语言库，因此理解 C 语言（或 C++）的基本知识是非常有用的。然而，许多其他语言（如 Python、Java、JavaScript 等）也有 OpenGL 的绑定，所以你可以选择你最熟悉的语言来学习。</p>
+<h3 id="2-计算机图形学基础"><a href="#2-计算机图形学基础" class="headerlink" title="2.计算机图形学基础"></a>2.计算机图形学基础</h3><p>理解基本的计算机图形学概念，如向量、矩阵、变换、光照、纹理等，可以帮助你更好地理解和使用 OpenGL。这些主题通常在计算机图形学的入门课程中介绍。</p>
+<h3 id="3-线性代数"><a href="#3-线性代数" class="headerlink" title="3.线性代数"></a>3.线性代数</h3><p>在计算机图形学中，我们经常需要处理 2D 或 3D 空间中的点和向量，这需要一些线性代数的知识。至少要熟悉向量的加法、减法和点积，以及如何使用矩阵进行变换。</p>
+<h3 id="4-计算机硬件"><a href="#4-计算机硬件" class="headerlink" title="4.计算机硬件"></a>4.计算机硬件</h3><p>理解计算机硬件，特别是图形处理器 (GPU) 的基本工作原理，可以帮助你理解 OpenGL 的许多设计决策，以及为什么某些操作比其他操作更快。</p>
+<h3 id="5-IDE-和调试工具"><a href="#5-IDE-和调试工具" class="headerlink" title="5.IDE 和调试工具"></a>5.IDE 和调试工具</h3><p>熟悉一个集成开发环境（如 Visual Studio、Eclipse 或者 PyCharm）将会对你编写和调试代码非常有帮助。此外，学习使用像 gDEBugger 或者 RenderDoc 这样的 OpenGL 调试工具也是很有用的。</p>
+<h3 id="6-API-文档和教程"><a href="#6-API-文档和教程" class="headerlink" title="6.API 文档和教程"></a>6.API 文档和教程</h3><p>熟悉 OpenGL 的官方文档（或你正在使用的语言绑定的文档）。这将是你在学习和使用 OpenGL 时的重要资源。同时，还有许多优秀的在线教程，如 learnopengl.com。</p>
+<h2 id="三、OpenGL的基本概念"><a href="#三、OpenGL的基本概念" class="headerlink" title="三、OpenGL的基本概念"></a>三、OpenGL的基本概念</h2><h3 id="1-工作流程"><a href="#1-工作流程" class="headerlink" title="1.工作流程"></a>1.工作流程</h3><h4 id="定义图形数据"><a href="#定义图形数据" class="headerlink" title="定义图形数据"></a>定义图形数据</h4><p>首先，你需要定义你要渲染的图形数据，这些数据主要包括顶点数据。例如，如果你要渲染一个三角形，你就需要定义三个顶点的坐标。这些数据通常存储在顶点缓冲对象（Vertex Buffer Object，VBO）中。</p>
+<h4 id="定义着色器程序"><a href="#定义着色器程序" class="headerlink" title="定义着色器程序"></a>定义着色器程序</h4><p>着色器是运行在图形处理器（GPU）上的小程序，用于控制图形的渲染过程。最常见的着色器类型有顶点着色器（Vertex Shader）和片元着色器（Fragment Shader）。顶点着色器用于处理顶点数据，片元着色器用于计算像素的颜色。</p>
+<h4 id="渲染图形"><a href="#渲染图形" class="headerlink" title="渲染图形"></a>渲染图形</h4><p>在图形数据和着色器程序都准备好之后，你可以调用 OpenGL 的函数来渲染图形。在渲染过程中，OpenGL 会根据你设置的状态和着色器程序来处理顶点数据，生成图形，并将图形绘制到一个叫做帧缓冲（Frame Buffer）的内存区域。</p>
+<h4 id="显示图形"><a href="#显示图形" class="headerlink" title="显示图形"></a>显示图形</h4><p>最后，你可以将帧缓冲的内容显示到屏幕上。这通常是通过交换前后帧缓冲（在双缓冲模式下）或者直接复制帧缓冲的内容到屏幕上完成的。</p>
+<h3 id="2-基本组件"><a href="#2-基本组件" class="headerlink" title="2.基本组件"></a>2.基本组件</h3><h4 id="顶点（Vertex）"><a href="#顶点（Vertex）" class="headerlink" title="顶点（Vertex）"></a>顶点（Vertex）</h4><p>顶点是构成图形的基本元素。一个顶点主要包含位置信息，但也可能包含颜色、法线、纹理坐标等其他信息。在 OpenGL 中，顶点数据通常存储在顶点缓冲对象（VBO）中，并通过顶点数组对象（VAO）来管理。</p>
+<h4 id="坐标（Coordinates）"><a href="#坐标（Coordinates）" class="headerlink" title="坐标（Coordinates）"></a>坐标（Coordinates）</h4><p>OpenGL 使用坐标来描述顶点的位置。在 3D 空间中，每个顶点都有一个三维坐标（x, y, z）。在 OpenGL 中，所有的坐标都被归一化到一个叫做裁剪空间（Clip Space）的立方体中，这个立方体的中心位于原点，长度、宽度和高度都是 2。</p>
+<h4 id="颜色（Color）"><a href="#颜色（Color）" class="headerlink" title="颜色（Color）"></a>颜色（Color）</h4><p>颜色用于描述顶点或者片元的颜色。在 OpenGL 中，颜色通常由红、绿、蓝三个分量来表示，每个分量的值在 0 到 1 之间。有时候还会有一个额外的分量 alpha，用于表示颜色的透明度。</p>
+<h4 id="纹理（Texture）"><a href="#纹理（Texture）" class="headerlink" title="纹理（Texture）"></a>纹理（Texture）</h4><p>纹理是一个图像，可以被映射到图形的表面上，增加图形的细节。每个顶点都可以有一个或多个纹理坐标，用于指定纹理的哪一部分应该被映射到顶点上。在 OpenGL 中，纹理数据通常存储在纹理对象中。</p>
+<h4 id="着色器（Shader）"><a href="#着色器（Shader）" class="headerlink" title="着色器（Shader）"></a>着色器（Shader）</h4><p>着色器是运行在 GPU 上的小程序，用于控制图形的渲染过程。顶点着色器（Vertex Shader）用于处理顶点数据，片元着色器（Fragment Shader）用于计算像素的颜色。</p>
+<h4 id="帧缓冲（Frame-Buffer）"><a href="#帧缓冲（Frame-Buffer）" class="headerlink" title="帧缓冲（Frame Buffer）"></a>帧缓冲（Frame Buffer）</h4><p>帧缓冲是一个内存区域，用于存储渲染的结果。在渲染过程中，OpenGL 会将图形绘制到帧缓冲中。帧缓冲中的数据最终可以被复制到屏幕上，或者被保存为图像文件。</p>
+<h3 id="3-状态机模型"><a href="#3-状态机模型" class="headerlink" title="3.状态机模型"></a>3.状态机模型</h3><p>OpenGL 使用一种称为 “状态机” 的模型来管理它的操作。这意味着在任何给定的时间点，OpenGL 都有一组相关的 “状态” ，这些状态会影响 OpenGL 的操作和行为。</p>
+<p>状态机模型的工作方式是，你设置一些状态，然后执行一些操作，这些操作会根据当前的状态来执行。例如，你可以设置颜色状态为红色，然后绘制一个形状，这个形状就会被渲染成红色。如果你改变颜色状态为蓝色，然后再绘制一个形状，那么新的形状就会被渲染成蓝色。</p>
+<p>OpenGL 的状态包括诸如当前的颜色、光照参数、纹理参数、视口大小、裁剪平面等等。这些状态可以通过特定的 OpenGL 函数进行设置。例如，使用 glColor3f 函数可以设置当前的颜色，使用 glViewport 函数可以设置视口大小。</p>
+<p>一旦设置了 OpenGL 的某个状态，该状态就会保持不变，直到你明确地改变它。这就是为什么 OpenGL 被称为状态机：它保存了一系列的状态，这些状态在调用绘图命令时决定了行为。</p>
+<p>一个重要的概念是，OpenGL 的状态是全局的。这意味着如果你在一部分代码中改变了状态，那么这个改变会影响到所有后续的 OpenGL 调用，直到你再次改变那个状态。这就是为什么良好的编程实践是在更改了 OpenGL 状态后尽快恢复它，这样你就不会意外地影响到其他部分的代码。</p>
+<p>总的来说，理解 OpenGL 是一种状态机，并且知道如何设置和管理这些状态，是有效使用 OpenGL 的关键。</p>
 
                 
               </div>
@@ -343,8 +346,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Graham-Pollak定理的证明</div>
-      <div>https://kyc001.github.io/2024/12/12/Graham-Pollak定理的证明/</div>
+      <div>OpenGL学习笔记</div>
+      <div>https://kyc001.github.io/2025/04/10/OpenGL学习笔记/</div>
     </div>
     <div class="license-meta">
       
@@ -356,7 +359,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年12月12日</div>
+          <div>2025年4月10日</div>
         </div>
       
       
@@ -388,18 +391,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/04/10/OpenGL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="OpenGL学习笔记">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">OpenGL学习笔记</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/12/12/Mantel%E5%AE%9A%E7%90%86%E7%9A%84%E8%AF%81%E6%98%8E/" title="Mantel定理的证明">
-                        <span class="hidden-mobile">Mantel定理的证明</span>
+                      <a href="/2024/12/12/Graham-Pollak%E5%AE%9A%E7%90%86%E7%9A%84%E8%AF%81%E6%98%8E/" title="Graham-Pollak定理的证明">
+                        <span class="hidden-mobile">Graham-Pollak定理的证明</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
