@@ -1,0 +1,815 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/image/web.png">
+  <link rel="icon" href="/image/web.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="kyc">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="程设一些知识点知识点 本文档主要整理了我在复习中遇到比较不熟悉的几个知识点，包括运算符重载、虚函数、模板以及智能指针的使用。 1. 运算符重载运算符重载允许我们为自定义类型（如类）重新定义或“重载”已有的运算符行为。 1.1. 输入&#x2F;输出运算符重载 (以 complex 类为例)在 C++ 中，&lt;&lt; 和 &gt;&gt; 运算符通常分别用于输出和输入。我们可以为自定义类重载这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="程设一些知识点">
+<meta property="og:url" content="https://kyc001.github.io/2025/05/24/%E7%A8%8B%E8%AE%BE%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86%E7%82%B9/index.html">
+<meta property="og:site_name" content="kycの个人网站">
+<meta property="og:description" content="程设一些知识点知识点 本文档主要整理了我在复习中遇到比较不熟悉的几个知识点，包括运算符重载、虚函数、模板以及智能指针的使用。 1. 运算符重载运算符重载允许我们为自定义类型（如类）重新定义或“重载”已有的运算符行为。 1.1. 输入&#x2F;输出运算符重载 (以 complex 类为例)在 C++ 中，&lt;&lt; 和 &gt;&gt; 运算符通常分别用于输出和输入。我们可以为自定义类重载这">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-05-24T10:24:16.000Z">
+<meta property="article:modified_time" content="2025-05-24T10:26:10.593Z">
+<meta property="article:author" content="kyc">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>程设一些知识点 - kycの个人网站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"kyc001.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/image/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>kyc001</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/image/bg.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="程设一些知识点"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-24 18:24" pubdate>
+          2025年5月24日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          37 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">程设一些知识点</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="程设一些知识点"><a href="#程设一些知识点" class="headerlink" title="程设一些知识点"></a>程设一些知识点</h1><p>知识点</p>
+<p>本文档主要整理了我在复习中遇到比较不熟悉的几个知识点，包括运算符重载、虚函数、模板以及智能指针的使用。</p>
+<h2 id="1-运算符重载"><a href="#1-运算符重载" class="headerlink" title="1. 运算符重载"></a>1. 运算符重载</h2><p>运算符重载允许我们为自定义类型（如类）重新定义或“重载”已有的运算符行为。</p>
+<h3 id="1-1-输入-输出运算符重载-以-complex-类为例"><a href="#1-1-输入-输出运算符重载-以-complex-类为例" class="headerlink" title="1.1. 输入&#x2F;输出运算符重载 (以 complex 类为例)"></a>1.1. 输入&#x2F;输出运算符重载 (以 <code>complex</code> 类为例)</h3><p>在 C++ 中，<code>&lt;&lt;</code> 和 <code>&gt;&gt;</code> 运算符通常分别用于输出和输入。我们可以为自定义类重载这些运算符，以便能像内置类型一样方便地进行输入输出操作。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span> <span class="hljs-comment">// 需要包含 iostream 以使用 cin 和 cout</span></span><br><br><span class="hljs-comment">// 为了代码片段能独立编译，我们添加 using namespace std;</span><br><span class="hljs-comment">// 在大型项目中，更推荐显式使用 std::cin, std::cout 等</span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">complex</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-type">double</span> r, i; <span class="hljs-comment">// 实部和虚部</span><br><br>    <span class="hljs-comment">// 构造函数 (为了示例完整性，添加一个默认构造函数和带参构造函数)</span><br>    <span class="hljs-built_in">complex</span>(<span class="hljs-type">double</span> r_val = <span class="hljs-number">0.0</span>, <span class="hljs-type">double</span> i_val = <span class="hljs-number">0.0</span>) : <span class="hljs-built_in">r</span>(r_val), <span class="hljs-built_in">i</span>(i_val) &#123;&#125;<br><br>    <span class="hljs-comment">// 拷贝构造函数 (用户提供的版本)</span><br>    <span class="hljs-comment">// 注意：通常如果类中没有动态分配的资源，编译器生成的默认拷贝构造函数就足够了。</span><br>    <span class="hljs-comment">// 这里的实现是空的，仅为展示。在实际应用中，如果需要自定义，则应正确拷贝成员。</span><br>    <span class="hljs-built_in">complex</span>(<span class="hljs-type">const</span> complex &amp;c) &#123;<br>        r = c.r;<br>        i = c.i;<br>        <span class="hljs-comment">// cout &lt;&lt; &quot;拷贝构造函数被调用&quot; &lt;&lt; endl; // 用于观察</span><br>    &#125;<br><br>    <span class="hljs-comment">// 友元函数重载 &gt;&gt; (输入运算符)</span><br>    <span class="hljs-comment">// istream&amp; 表示输入流对象的引用，使其可以链式操作 (cin &gt;&gt; a &gt;&gt; b)</span><br>    <span class="hljs-comment">// complex&amp; com 表示要读取数据的 complex 对象的引用</span><br>    <span class="hljs-keyword">friend</span> istream &amp;<span class="hljs-keyword">operator</span>&gt;&gt;(istream &amp;in, complex &amp;com) &#123;<br>        <span class="hljs-comment">// 提示用户输入</span><br>        <span class="hljs-comment">// cout &lt;&lt; &quot;请输入复数的实部和虚部 (以空格分隔): &quot;; // 实际应用中可加提示</span><br>        in &gt;&gt; com.r &gt;&gt; com.i; <span class="hljs-comment">// 从输入流中读取实部和虚部</span><br>        <span class="hljs-keyword">return</span> in; <span class="hljs-comment">// 返回输入流对象，支持链式输入</span><br>    &#125;<br><br>    <span class="hljs-comment">// 友元函数重载 &lt;&lt; (输出运算符)</span><br>    <span class="hljs-comment">// ostream&amp; 表示输出流对象的引用</span><br>    <span class="hljs-comment">// const complex&amp; com 表示要输出的 complex 对象的常量引用 (因为输出操作不应修改对象)</span><br>    <span class="hljs-keyword">friend</span> ostream &amp;<span class="hljs-keyword">operator</span>&lt;&lt;(ostream &amp;out, <span class="hljs-type">const</span> complex &amp;com) &#123;<br>        out &lt;&lt; com.r &lt;&lt; <span class="hljs-string">&quot; + &quot;</span> &lt;&lt; com.i &lt;&lt; <span class="hljs-string">&quot;i&quot;</span>; <span class="hljs-comment">// 按 &quot;实部 + 虚部i&quot; 格式输出</span><br>        <span class="hljs-comment">// 注意：原代码是 cout &lt;&lt; com.r &lt;&lt; &#x27; &#x27; &lt;&lt; com.i; 为了更像复数，这里做了修改</span><br>        <span class="hljs-keyword">return</span> out; <span class="hljs-comment">// 返回输出流对象，支持链式输出</span><br>    &#125;<br>&#125;;<br><br><span class="hljs-comment">// 示例用法：</span><br><span class="hljs-comment">// int main() &#123;</span><br><span class="hljs-comment">//     complex c1;</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;请输入一个复数 (实部 虚部): &quot;;</span><br><span class="hljs-comment">//     cin &gt;&gt; c1; // 调用 operator&gt;&gt;(cin, c1)</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;输入的复数是: &quot; &lt;&lt; c1 &lt;&lt; endl; // 调用 operator&lt;&lt;(cout, c1)</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//     complex c2 = c1; // 调用拷贝构造函数</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;拷贝后的复数是: &quot; &lt;&lt; c2 &lt;&lt; endl;</span><br><span class="hljs-comment">//     return 0;</span><br><span class="hljs-comment">// &#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>解释:</strong></p>
+<ul>
+<li><code>friend</code> 关键字：允许非成员函数访问类的 <code>private</code> 和 <code>protected</code> 成员。对于 <code>&lt;&lt;</code> 和 <code>&gt;&gt;</code> 重载，通常将它们声明为友元函数，因为它们的左操作数是流对象（<code>istream</code> 或 <code>ostream</code>），而不是类对象。</li>
+<li><code>istream &amp;operator&gt;&gt;(istream &amp;in, complex &amp;com)</code>：<ul>
+<li>参数 <code>istream &amp;in</code>: 输入流的引用 (例如 <code>cin</code>)。</li>
+<li>参数 <code>complex &amp;com</code>: 要被赋值的 <code>complex</code> 对象的引用。</li>
+<li>返回值 <code>istream &amp;</code>: 返回输入流的引用，以支持链式输入 (如 <code>cin &gt;&gt; c1 &gt;&gt; c2;</code>)。</li>
+</ul>
+</li>
+<li><code>ostream &amp;operator&lt;&lt;(ostream &amp;out, const complex &amp;com)</code>：<ul>
+<li>参数 <code>ostream &amp;out</code>: 输出流的引用 (例如 <code>cout</code>)。</li>
+<li>参数 <code>const complex &amp;com</code>: 要输出的 <code>complex</code> 对象的常量引用（输出操作不应修改对象）。</li>
+<li>返回值 <code>ostream &amp;</code>: 返回输出流的引用，以支持链式输出 (如 <code>cout &lt;&lt; c1 &lt;&lt; c2;</code>)。</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-前置与后置自增-自减运算符重载"><a href="#1-2-前置与后置自增-自减运算符重载" class="headerlink" title="1.2. 前置与后置自增&#x2F;自减运算符重载"></a>1.2. 前置与后置自增&#x2F;自减运算符重载</h3><p>自增 (<code>++</code>) 和自减 (<code>--</code>) 运算符有前置和后置两种形式。它们的重载方式略有不同。</p>
+<h4 id="1-2-1-成员函数方式"><a href="#1-2-1-成员函数方式" class="headerlink" title="1.2.1. 成员函数方式"></a>1.2.1. 成员函数方式</h4><ul>
+<li><p><strong>前置运算符 (<code>++obj</code> 或 <code>--obj</code>)</strong>:</p>
+<ul>
+<li>声明: <code>T&amp; operator++();</code> 或 <code>T&amp; operator--();</code></li>
+<li>返回类型通常是被操作对象的引用 (<code>T&amp;</code>)。</li>
+<li>实现时，先修改对象的值，然后返回修改后的对象。</li>
+</ul>
+</li>
+<li><p><strong>后置运算符 (<code>obj++</code> 或 <code>obj--</code>)</strong>:</p>
+<ul>
+<li>声明: <code>T operator++(int);</code> 或 <code>T operator--(int);</code></li>
+<li>参数列表中的 <code>int</code> 是一个哑元（dummy argument），仅用于区分前置和后置版本，调用时不需要传递实参。</li>
+<li>返回类型通常是被操作对象的值 (<code>T</code>)，而不是引用。这是因为后置操作符需要返回对象在自增&#x2F;自减前的状态。</li>
+<li>实现时，先保存对象的当前状态（创建一个临时副本），然后修改原始对象的值，最后返回保存的临时副本。</li>
+</ul>
+</li>
+</ul>
+<h4 id="1-2-2-全局-友元-函数方式"><a href="#1-2-2-全局-友元-函数方式" class="headerlink" title="1.2.2. 全局 (友元) 函数方式"></a>1.2.2. 全局 (友元) 函数方式</h4><ul>
+<li><p><strong>前置运算符 (<code>++obj</code> 或 <code>--obj</code>)</strong>:</p>
+<ul>
+<li>声明: <code>T1&amp; operator++(T2&amp; obj);</code> 或 <code>T1&amp; operator--(T2&amp; obj);</code> (其中 <code>T1</code> 通常是 <code>T2</code> 或其引用)</li>
+<li>第一个参数是被操作对象的引用。</li>
+</ul>
+</li>
+<li><p><strong>后置运算符 (<code>obj++</code> 或 <code>obj--</code>)</strong>:</p>
+<ul>
+<li>声明: <code>T1 operator++(T2&amp; obj, int);</code> 或 <code>T1 operator--(T2&amp; obj, int);</code> (其中 <code>T1</code> 通常是 <code>T2</code>)</li>
+<li>第一个参数是被操作对象的引用，第二个参数是哑元 <code>int</code>。</li>
+</ul>
+</li>
+</ul>
+<h4 id="1-2-3-Counter-类示例-全局函数方式"><a href="#1-2-3-Counter-类示例-全局函数方式" class="headerlink" title="1.2.3. Counter 类示例 (全局函数方式)"></a>1.2.3. <code>Counter</code> 类示例 (全局函数方式)</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 假设 Counter 类的定义</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Counter</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-type">int</span> value;<br><br>    <span class="hljs-built_in">Counter</span>(<span class="hljs-type">int</span> v = <span class="hljs-number">0</span>) : <span class="hljs-built_in">value</span>(v) &#123;&#125;<br><br>    <span class="hljs-comment">// 声明友元函数以便它们可以访问 Counter 的私有成员 (如果 value 是 private)</span><br>    <span class="hljs-comment">// 如果 value 是 public，则友元声明不是严格必需的，但通常是良好实践，</span><br>    <span class="hljs-comment">// 因为运算符重载通常与类的接口紧密相关。</span><br>    <span class="hljs-keyword">friend</span> Counter&amp; <span class="hljs-keyword">operator</span>++(Counter&amp; c);     <span class="hljs-comment">// 前置++</span><br>    <span class="hljs-keyword">friend</span> Counter <span class="hljs-keyword">operator</span>++(Counter&amp; c, <span class="hljs-type">int</span>); <span class="hljs-comment">// 后置++</span><br><br>    <span class="hljs-comment">// 为了方便演示，添加一个输出方法</span><br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">print</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>&#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;Counter value: &quot;</span> &lt;&lt; value &lt;&lt; endl;<br>    &#125;<br>&#125;;<br><br><span class="hljs-comment">// 全局函数实现前置 ++</span><br>Counter&amp; <span class="hljs-keyword">operator</span>++(Counter&amp; c) &#123;<br>    ++c.value; <span class="hljs-comment">// 修改对象的值</span><br>    <span class="hljs-keyword">return</span> c;  <span class="hljs-comment">// 返回修改后的对象</span><br>&#125;<br><br><span class="hljs-comment">// 全局函数实现后置 ++</span><br>Counter <span class="hljs-keyword">operator</span>++(Counter&amp; c, <span class="hljs-type">int</span>) &#123;<br>    Counter temp = c; <span class="hljs-comment">// 保存原始值的副本</span><br>    ++c.value;        <span class="hljs-comment">// 修改原始对象的值 (也可以调用前置版本: ++c;)</span><br>    <span class="hljs-keyword">return</span> temp;      <span class="hljs-comment">// 返回原始值的副本</span><br>&#125;<br><br><span class="hljs-comment">// 示例用法：</span><br><span class="hljs-comment">// int main() &#123;</span><br><span class="hljs-comment">//     Counter c1(5);</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;初始 &quot;; c1.print();</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//     Counter c2 = ++c1; // 前置自增</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;++c1 后: &quot; &lt;&lt; endl;</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;c1: &quot;; c1.print();</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;c2: &quot;; c2.print();</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//     Counter c3(10);</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;初始 &quot;; c3.print();</span><br><span class="hljs-comment">//     Counter c4 = c3++; // 后置自增</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;c3++ 后: &quot; &lt;&lt; endl;</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;c3: &quot;; c3.print();</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;c4: &quot;; c4.print();</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//     return 0;</span><br><span class="hljs-comment">// &#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>要点:</strong></p>
+<ul>
+<li>后置版本通过一个未命名的 <code>int</code> 参数与前置版本区分。</li>
+<li>前置版本通常返回对象的引用 (<code>T&amp;</code>)，而后置版本通常按值返回 (<code>T</code>)，因为它返回的是操作前的对象状态。</li>
+</ul>
+<h2 id="2-虚函数-Virtual-Functions"><a href="#2-虚函数-Virtual-Functions" class="headerlink" title="2. 虚函数 (Virtual Functions)"></a>2. 虚函数 (Virtual Functions)</h2><p>虚函数是实现 C++ 运行时多态性的关键机制。当通过基类指针或引用调用派生类中的虚函数时，会根据指针或引用实际指向的对象类型来决定调用哪个版本的函数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Base</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-comment">// 虚析构函数</span><br>    <span class="hljs-comment">// 如果一个类要作为基类，并且可能会通过基类指针删除派生类对象，</span><br>    <span class="hljs-comment">// 那么它的析构函数应该声明为 virtual。</span><br>    <span class="hljs-comment">// 这样可以确保在删除派生类对象时，先调用派生类的析构函数，然后再调用基类的析构函数。</span><br>    <span class="hljs-comment">// = default; 表示使用编译器生成的默认实现。</span><br>    <span class="hljs-keyword">virtual</span> ~<span class="hljs-built_in">Base</span>() = <span class="hljs-keyword">default</span>;<br><br>    <span class="hljs-comment">// 纯虚函数 (Pure Virtual Function)</span><br>    <span class="hljs-comment">// 纯虚函数在基类中没有实现，它强制派生类必须提供该函数的具体实现。</span><br>    <span class="hljs-comment">// 包含纯虚函数的类是抽象类，不能被实例化。</span><br>    <span class="hljs-comment">// const 表示该成员函数不会修改类的成员变量。</span><br>    <span class="hljs-comment">// = 0; 表明这是一个纯虚函数。</span><br>    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">int</span> <span class="hljs-title">function</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> <span class="hljs-type">const</span> </span>= <span class="hljs-number">0</span>;<br><br>    <span class="hljs-comment">// 普通虚函数 (示例)</span><br>    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">printType</span><span class="hljs-params">()</span> </span>&#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;This is Base class&quot;</span> &lt;&lt; endl;<br>    &#125;<br>&#125;;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Derived</span> : <span class="hljs-keyword">public</span> Base &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-comment">// 覆盖 (override) 基类的虚析构函数</span><br>    <span class="hljs-comment">// ~Derived() override &#123; cout &lt;&lt; &quot;Derived destructor called&quot; &lt;&lt; endl; &#125; // C++11 override 关键字</span><br>    ~<span class="hljs-built_in">Derived</span>() &#123; <span class="hljs-comment">/* cout &lt;&lt; &quot;Derived destructor called&quot; &lt;&lt; endl; */</span> &#125; <span class="hljs-comment">// 也可以不加 override</span><br><br>    <span class="hljs-comment">// 实现基类中的纯虚函数</span><br>    <span class="hljs-comment">// C++11 中推荐使用 override 关键字明确表示这是对基类虚函数的覆盖</span><br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">function</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> <span class="hljs-type">const</span> <span class="hljs-keyword">override</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> x * x;<br>    &#125;<br><br>    <span class="hljs-comment">// 覆盖基类的普通虚函数</span><br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printType</span><span class="hljs-params">()</span> <span class="hljs-keyword">override</span> </span>&#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;This is Derived class&quot;</span> &lt;&lt; endl;<br>    &#125;<br>&#125;;<br><br><span class="hljs-comment">// 示例用法：</span><br><span class="hljs-comment">// int main() &#123;</span><br><span class="hljs-comment">//     // Base b; // 错误！Base 是抽象类，不能实例化</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//     Derived d;</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;d.function(5): &quot; &lt;&lt; d.function(5) &lt;&lt; endl; // 输出 25</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//     Base* ptr_b = &amp;d; // 基类指针指向派生类对象</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;ptr_b-&gt;function(10): &quot; &lt;&lt; ptr_b-&gt;function(10) &lt;&lt; endl; // 输出 100 (调用 Derived::function)</span><br><span class="hljs-comment">//     ptr_b-&gt;printType(); // 输出 &quot;This is Derived class&quot; (调用 Derived::printType)</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//     // 如果 Base 的析构函数不是 virtual，通过基类指针 delete 派生类对象可能导致资源泄漏</span><br><span class="hljs-comment">//     // Base* ptr_heap = new Derived();</span><br><span class="hljs-comment">//     // delete ptr_heap; // 正确调用 Derived 和 Base 的析构函数</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//     return 0;</span><br><span class="hljs-comment">// &#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>关键点:</strong></p>
+<ul>
+<li><code>virtual ~Base() = default;</code>: 虚析构函数。如果类可能被继承，并且可能通过基类指针删除派生类对象，则析构函数应声明为 <code>virtual</code>。这确保了派生类的析构函数会被正确调用，防止资源泄漏。<code>= default</code> 表示使用编译器提供的默认实现。</li>
+<li><code>virtual int function(int x) const = 0;</code>: 纯虚函数。<ul>
+<li><code>virtual</code>: 表明它是一个虚函数。</li>
+<li><code>const</code>: 表明该函数不会修改类的成员变量（对于 <code>const</code> 对象或通过 <code>const</code> 引用&#x2F;指针调用）。</li>
+<li><code>= 0</code>: 将其声明为纯虚函数。纯虚函数在声明它的类中没有定义（实现）。</li>
+<li>包含一个或多个纯虚函数的类称为抽象类。抽象类不能被实例化（不能创建其对象）。</li>
+<li>派生类必须实现（覆盖）基类中的所有纯虚函数，否则派生类也将成为抽象类。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-类模板-Class-Templates"><a href="#3-类模板-Class-Templates" class="headerlink" title="3. 类模板 (Class Templates)"></a>3. 类模板 (Class Templates)</h2><p>类模板允许我们定义一个通用的类蓝图，其中的数据类型或某些值可以作为参数在实例化时指定。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdexcept&gt;</span> <span class="hljs-comment">// 为了使用 std::out_of_range</span></span><br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T, <span class="hljs-type">int</span> i&gt; <span class="hljs-comment">// T 是类型参数，i 是非类型参数 (整数常量)</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">TestClass</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    T buffer[i]; <span class="hljs-comment">// T 类型的数组，其大小由非类型参数 i 决定</span><br><br>    <span class="hljs-comment">// 构造函数 (示例)</span><br>    <span class="hljs-built_in">TestClass</span>() &#123;<br>        <span class="hljs-comment">// 可以在这里初始化 buffer，例如：</span><br>        <span class="hljs-comment">// for(int k = 0; k &lt; i; ++k) &#123;</span><br>        <span class="hljs-comment">//     buffer[k] = T(); // 使用 T 类型的默认构造函数初始化</span><br>        <span class="hljs-comment">// &#125;</span><br>    &#125;<br><br>    <span class="hljs-comment">// 成员函数声明</span><br>    <span class="hljs-function">T <span class="hljs-title">getData</span><span class="hljs-params">(<span class="hljs-type">int</span> j)</span></span>;<br><br>    <span class="hljs-comment">// 另一个成员函数示例</span><br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setData</span><span class="hljs-params">(<span class="hljs-type">int</span> j, T value)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (j &gt;= <span class="hljs-number">0</span> &amp;&amp; j &lt; i) &#123;<br>            buffer[j] = value;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-comment">// 处理越界，例如抛出异常</span><br>            <span class="hljs-keyword">throw</span> std::<span class="hljs-built_in">out_of_range</span>(<span class="hljs-string">&quot;Index out of bounds in setData&quot;</span>);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">getSize</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> i;<br>    &#125;<br>&#125;;<br><br><span class="hljs-comment">// 类模板的成员函数定义在类外时，需要再次声明模板参数列表</span><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T, <span class="hljs-type">int</span> i&gt;<br>T TestClass&lt;T, i&gt;::<span class="hljs-built_in">getData</span>(<span class="hljs-type">int</span> j) &#123;<br>    <span class="hljs-keyword">if</span> (j &gt;= <span class="hljs-number">0</span> &amp;&amp; j &lt; i) &#123;<br>        <span class="hljs-keyword">return</span> *(buffer + j); <span class="hljs-comment">// 等价于 buffer[j]</span><br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-comment">// 处理越界，例如抛出异常或返回默认值</span><br>        <span class="hljs-keyword">throw</span> std::<span class="hljs-built_in">out_of_range</span>(<span class="hljs-string">&quot;Index out of bounds in getData&quot;</span>);<br>        <span class="hljs-comment">// 或者 return T(); // 返回 T 类型的默认构造值</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 示例用法：</span><br><span class="hljs-comment">// int main() &#123;</span><br><span class="hljs-comment">//     TestClass&lt;int, 10&gt; intTest; // T 为 int, i 为 10</span><br><span class="hljs-comment">//     intTest.setData(0, 100);</span><br><span class="hljs-comment">//     intTest.setData(5, 500);</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;intTest.getData(0): &quot; &lt;&lt; intTest.getData(0) &lt;&lt; endl; // 输出 100</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;intTest.getData(5): &quot; &lt;&lt; intTest.getData(5) &lt;&lt; endl; // 输出 500</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;Size of intTest buffer: &quot; &lt;&lt; intTest.getSize() &lt;&lt; endl; // 输出 10</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//     TestClass&lt;double, 5&gt; doubleTest; // T 为 double, i 为 5</span><br><span class="hljs-comment">//     doubleTest.setData(2, 3.14);</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;doubleTest.getData(2): &quot; &lt;&lt; doubleTest.getData(2) &lt;&lt; endl; // 输出 3.14</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//     // TestClass&lt;int, 0&gt; zeroSizeTest; // 通常 i 必须大于 0，否则 buffer[0] 是非法的</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//     try &#123;</span><br><span class="hljs-comment">//         cout &lt;&lt; intTest.getData(10) &lt;&lt; endl; // 会抛出异常</span><br><span class="hljs-comment">//     &#125; catch (const std::out_of_range&amp; e) &#123;</span><br><span class="hljs-comment">//         cerr &lt;&lt; &quot;Exception: &quot; &lt;&lt; e.what() &lt;&lt; endl;</span><br><span class="hljs-comment">//     &#125;</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//     return 0;</span><br><span class="hljs-comment">// &#125;</span><br></code></pre></td></tr></table></figure>
+<p><strong>解释:</strong></p>
+<ul>
+<li><code>template &lt;typename T, int i&gt;</code>: 模板声明。<ul>
+<li><code>typename T</code>: <code>T</code> 是一个类型参数，代表任何数据类型（如 <code>int</code>, <code>double</code>, <code>std::string</code>, 自定义类等）。<code>class</code> 也可以用来代替 <code>typename</code>。</li>
+<li><code>int i</code>: <code>i</code> 是一个非类型模板参数。它必须是一个编译时常量（如整型、指针、引用，或枚举值）。在这里，它决定了 <code>buffer</code> 数组的大小。</li>
+</ul>
+</li>
+<li><code>T buffer[i];</code>: 类成员，一个类型为 <code>T</code>，大小为 <code>i</code> 的数组。</li>
+<li><code>T TestClass&lt;T,i&gt;::getData(int j)</code>: 当在类模板外部定义成员函数时，必须重复模板参数列表，并使用 <code>TestClass&lt;T,i&gt;</code> 来限定函数所属的类。</li>
+</ul>
+<h2 id="4-函数模板与智能指针"><a href="#4-函数模板与智能指针" class="headerlink" title="4. 函数模板与智能指针"></a>4. 函数模板与智能指针</h2><p>函数模板允许我们编写一个通用的函数，它可以处理不同类型的数据。智能指针是管理动态分配内存的类，有助于防止内存泄漏。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;memory&gt;</span> <span class="hljs-comment">// 为了使用 std::unique_ptr</span></span><br><br><span class="hljs-comment">// 假设 GtLever 函数的声明 (具体实现未知，仅为示例)</span><br><span class="hljs-comment">// 它接收一个 T 类型的数组，数组长度 n，以及一个 T 类型的 lever 值</span><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">T</span>&gt;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">GtLever</span><span class="hljs-params">(<span class="hljs-type">const</span> T* arr, <span class="hljs-type">int</span> n, T lever)</span> </span>&#123;<br>    cout &lt;&lt; <span class="hljs-string">&quot;GtLever called with lever: &quot;</span> &lt;&lt; lever &lt;&lt; <span class="hljs-string">&quot; and array: &quot;</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; ++i) &#123;<br>        cout &lt;&lt; arr[i] &lt;&lt; (i == n - <span class="hljs-number">1</span> ? <span class="hljs-string">&quot;&quot;</span> : <span class="hljs-string">&quot;, &quot;</span>);<br>    &#125;<br>    cout &lt;&lt; endl;<br>    <span class="hljs-comment">// 实际的 GtLever 逻辑会在这里</span><br>&#125;<br><br><br><span class="hljs-comment">// 处理输入和调用 GtLever 的函数模板</span><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">T</span>&gt; <span class="hljs-comment">// T 是类型参数</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">processInput</span><span class="hljs-params">(<span class="hljs-type">int</span> length, <span class="hljs-type">int</span> n_for_gtlever)</span> </span>&#123; <span class="hljs-comment">// 修改了第二个参数名以示区分</span><br>    <span class="hljs-comment">// 使用智能指针 std::unique_ptr 管理动态分配的数组内存</span><br>    <span class="hljs-comment">// std::unique_ptr&lt;T[]&gt; arr(new T[length]);</span><br>    <span class="hljs-comment">// C++14 及以后版本推荐使用 std::make_unique</span><br>    std::unique_ptr&lt;T[]&gt; arr = std::<span class="hljs-built_in">make_unique</span>&lt;T[]&gt;(length);<br><br>    cout &lt;&lt; <span class="hljs-string">&quot;Enter &quot;</span> &lt;&lt; length &lt;&lt; <span class="hljs-string">&quot; elements of type &quot;</span> &lt;&lt; <span class="hljs-built_in">typeid</span>(T).<span class="hljs-built_in">name</span>() &lt;&lt; <span class="hljs-string">&quot;:&quot;</span> &lt;&lt; endl;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; length; i++) &#123;<br>        cin &gt;&gt; arr[i];<br>    &#125;<br><br>    T lever;<br>    cout &lt;&lt; <span class="hljs-string">&quot;Enter the lever value of type &quot;</span> &lt;&lt; <span class="hljs-built_in">typeid</span>(T).<span class="hljs-built_in">name</span>() &lt;&lt; <span class="hljs-string">&quot;:&quot;</span> &lt;&lt; endl;<br>    cin &gt;&gt; lever;<br><br>    <span class="hljs-comment">// 调用 GtLever 函数</span><br>    <span class="hljs-comment">// arr.get() 返回指向 unique_ptr所管理数组的原始指针</span><br>    <span class="hljs-built_in">GtLever</span>(arr.<span class="hljs-built_in">get</span>(), n_for_gtlever, lever); <span class="hljs-comment">// 假设 GtLever 需要的长度是 n_for_gtlever</span><br>                                             <span class="hljs-comment">// 如果 GtLever 处理整个 arr，则应传递 length</span><br>&#125;<br><br><span class="hljs-comment">// 示例用法 (构造方法调用)：</span><br><span class="hljs-comment">// int main() &#123;</span><br><span class="hljs-comment">//     int length, n;</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;Processing char input:&quot; &lt;&lt; endl;</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;Enter array length: &quot;;</span><br><span class="hljs-comment">//     cin &gt;&gt; length;</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;Enter n for GtLever: &quot;;</span><br><span class="hljs-comment">//     cin &gt;&gt; n;</span><br><span class="hljs-comment">//     processInput&lt;char&gt;(length, n); // 实例化函数模板，T 为 char</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;\nProcessing int input:&quot; &lt;&lt; endl;</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;Enter array length: &quot;;</span><br><span class="hljs-comment">//     cin &gt;&gt; length;</span><br><span class="hljs-comment">//     cout &lt;&lt; &quot;Enter n for GtLever: &quot;;</span><br><span class="hljs-comment">//     cin &gt;&gt; n;</span><br><span class="hljs-comment">//     processInput&lt;int&gt;(length, n); // 实例化函数模板，T 为 int</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//     return 0;</span><br><span class="hljs-comment">// &#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>解释:</strong></p>
+<ul>
+<li><code>template &lt;class T&gt;</code>: <code>processInput</code> 是一个函数模板，<code>T</code> 是其类型参数。</li>
+<li><code>std::unique_ptr&lt;T[]&gt; arr(new T[length]);</code> (或 <code>std::make_unique&lt;T[]&gt;(length);</code>):<ul>
+<li><code>std::unique_ptr</code> 是一种智能指针，它拥有其指向的对象。当 <code>unique_ptr</code> 对象本身被销毁时（例如离开作用域），它会自动释放所管理的内存。这有助于防止内存泄漏。</li>
+<li><code>T[]</code> 表示 <code>unique_ptr</code> 管理的是一个 <code>T</code> 类型的数组。</li>
+<li><code>new T[length]</code> 动态分配一个包含 <code>length</code> 个 <code>T</code> 类型元素的数组。</li>
+<li><code>std::make_unique&lt;T[]&gt;(length)</code> (C++14+) 是创建 <code>unique_ptr</code> 的更安全、更简洁的方式。</li>
+</ul>
+</li>
+<li><code>arr.get()</code>: <code>unique_ptr</code> 的 <code>get()</code> 成员函数返回一个指向其所管理内存的原始指针。这在需要将管理的内存传递给不接受 <code>unique_ptr</code> 的旧式 C API 或函数时很有用。</li>
+<li><code>processInput&lt;char&gt;(length, n);</code>: 这是函数模板的显式实例化。编译器会根据指定的类型参数 <code>char</code> 生成一个特定版本的 <code>processInput</code> 函数。</li>
+</ul>
+<h2 id="5-构造函数中使用智能指针初始化成员"><a href="#5-构造函数中使用智能指针初始化成员" class="headerlink" title="5. 构造函数中使用智能指针初始化成员"></a>5. 构造函数中使用智能指针初始化成员</h2><p>在类的构造函数中初始化 <code>std::unique_ptr</code> 成员是常见的做法，以确保资源在对象创建时被正确获取，并在对象销毁时自动释放。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 假设 T 是一个已定义的类型或模板参数</span><br><span class="hljs-comment">// template &lt;typename T&gt; // 如果 C1 本身是模板类</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">C1</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-type">int</span> num;<br>    std::unique_ptr&lt;<span class="hljs-type">int</span>[]&gt; a; <span class="hljs-comment">// 使用 int[] 作为示例，原代码是 T[]</span><br><br>    <span class="hljs-comment">// 构造函数</span><br>    <span class="hljs-comment">// 使用成员初始化列表来初始化 num 和智能指针 a</span><br>    <span class="hljs-comment">// std::make_unique&lt;T[]&gt;(n) (C++14+) 是推荐的初始化方式</span><br>    <span class="hljs-built_in">C1</span>(<span class="hljs-type">int</span> n) : <span class="hljs-built_in">num</span>(n), <span class="hljs-built_in">a</span>(std::<span class="hljs-built_in">make_unique</span>&lt;<span class="hljs-type">int</span>[]&gt;(n)) &#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;C1 constructor called. num = &quot;</span> &lt;&lt; num &lt;&lt; <span class="hljs-string">&quot;. Array of size &quot;</span> &lt;&lt; n &lt;&lt; <span class="hljs-string">&quot; allocated.&quot;</span> &lt;&lt; endl;<br>        <span class="hljs-comment">// 可以在这里初始化数组 a 的内容</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; ++i) &#123;<br>            a[i] = i * <span class="hljs-number">10</span>; <span class="hljs-comment">// 示例初始化</span><br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">// 析构函数 (由 unique_ptr 自动管理内存，通常不需要显式 delete)</span><br>    ~<span class="hljs-built_in">C1</span>() &#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;C1 destructor called. Memory for array will be automatically deallocated by unique_ptr.&quot;</span> &lt;&lt; endl;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printArray</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (num &gt; <span class="hljs-number">0</span> &amp;&amp; a) &#123;<br>            cout &lt;&lt; <span class="hljs-string">&quot;Array contents: &quot;</span>;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; num; ++i) &#123;<br>                cout &lt;&lt; a[i] &lt;&lt; (i == num - <span class="hljs-number">1</span> ? <span class="hljs-string">&quot;&quot;</span> : <span class="hljs-string">&quot;, &quot;</span>);<br>            &#125;<br>            cout &lt;&lt; endl;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            cout &lt;&lt; <span class="hljs-string">&quot;Array is empty or not allocated.&quot;</span> &lt;&lt; endl;<br>        &#125;<br>    &#125;<br>&#125;;<br><br><span class="hljs-comment">// 示例用法：</span><br><span class="hljs-comment">// int main() &#123;</span><br><span class="hljs-comment">//     C1 obj1(5);</span><br><span class="hljs-comment">//     obj1.printArray();</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//     // 当 obj1 离开作用域时，其析构函数被调用，</span><br><span class="hljs-comment">//     // unique_ptr a 会自动释放其管理的动态数组内存。</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//     return 0;</span><br><span class="hljs-comment">// &#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>解释:</strong></p>
+<ul>
+<li><code>std::unique_ptr&lt;T[]&gt; a;</code>: 类 <code>C1</code> 有一个名为 <code>a</code> 的成员，它是一个指向 <code>T</code> 类型数组的 <code>unique_ptr</code>。</li>
+<li><code>C1(int n) : num(n), a(std::make_unique&lt;T[]&gt;(n)) &#123;&#125;</code>:<ul>
+<li>这是构造函数。</li>
+<li><code>:</code> num(n),<code> a(std::make_unique&lt;T[]&gt;(n))</code> 是成员初始化列表。这是初始化类成员（尤其是 <code>const</code> 成员、引用成员和需要构造函数参数的成员对象）的首选方式。</li>
+<li><code>a(std::make_unique&lt;T[]&gt;(n))</code> 初始化 <code>unique_ptr</code> 成员 <code>a</code>，使其管理一个新分配的大小为 <code>n</code> 的 <code>T</code> 类型数组。</li>
+</ul>
+</li>
+<li>当 <code>C1</code> 类型的对象被销毁时，其成员 <code>a</code> (即 <code>unique_ptr</code>) 也会被销毁。<code>unique_ptr</code> 的析构函数会自动 <code>delete[]</code> 它所管理的数组，从而防止内存泄漏。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>程设一些知识点</div>
+      <div>https://kyc001.github.io/2025/05/24/程设一些知识点/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>kyc</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/05/24/CPP%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="C++程序设计复习笔记">
+                        <span class="hidden-mobile">C++程序设计复习笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
+</html>
