@@ -1,10 +1,11 @@
 ---
 title: Mantel定理的证明
-katex: true
-abbrlink: 51170
-date: 2024-12-12 10:38:56
-tags:
+published: 2024-12-12 10:38:56
+tags: ["数学", "定理", "图论", "证明"] # 将 tags 修改为数组，并添加了相关示例标签
+category: 数学证明
 ---
+
+# 你的文章内容从这里开始
 
 <!--  # Mantel定理 -->
 

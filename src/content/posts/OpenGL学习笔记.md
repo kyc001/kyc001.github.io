@@ -1,9 +1,11 @@
 ---
 title: OpenGL学习笔记
-abbrlink: 51769
-date: 2025-04-10 21:19:58
-tags:
+published: 2025-04-10 21:19:58
+tags: ["OpenGL", "图形学", "学习笔记"] # 将 tags 修改为数组，并添加了相关示例标签
+category: 学习笔记
 ---
+
+
 <!--  # OpenGL学习笔记 -->
 
 ## 一、简介

@@ -1,10 +1,12 @@
 ---
 title: 浅谈 Johnson 算法
-abbrlink: 38955
-date: 2024-11-17 22:09:36
-tags:
-categories:
+published: 2024-11-17 22:09:36
+tags: ["算法", "Johnson算法", "图论"] # 将 tags 修改为数组，并添加了一些相关的标签作为示例
+category: 算法
+
 ---
+
+# 你的文章内容从这里开始
 
 <!-- # Johnson 算法 -->
 
