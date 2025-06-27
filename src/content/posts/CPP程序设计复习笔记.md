@@ -8,8 +8,6 @@ category: 学习笔记
 
 <!--more-->
 
-# C++程序设计复习笔记
-
 ## 第六章 指针、引用与动态内存分配
 
 ### 一、指针类型与指针变量
@@ -24,17 +22,19 @@ category: 学习笔记
 
 * **指针变量的说明 (Declaration)**：
 
-    ```cpp
+```cpp
     <数据类型> *<指针变量名>;
     // 例如:
     int *p; // p 是一个指向整型变量的指针
     char *name; // name 是一个指向字符型变量的指针
-    ```
+```
 
-  * `*` 表明该变量是一个指针。
-  * 数据类型指明了指针所指向的变量的类型。
-  * 未初始化的指针处于**悬挂状态 (Dangling Pointer)**，其指向不确定，使用它可能导致程序崩溃。
+* `*` 表明该变量是一个指针。
+* 数据类型指明了指针所指向的变量的类型。
+* 未初始化的指针处于**悬挂状态 (Dangling Pointer)**，其指向不确定，使用它可能导致程序崩溃。
+
 * **指针变量的值 (Value)**：
+
   * 指针变量存储的是其所指向的内存单元的**首地址**。
   * 指针变量自身也占用内存空间（通常为4或8字节，取决于系统架构）。
 * **指针可以指向的成分**：变量、常量、数组、函数、类对象等。
@@ -43,36 +43,36 @@ category: 学习笔记
 
 * **初始化 (Initialization)**：
   * **初始化为内存地址**：使用取地址运算符 `&` 获取变量地址。
-
-        ```cpp
+  
+```cpp
         int a = 18;
         int *p = &a; // 指针p初始化为变量a的地址
-        ```
+```
 
-  * **初始化为 `nullptr` (C++11及以后)**：表示指针不指向任何有效的内存地址。
+* **初始化为 `nullptr` (C++11及以后)**：表示指针不指向任何有效的内存地址。
 
-        ```cpp
-        int *p = nullptr;
-        ```
+```cpp
+    int *p = nullptr;
+```
 
-  * **初始化为 `0` 或 `NULL` (C风格)**：与 `nullptr` 类似，表示空指针。
+* **初始化为 `0` 或 `NULL` (C风格)**：与 `nullptr` 类似，表示空指针。
 
-        ```cpp
+```cpp
         int *p1 = 0;
         int *p2 = NULL; // NULL通常是宏定义 (void*)0
-        ```
+```
 
 * **赋值 (Assignment)**：
   * 赋值运算符 `=` 左边是指针变量，右边是地址表达式。
   * 地址存放数据的类型必须与指针说明的类型一致。
   * **不可任意赋一个内存地址常量**，只能赋已分配内存的变量地址或 `nullptr`。
 
-        ```cpp
+```cpp
         int i = 3;
         int *pi;
         pi = &i; // 正确
         // pi = 1000; // 错误，不能直接赋地址常量
-        ```
+```
 
 #### 4. 指针运算
 
@@ -80,13 +80,13 @@ category: 学习笔记
   * 表达式：`*<指针变量名>`
   * 作用：访问指针所指向的内存地址中存储的数据。
   * `*p` 可以看作一个变量，可以出现在表达式的左边（赋值）或右边（取值）。
-
-        ```cpp
+  
+```cpp
         int a = 18, *p;
         p = &a;
         cout << *p; // 输出18 (a的值)
         *p = 20;    // 等价于 a = 20;
-        ```
+```
 
 * **取地址运算符 `&` (Address-of Operator)**：
   * 表达式：`&<可寻址数据名>`
@@ -109,7 +109,7 @@ category: 学习笔记
 * 指针指向的内容不可通过该指针修改，但指针本身可以改变指向。
 * 声明格式：`const <数据类型> *<指针变量名>;` 或 `<数据类型> const *<指针变量名>;`
 
-    ```cpp
+```cpp
     const int a = 10;
     const int *p1 = &a; // p1 指向常量a
     // *p1 = 20; // 错误：不能通过p1修改a的值
@@ -120,7 +120,7 @@ category: 学习笔记
     b = 30;     // 正确：b本身可以修改
     int c = 40;
     p2 = &c;    // 正确：p2可以指向其他地址
-    ```
+```
 
 * 常用于函数参数，防止函数内部修改实参。
 
@@ -130,13 +130,13 @@ category: 学习笔记
 * 声明格式：`<数据类型> * const <指针变量名>;`
 * **必须在声明时初始化。**
 
-    ```cpp
+```cpp
     int a = 10;
     int b = 20;
     int * const p = &a; // p是一个常量指针，初始化后不能再指向其他地址
     *p = 15; // 正确：可以修改a的值
     // p = &b; // 错误：p不能指向其他地址
-    ```
+```
 
 #### 3. 指向常量的常量指针 (Constant Pointer to Constant)
 
@@ -144,13 +144,13 @@ category: 学习笔记
 * 声明格式：`const <数据类型> * const <指针变量名>;`
 * **必须在声明时初始化。**
 
-    ```cpp
+```cpp
     const int a = 10;
     const int * const p = &a;
     // *p = 15; // 错误
     // int b = 20;
     // p = &b; // 错误
-    ```
+```
 
 ### 三、指针与数组
 
@@ -158,22 +158,22 @@ category: 学习笔记
 
 * **数组名即指针常量**：数组名代表数组首元素的地址。`a` 等价于 `&a[0]`。
 * 可以用指针访问数组元素：
-
-    ```cpp
+  
+```cpp
     int arr[5] = {1, 2, 3, 4, 5};
     int *p = arr; // p 指向 arr[0]
 
     // 访问方式等价：
     // arr[i]  <==> *(arr + i) <==> *(p + i) <==> p[i]
     // &arr[i] <==> arr + i    <==> p + i
-    ```
+```
 
 * 指针变量可以进行自增、自减等运算来移动指向，数组名作为常量指针不行。
 
-    ```cpp
+```cpp
     p++; // p 指向 arr[1]
     // arr++; // 错误
-    ```
+```
 
 #### 2. 指向二维数组元素的指针
 
@@ -188,7 +188,7 @@ category: 学习笔记
 * **用指针访问二维数组元素**：
   * **行指针 (指向一维数组的指针)**：
 
-        ```cpp
+```cpp
         int A[3][4];
         int (*p)[4]; // p是一个指针，指向包含4个int元素的一维数组
         p = A;       // p指向A[0]
@@ -196,48 +196,48 @@ category: 学习笔记
         // *(p+i) 是 A[i] 的首元素地址，即 &A[i][0]
         // *(*(p+i)+j) 是 A[i][j] 的值
         // (*(p+i))[j] 也是 A[i][j] 的值
-        ```
+```
 
-  * **元素指针 (指向单个元素的指针)**：
+* **元素指针 (指向单个元素的指针)**：
 
-        ```cpp
+```cpp
         int A[3][4];
         int *p;
         p = A[0]; // p 指向 A[0][0] (或 p = &A[0][0];)
         // 此时p可以像一维数组指针一样遍历整个二维数组
         // p + (i * 列数 + j) 指向 A[i][j] 的地址
-        ```
+```
 
 #### 3. 指针数组 (Array of Pointers)
 
 * 数组的每个元素都是指针。
 * 声明格式：`<数据类型> *<数组名>[<元素个数>];`
 
-    ```cpp
+```cpp
     int a=1, b=2, c=3;
     int *ptrArr[3] = {&a, &b, &c}; // ptrArr是一个包含3个int*类型元素的数组
     // ptrArr[0] 指向 a, ptrArr[1] 指向 b, ptrArr[2] 指向 c
-    ```
+```
 
 * 常用于存储多个字符串：
 
-    ```cpp
+```cpp
     char *names[] = {"Alice", "Bob", "Charlie"};
     // names[0] 指向 "Alice" 的首字符 'A'
-    ```
+```
 
 #### 4. 多重指针 (Pointer to Pointer)
 
 * 指针变量本身也存储在内存中，也有地址。指向指针变量地址的指针称为多重指针。
 * **二重指针**：指向一个指针变量的指针。
 
-    ```cpp
+```cpp
     int x = 123;
     int *p = &x;    // p 指向 x
     int **q = &p;   // q 指向 p
     // *q  等价于 p (即x的地址)
     // **q 等价于 *p (即x的值，123)
-    ```
+```
 
 * 常用于动态分配二维数组或处理指针数组。
 
@@ -245,18 +245,18 @@ category: 学习笔记
 
 * 字符串可以用字符数组表示，也可以用字符指针指向字符串字面值常量。
 
-    ```cpp
+```cpp
     char strArray[] = "hello"; // 字符数组，"hello"存储在数组中，可修改
     char *strPtr = "world";   // 字符指针，指向字符串常量"world"
                               // 字符串常量通常存储在只读区，不可通过strPtr修改
-    ```
+```
 
 * `cout << strPtr;` 会输出整个字符串，直到遇到 `\0`。
 * 字符指针数组常用于管理多个字符串。
 
-    ```cpp
+```cpp
     char *days[] = {"Sunday", "Monday", ...};
-    ```
+```
 
 * **字符串处理函数** (需包含 `<cstring>` 或 `<string.h>`)：
   * `strlen(const char *s)`：返回字符串长度（不包括 `\0`）。
@@ -292,18 +292,18 @@ category: 学习笔记
 
 * 通过 `new <数据类型>` 创建的无名变量，通过指针访问。
 
-    ```cpp
+```cpp
     int *p = new int(5); // 分配一个int空间，初始化为5
     cout << *p;          // 输出5
     delete p;            // 释放内存
     p = nullptr;
-    ```
+```
 
 #### 4. 动态数组
 
 * **一维动态数组**：
 
-    ```cpp
+```cpp
     int n;
     cin >> n;
     int *arr = new int[n]; // 数组大小可以是变量
@@ -313,11 +313,11 @@ category: 学习笔记
     // ...使用arr...
     delete [] arr;
     arr = nullptr;
-    ```
+```
 
 * **二维动态数组**：通常通过指针数组实现。
 
-    ```cpp
+```cpp
     int rows, cols;
     cin >> rows >> cols;
 
@@ -341,7 +341,7 @@ category: 学习笔记
     }
     delete [] matrix; // 再释放行指针数组
     matrix = nullptr;
-    ```
+```
 
 * **内存泄漏 (Memory Leak)**：如果动态分配的内存不再需要但没有被 `delete`，这块内存就无法再被程序使用，造成浪费。
 
@@ -359,18 +359,16 @@ category: 学习笔记
   * 格式：`<数据类型> &<引用名> = <已存在变量名>;`
   * **引用在声明时必须初始化**，并且一旦初始化，就不能再引用其他变量。
 
-        ```cpp
+```cpp
         int a = 10;
         int &ref_a = a; // ref_a 是 a 的引用 (别名)
-
         cout << a;      // 输出 10
         cout << ref_a;  // 输出 10
-
         ref_a = 20;     // 修改 ref_a 就是修改 a
         cout << a;      // 输出 20
-        ```
+```
 
-  * `&` 在这里不是取地址运算符，而是引用声明符。
+* `&` 在这里不是取地址运算符，而是引用声明符。
 
 #### 3. 引用与指针的区别
 
@@ -390,7 +388,7 @@ category: 学习笔记
 * 引用比指针更安全，因为它必须初始化，且不能为空，也不能随意改变引用的对象。
 * 常用于函数参数（传递大对象时避免拷贝开销，且能修改实参）和函数返回值。
 
-    ```cpp
+```cpp
     // 通过引用修改参数
     void swap(int &x, int &y) {
         int temp = x;
@@ -403,15 +401,15 @@ category: 学习笔记
         swap(m, n); // m变为10, n变为5
         return 0;
     }
-    ```
+```
 
 * **数组的引用**：
 
-    ```cpp
+```cpp
     int arr[5];
     int (&ref_arr)[5] = arr; // ref_arr 是数组 arr 的引用
     ref_arr[0] = 10; // 等价于 arr[0] = 10;
-    ```
+```
 
 ## 第七章 类和对象
 
@@ -453,7 +451,7 @@ category: 学习笔记
 * 使用 `class` 关键字。
 * 一般格式：
 
-    ```cpp
+```cpp
     class <类名> {
     private:
         // 私有成员 (数据和函数)
@@ -466,7 +464,7 @@ category: 学习笔记
         // 可以被本类的成员函数、友元以及派生类的成员函数访问
     // friend <友元声明>; // 友元不是成员，但可以访问私有和保护成员
     }; // 注意类定义末尾的分号
-    ```
+```
 
 * **访问限定符 (Access Specifiers)**：`private`, `public`, `protected`。
   * 若不写访问限定符，类中成员默认为 `private` (结构体 `struct` 中默认为 `public`)。
@@ -480,17 +478,16 @@ category: 学习笔记
   * **类内定义**：函数体直接写在类定义中，通常自动成为内联函数 (inline)。
   * **类外定义**：在类定义中只写函数原型，在类外部使用作用域解析运算符 `::` 定义函数体。
 
-        ```cpp
+```cpp
         class MyClass {
         public:
             void func1(); // 类内声明
             void func2() { /* 类内定义 */ }
         };
-
         void MyClass::func1() { // 类外定义
             // ...
         }
-        ```
+```
 
 #### 3. 类对象的说明 (创建对象)
 
@@ -510,7 +507,7 @@ category: 学习笔记
   * 区分同名的成员变量和局部变量/参数：`this->成员变量`。
   * 在成员函数中返回当前对象的引用或指针：`return *this;` 或 `return this;`。
 
-    ```cpp
+```cpp
     class Box {
     public:
         int H;
@@ -518,7 +515,7 @@ category: 学习笔记
             this->H = H; // this->H 是成员变量, H 是参数
         }
     };
-    ```
+```
 
 ### 三、构造函数与析构函数
 
@@ -540,18 +537,18 @@ category: 学习笔记
   * 如果类中没有定义任何构造函数，编译器会自动生成一个不做任何事情的默认构造函数。
   * 一旦定义了任何构造函数，编译器就不再自动生成默认构造函数。如果此时仍需要无参构造，必须显式定义或使用 `= default` (C++11)。
 
-        ```cpp
+```cpp
         class MyClass {
         public:
             MyClass() = default; // 显式声明使用编译器生成的默认构造函数
             // MyClass() {}      // 自定义默认构造函数
         };
-        ```
+```
 
 * **自定义构造函数**：
   * **初始化列表 (Member Initializer List)**：推荐使用，在构造函数体执行前初始化成员。效率更高，特别是对于类类型成员和 `const` 或引用成员（它们必须在初始化列表初始化）。
 
-        ```cpp
+```cpp
         class Point {
             int x, y;
         public:
@@ -559,22 +556,22 @@ category: 学习笔记
                 // 构造函数体
             }
         };
-        ```
+```
 
 * **委托构造函数 (Delegating Constructor) (C++11)**：一个构造函数可以在其初始化列表中调用同一个类的另一个构造函数。
 
-    ```cpp
+```cpp
     class Box {
         double l, w, h;
     public:
         Box(double s) : Box(s, s, s) {} // 委托给三参数构造函数
         Box(double lv, double wv, double hv) : l(lv), w(wv), h(hv) {}
     };
-    ```
+```
 
 * **`explicit` 关键字**：用于修饰单参数构造函数（或所有参数都有默认值的多参数构造函数），防止隐式类型转换。
 
-    ```cpp
+```cpp
     class String {
     public:
         explicit String(int size); // 防止 int 隐式转换为 String
@@ -582,7 +579,7 @@ category: 学习笔记
     };
     // String s1 = 10; // 错误，如果构造函数是 explicit
     String s2(10); // 正确
-    ```
+```
 
 #### 3. 析构函数 (Destructor)
 
@@ -595,7 +592,7 @@ category: 学习笔记
   * 如果类中没有定义析构函数，编译器会自动生成一个不做任何事情的默认析构函数。
   * 如果类中管理了动态资源（如构造函数中 `new` 了内存），通常需要自定义析构函数来 `delete` 这些资源。
 
-    ```cpp
+```cpp
     class MyArray {
         int *data;
     public:
@@ -605,7 +602,7 @@ category: 学习笔记
             data = nullptr;
         }
     };
-    ```
+```
 
 * **构造和析构顺序**：
   * 局部对象：后构造的先析构（栈特性）。
@@ -624,7 +621,7 @@ category: 学习笔记
   * 当类中包含指针成员，并且这些指针指向动态分配的资源时，浅拷贝会导致问题（多个对象指向同一块内存，一个对象析构时释放内存，其他对象指针悬挂；重复释放）。
   * 此时需要自定义拷贝构造函数，为新对象重新分配独立的资源，并复制内容，这就是深拷贝。
 
-    ```cpp
+```cpp
     class MyString {
         char *str;
     public:
@@ -640,7 +637,7 @@ category: 学习笔记
         ~MyString() { delete [] str; }
         // ... 可能还需要重载赋值运算符=
     };
-    ```
+```
 
 * **赋值运算符重载 (`operator=`)**：与拷贝构造函数类似，当类管理动态资源时，通常也需要重载赋值运算符以实现深拷贝赋值，防止自我赋值，并正确处理原有资源。
 
@@ -660,13 +657,13 @@ category: 学习笔记
   * **必须在构造函数的初始化列表中进行初始化。**
   * 一旦初始化，其值不能再改变。
 
-        ```cpp
+```cpp
         class Test {
             const int MAX_SIZE;
         public:
             Test(int size) : MAX_SIZE(size) {} // 必须在初始化列表
         };
-        ```
+```
 
 * **常量成员函数 (Constant Member Function)**：
   * 在函数声明和定义的参数列表后加 `const` 关键字。
@@ -676,7 +673,7 @@ category: 学习笔记
   * 普通成员函数不能被常对象调用。
   * 在常量成员函数中，`this` 指针是一个指向常对象的指针 (`const <类名>* const this`)。
 
-        ```cpp
+```cpp
         class Point {
             int x, y;
         public:
@@ -688,7 +685,7 @@ category: 学习笔记
         // const Point p1(1,2);
         // p1.getX(); // 正确
         // p1.setX(3); // 错误，如果setX不是const
-        ```
+```
 
 * `mutable` 关键字：用于修饰数据成员，表示该成员即使在 `const` 成员函数或 `const` 对象中也可以被修改。
 
@@ -700,14 +697,14 @@ category: 学习笔记
 * **属于类本身，而不是类的某个特定对象。** 该类的所有对象共享同一个静态数据成员的副本。
 * **必须在类定义之外进行初始化和定义** (除非是 `const static` 整型或枚举型，可以在类内初始化 C++11/17)。
 
-    ```cpp
+```cpp
     class Account {
     public:
         static double interestRate; // 声明静态数据成员
         // ...
     };
     double Account::interestRate = 0.025; // 定义并初始化静态数据成员
-    ```
+```
 
 * **访问方式**：
   * 通过类名和作用域解析运算符：`<类名>::<静态数据成员名>`
@@ -725,7 +722,7 @@ category: 学习笔记
   * 通过对象名：`<对象名>.<静态成员函数名>()`
   * 通过对象指针：`<指针名>-><静态成员函数名>()`
 
-    ```cpp
+```cpp
     class Counter {
         static int count;
     public:
@@ -736,7 +733,7 @@ category: 学习笔记
 
     // Counter c1, c2;
     // cout << Counter::getCount(); // 通过类名调用
-    ```
+```
 
 ### 六、友元 (Friends)
 
@@ -752,7 +749,7 @@ category: 学习笔记
 * 友元函数不是类的成员函数，但可以访问该类的所有成员。
 * **普通函数作为友元**：
 
-    ```cpp
+```cpp
     class MyClass {
         int data;
     public:
@@ -763,11 +760,11 @@ category: 学习笔记
     void showData(const MyClass &obj) {
         cout << obj.data << endl; // 可以访问私有成员 data
     }
-    ```
+```
 
 * **其他类的成员函数作为友元**：
 
-    ```cpp
+```cpp
     class B; // 前向声明
     class A {
         int val_a;
@@ -782,13 +779,13 @@ category: 学习笔记
             cout << objA.val_a << endl; // B的成员函数访问A的私有成员
         }
     };
-    ```
+```
 
 #### 3. 友元类 (Friend Classes)
 
 * 一个类B可以被声明为另一个类A的友元类。这意味着类B的所有成员函数都是类A的友元函数，可以访问类A的所有成员。
 
-    ```cpp
+```cpp
     class A {
         int secret;
     public:
@@ -802,7 +799,7 @@ category: 学习笔记
             cout << objA.secret << endl; // B可以访问A的私有成员
         }
     };
-    ```
+```
 
 ### 七、类与类之间的关系
 
@@ -812,14 +809,14 @@ category: 学习笔记
 * **构造顺序**：当创建包含对象成员的类的对象时，会先调用对象成员的构造函数（按照在类中声明的顺序），然后再执行宿主类的构造函数体。
 * **初始化**：对象成员的初始化通常在宿主类的构造函数的初始化列表中进行。
 
-    ```cpp
+```cpp
     class Engine { /* ... */ };
     class Car {
         Engine carEngine; // Engine对象是Car的成员
     public:
         Car(...) : carEngine(...) { /* ... */ }
     };
-    ```
+```
 
 #### 2. 类的嵌套 (Nested Classes)
 
@@ -827,7 +824,7 @@ category: 学习笔记
 * 嵌套类（内部类）的作用域在外围类之内。
 * 访问权限规则依然适用。
 
-    ```cpp
+```cpp
     class Outer {
     public:
         class Inner { // 嵌套类
@@ -840,7 +837,7 @@ category: 学习笔记
         }
     };
     // Outer::Inner obj; // 如果Inner是public的
-    ```
+```
 
 ### 八、类中的运算符重载
 
@@ -863,7 +860,7 @@ category: 学习笔记
 * 对于二元运算符 `op`，`obj1 op obj2` 相当于 `operator op(obj1, obj2)`。
 * 对于一元运算符 `op`，`op obj` 相当于 `operator op(obj)`。
 
-    ```cpp
+```cpp
     class Complex {
         double real, imag;
     public:
@@ -875,7 +872,7 @@ category: 学习笔记
         return Complex(c1.real + c2.real, c1.imag + c2.imag);
     }
     // Complex c1(1,2), c2(3,4); Complex c3 = c1 + c2;
-    ```
+```
 
 #### 3. 成员方式重载运算符
 
@@ -884,7 +881,7 @@ category: 学习笔记
 * 对于二元运算符 `op`，`obj1 op obj2` 相当于 `obj1.operator op(obj2)`。右操作数是参数。
 * 对于一元运算符 `op`，`op obj` 相当于 `obj.operator op()`。无参数。
 
-    ```cpp
+```cpp
     class Complex {
         double real, imag;
     public:
@@ -895,11 +892,11 @@ category: 学习笔记
         void display() const { cout << real << " + " << imag << "i" << endl; }
     };
     // Complex c1(1,2), c2(3,4); Complex c3 = c1 + c2; // c1.operator+(c2)
-    ```
+```
 
 * **输入/输出运算符 (`<<`, `>>`) 重载**：通常作为友元函数重载，因为左操作数是流对象 (`ostream` 或 `istream`)。
 
-    ```cpp
+```cpp
     class Point {
         int x, y;
     public:
@@ -915,7 +912,7 @@ category: 学习笔记
         in >> p.x >> p.y;
         return in;
     }
-    ```
+```
 
 ### 九、简单的数据结构设计 (使用类)
 
@@ -953,11 +950,11 @@ category: 学习笔记
 
 * 语法：
 
-    ```cpp
+```cpp
     class <派生类名> : <继承方式> <基类名1>, <继承方式> <基类名2>, ... {
         // 派生类新增的成员
     };
-    ```
+```
 
 * **继承方式 (Access Specifier for Inheritance)**：`public`, `protected`, `private`。
   * **`public` 继承** (最常用)：
@@ -979,14 +976,13 @@ category: 学习笔记
   * 派生类构造函数必须负责初始化其基类部分的成员和派生类新增的成员。
   * **调用基类构造函数**：在派生类构造函数的**初始化列表**中显式调用基类的构造函数。
 
-        ```cpp
+```cpp
         class Base {
         public:
             Base(int b_val) : b_data(b_val) { cout << "Base constructor" << endl; }
         private:
             int b_data;
         };
-
         class Derived : public Base {
         public:
             Derived(int b_val, int d_val) : Base(b_val), d_data(d_val) { // 调用基类构造函数
@@ -996,9 +992,9 @@ category: 学习笔记
             int d_data;
         };
         // Derived d(10, 20);
-        ```
+```
 
-  * **构造顺序**：
+* **构造顺序**：
         1. (虚)基类构造函数 (按继承声明顺序，若有虚继承则特殊处理)。
         2. 直接基类构造函数 (按继承声明顺序)。
         3. 类成员对象构造函数 (按在类中声明顺序)。
@@ -1022,29 +1018,30 @@ category: 学习笔记
 
 * **公有继承 (`public`) 体现 "is-a" 关系**，使得派生类对象可以被当作基类对象使用。
 * **赋值兼容规则**：
-    1. **派生类对象可以赋值给基类对象（对象切片 Object Slicing）**：
 
-        ```cpp
+**派生类对象可以赋值给基类对象（对象切片 Object Slicing）**：
+
+```cpp
         Base b_obj;
         Derived d_obj;
         b_obj = d_obj; // 合法，但只复制基类部分，派生类特有成员丢失
-        ```
+```
 
-    2. **派生类对象的地址可以赋值给基类指针**：
+**派生类对象的地址可以赋值给基类指针**：
 
-        ```cpp
+```cpp
         Base *b_ptr;
         Derived d_obj;
         b_ptr = &d_obj; // 合法，b_ptr 指向 d_obj 的基类部分
         // b_ptr->derived_member; // 错误，只能访问基类成员
-        ```
+```
 
-    3. **派生类对象可以初始化基类的引用**：
+**派生类对象可以初始化基类的引用**：
 
-        ```cpp
+```cpp
         Derived d_obj;
         Base &b_ref = d_obj; // 合法，b_ref 引用 d_obj 的基类部分
-        ```
+```
 
 * 反向操作（基类对象赋值给派生类对象、基类指针指向派生类等）通常不被允许或不安全，除非进行显式类型转换且确保类型正确。
 
@@ -1054,7 +1051,7 @@ category: 学习笔记
 * 在派生类作用域内，直接使用该名称访问的是派生类的成员。
 * 要访问被隐藏的基类成员，需要使用作用域解析运算符：`<基类名>::<成员名>`。
 
-    ```cpp
+```cpp
     class Base { public: int x = 1; void print() { cout << "Base x: " << x << endl; } };
     class Derived : public Base { public: int x = 2; void print() { cout << "Derived x: " << x << endl; } };
     // Derived d;
@@ -1062,7 +1059,7 @@ category: 学习笔记
     // d.Base::x; // 访问 Base::x (值为1)
     // d.print(); // 调用 Derived::print()
     // d.Base::print(); // 调用 Base::print()
-    ```
+```
 
 ### 三、虚基类与虚拟继承
 
@@ -1071,7 +1068,7 @@ category: 学习笔记
 * **多重继承中的二义性**：如果一个派生类从多个基类继承了同名成员，直接访问该成员会导致二义性。需要用类名限定。
 * **菱形继承 (Diamond Problem)**：
 
-    ```
+    ```cpp
         A
        / \
       B   C
@@ -1087,12 +1084,12 @@ category: 学习笔记
 * 当一个基类被声明为虚基类时，在后续的派生类中，无论该虚基类通过多少条路径被间接继承，派生类对象中都只包含该虚基类的一个共享副本。
 * **声明虚基类**：在派生类继承基类时使用 `virtual` 关键字。
 
-    ```cpp
+```cpp
     class A { /* ... */ };
     class B : virtual public A { /* ... */ }; // B虚拟继承A
     class C : virtual public A { /* ... */ }; // C虚拟继承A
     class D : public B, public C { /* ... */ }; // D中只有一份A的副本
-    ```
+```
 
 * **虚基类的构造**：虚基类的构造函数由**最终派生类 (Most Derived Class)** 的构造函数负责调用。中间基类的构造函数初始化列表中对虚基类的调用会被忽略（除非该中间基类本身就是最终派生类）。
 
@@ -1114,7 +1111,7 @@ category: 学习笔记
 * 在基类中使用 `virtual` 关键字声明的成员函数。
 * 当派生类重写 (override) 基类的虚函数时（函数名、参数列表、返回类型、`const`属性都相同），通过基类指针或引用调用该虚函数，会根据指针或引用实际指向的对象的类型来调用相应的版本。
 
-    ```cpp
+```cpp
     class Shape {
     public:
         virtual void draw() { cout << "Drawing a generic shape." << endl; }
@@ -1133,7 +1130,7 @@ category: 学习笔记
     // Circle c; Square sq;
     // showDrawing(&c);  // 输出 "Drawing a circle."
     // showDrawing(&sq); // 输出 "Drawing a square."
-    ```
+```
 
 * **`override` 关键字 (C++11)**：在派生类中重写虚函数时使用，编译器会检查基类是否存在对应的可重写的虚函数，有助于防止错误。
 * **`final` 关键字 (C++11)**：
@@ -1146,13 +1143,13 @@ category: 学习笔记
 
 * **纯虚函数**：在基类中声明但没有定义的虚函数，其声明末尾加 `= 0;`。
 
-    ```cpp
+```cpp
     class AbstractShape {
     public:
         virtual void calculateArea() = 0; // 纯虚函数
         virtual ~AbstractShape() {}
     };
-    ```
+```
 
 * **抽象基类 (Abstract Base Class, ABC)**：包含至少一个纯虚函数的类。
   * **不能创建抽象基类的对象实例。**
@@ -1170,19 +1167,21 @@ category: 学习笔记
 * 编译器根据函数调用时提供的实参类型，自动推断模板参数的具体类型，并生成一个特定版本的函数实例（模板实例化）。
 * 定义格式：
 
-    ```cpp
+```cpp
     template <typename <类型参数名1>, typename <类型参数名2>, ...> // 或 class 代替 typename
     <返回类型> <函数名>(<参数列表>) {
         // 函数体，可以使用类型参数名
     }
-    ```cpp
+```
+
+```cpp
     template <typename T>
     T maxVal(T a, T b) {
         return (a > b) ? a : b;
     }
     // int m = maxVal(10, 20);       // T 被推断为 int
     // double d = maxVal(3.14, 2.71); // T 被推断为 double
-    ```
+```
 
 * 函数模板调用时不进行实参到形参类型的自动转换（除非显式指定模板参数）。
 
@@ -1191,7 +1190,7 @@ category: 学习笔记
 * 为特定的数据类型提供一个不同于通用模板的特殊实现。
 * 格式：`template <> <返回类型> <函数名><<特化类型>>(<参数列表>) { ... }`
 
-    ```cpp
+```cpp
     // 通用模板
     template <typename T>
     int compare(T a, T b) { return a > b ? 1 : (a < b ? -1 : 0); }
@@ -1201,7 +1200,7 @@ category: 学习笔记
     int compare<const char*>(const char* a, const char* b) {
         return strcmp(a, b);
     }
-    ```
+```
 
 #### 3. 函数模板的重载 (Overloading)
 
@@ -1215,22 +1214,22 @@ category: 学习笔记
 * **类模板 (Class Template)**：一个通用的类描述，允许类的数据成员、成员函数的参数或返回类型使用类型参数。
 * 定义格式：
 
-    ```cpp
+```cpp
     template <typename <类型参数名1>, int <非类型参数名1>, ...> // 可以有类型参数和非类型参数
     class <类模板名> {
         // 类成员，可以使用模板参数
     };
-    ```
+```
 
-  * **类型参数 (Type Parameter)**：用 `typename` 或 `class` 声明，代表一种数据类型。
-  * **非类型参数 (Non-type Parameter)**：如 `int N`，代表一个常量值，其实参必须是常量表达式。
+* **类型参数 (Type Parameter)**：用 `typename` 或 `class` 声明，代表一种数据类型。
+* **非类型参数 (Non-type Parameter)**：如 `int N`，代表一个常量值，其实参必须是常量表达式。
 
 #### 2. 类模板的实例化
 
 * 使用类模板创建对象时，必须显式指定所有模板参数的具体类型或值。
 * 格式：`<类模板名><<实参列表>> <对象名>;`
 
-    ```cpp
+```cpp
     template <typename T, int SIZE>
     class Array {
         T data[SIZE];
@@ -1239,28 +1238,28 @@ category: 学习笔记
     };
     // Array<int, 10> intArray;   // T 为 int, SIZE 为 10
     // Array<double, 5> doubleArray; // T 为 double, SIZE 为 5
-    ```
+```
 
 #### 3. 类模板的成员函数
 
 * 可以在类模板定义内定义，也可以在类模板定义外定义。
 * **类外定义格式**：
 
-    ```cpp
+```cpp
     template <typename T, int SIZE>
     void Array<T, SIZE>::someFunction() {
         // ...
     }
-    ```
+```
 
-    每一处使用类模板名的地方都需要带上模板参数列表 `<T, SIZE>`。
+每一处使用类模板名的地方都需要带上模板参数列表 `<T, SIZE>`。
 
 #### 4. 类模板的静态成员与友元
 
 * **静态成员**：每个实例化后的类模板都有其自己的一份静态成员。
   * 静态数据成员的定义和初始化仍在类外，但需要 `template <...>` 前缀和类名后的 `<...>`。
 
-        ```cpp
+```cpp
         template <typename T>
         class Counter {
         public:
@@ -1270,7 +1269,7 @@ category: 学习笔记
         template <typename T> // 不能少
         int Counter<T>::count = 0; // 初始化
         // Counter<int> c1; Counter<double> c2; // Counter<int>::count 和 Counter<double>::count 是不同的
-        ```
+```
 
 * **友元**：
   * 普通函数/类作友元：是所有实例化类的友元。
@@ -1280,34 +1279,34 @@ category: 学习笔记
 
 * 为特定的模板参数组合提供一个完全不同的类定义。
 
-    ```cpp
+```cpp
     // 通用类模板
     template <typename T> class Storage { T data; /* ... */ };
 
     // 针对 bool 的特化版本
     template <> class Storage<bool> { unsigned char bits; /* ... 特殊实现 ... */ };
-    ```
+```
 
 * 也可以只特化部分模板参数（偏特化，Partial Specialization）。
 
 ### 三、类模板的继承和派生
 
 * 类模板可以参与继承关系。
-    1. **普通类派生类模板**：基类是普通类，派生类是类模板。
-    2. **类模板派生普通类**：基类是类模板的特定实例化，派生类是普通类。
+**普通类派生类模板**：基类是普通类，派生类是类模板。
+**类模板派生普通类**：基类是类模板的特定实例化，派生类是普通类。
 
-        ```cpp
+```cpp
         template <typename T> class BaseT { T data; };
         class Derived : public BaseT<int> { /* ... */ }; // 派生自 BaseT<int>
-        ```
+```
 
-    3. **类模板派生类模板**：
+**类模板派生类模板**：
 
-        ```cpp
+```cpp
         template <typename T> class BaseT { /* ... */ };
         template <typename U> class DerivedT : public BaseT<U> { /* ... */ };
         template <typename T1, typename T2> class DerivedMultiT : public BaseT<T1> { T2 other_data; };
-        ```
+```
 
 ### 四、标准模板库 (STL) 程序设计
 
@@ -1418,7 +1417,7 @@ category: 学习笔记
 * `<<` (插入运算符) 和 `>>` (提取运算符) 已为标准数据类型预定义。
 * 为自定义类重载这两个运算符，通常作为友元函数，以便访问类的私有成员，并且使流对象 (`cin`/`cout` 或文件流对象) 作为第一个参数。
 
-    ```cpp
+```cpp
     class Complex { /* ... */
         friend ostream& operator<<(ostream& os, const Complex& c);
         friend istream& operator>>(istream& is, Complex& c);
@@ -1431,7 +1430,7 @@ category: 学习笔记
         is >> c.real >> c.imag; // 假设输入格式为 "real imag"
         return is;
     }
-    ```
+```
 
 ### 三、输入/输出格式控制
 
@@ -1471,36 +1470,37 @@ category: 学习笔记
 #### 1. 文件的打开与关闭
 
 * **打开文件 (Opening a File)**：
-  * 通过文件流对象的构造函数：
 
-        ```cpp
+* 通过文件流对象的构造函数：
+
+```cpp
         ofstream outfile("output.txt"); // 默认以 ios::out 打开
         ifstream infile("input.txt");   // 默认以 ios::in 打开
-        ```
+```
 
-  * 通过 `open()` 成员函数：
+* 通过 `open()` 成员函数：
 
-        ```cpp
+```cpp
         ofstream outfile;
         outfile.open("output.txt", ios::out | ios::app); // 追加模式
-        ```
+```
 
-  * **文件打开模式 (File Modes - `ios` 枚举常量)**：
-    * `ios::in`: 以读方式打开。
-    * `ios::out`: 以写方式打开 (如果文件存在则清空，不存在则创建)。
-    * `ios::app`: 以追加方式打开 (在文件末尾写入)。
-    * `ios::ate`: 打开文件并立即定位到文件末尾。
-    * `ios::trunc`: 如果文件存在，则清空其内容。
-    * `ios::binary`: 以二进制模式打开文件。
-    * 可以用 `|` (位或) 组合多个模式。
+* **文件打开模式 (File Modes - `ios` 枚举常量)**：
+  * `ios::in`: 以读方式打开。
+  * `ios::out`: 以写方式打开 (如果文件存在则清空，不存在则创建)。
+  * `ios::app`: 以追加方式打开 (在文件末尾写入)。
+  * `ios::ate`: 打开文件并立即定位到文件末尾。
+  * `ios::trunc`: 如果文件存在，则清空其内容。
+  * `ios::binary`: 以二进制模式打开文件。
+  * 可以用 `|` (位或) 组合多个模式。
 * **检查文件是否成功打开**：
 
-    ```cpp
+```cpp
     ifstream infile("data.txt");
     if (!infile) { // 或者 if (infile.fail())
         cerr << "Error opening file!" << endl;
     }
-    ```
+```
 
 * **关闭文件 (Closing a File)**：
   * 调用 `close()` 成员函数：`outfile.close();`
@@ -1510,7 +1510,7 @@ category: 学习笔记
 
 * 与 `cin`/`cout` 类似，但操作对象是文件流对象。
 
-    ```cpp
+```cpp
     ofstream ofs("numbers.txt");
     int x = 10; double y = 3.14;
     ofs << x << " " << y << endl; // 写入文件
@@ -1521,7 +1521,7 @@ category: 学习笔记
     ifs >> a >> b; // 从文件读取
     cout << a << " " << b << endl;
     ifs.close();
-    ```
+```
 
 * 写入时，数据间需要分隔符 (如空格、换行) 才能被 `>>` 正确读取。
 
@@ -1538,18 +1538,17 @@ category: 学习笔记
   * `istream& read(char* buffer, streamsize n)`: 从文件读取 `n` 字节到 `buffer`。
   * `ostream& write(const char* buffer, streamsize n)`: 将 `buffer` 中的 `n` 字节写入文件。
 
-        ```cpp
+```cpp
         struct Record { int id; char name[20]; };
         Record r = {1, "Test"};
         ofstream obfs("record.dat", ios::binary);
         obfs.write(reinterpret_cast<const char*>(&r), sizeof(Record));
         obfs.close();
-
         Record r_in;
         ifstream ibfs("record.dat", ios::binary);
         ibfs.read(reinterpret_cast<char*>(&r_in), sizeof(Record));
         ibfs.close();
-        ```
+```
 
 ### 五、文本文件与二进制文件
 
@@ -1579,12 +1578,12 @@ category: 学习笔记
 * **`tellg()` (tell get)**：返回当前输入文件指针的位置。
 * **`tellp()` (tell put)**：返回当前输出文件指针的位置。
 
-    ```cpp
+```cpp
     fstream file("data.bin", ios::in | ios::out | ios::binary);
     file.seekg(2 * sizeof(int), ios::beg); // 定位到第3个int数据处
     int value;
     file.read(reinterpret_cast<char*>(&value), sizeof(int));
-    ```
+```
 
 ### 七、字符串流 (String Streams)
 
@@ -1592,21 +1591,21 @@ category: 学习笔记
 * 在内存中的 `std::string` 对象上进行格式化的输入输出，行为类似文件流。
 * **`istringstream`**: 从字符串读取数据。
 
-    ```cpp
+```cpp
     string data = "10 20.5 Hello";
     istringstream iss(data);
     int i; double d; string s;
     iss >> i >> d >> s; // i=10, d=20.5, s="Hello"
-    ```
+```
 
 * **`ostringstream`**: 将数据格式化写入字符串。
 
-    ```cpp
+```cpp
     ostringstream oss;
     int age = 30; string name = "Alice";
     oss << "Name: " << name << ", Age: " << age;
     string result = oss.str(); // result = "Name: Alice, Age: 30"
-    ```
+```
 
 * **`stringstream`**: 支持从字符串读和向字符串写。
 
