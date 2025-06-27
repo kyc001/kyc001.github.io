@@ -19,15 +19,58 @@ const currentYear = new Date().getFullYear();
         <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/saicaca/fuwari">Fuwari</a>
     </div>
 </div>
-<div class="framework-info">
-    Powered by: 🪐 <a href="https://astro.build/">Astro</a> + <a href="https://github.com/saicaca/fuwari">Fuwari</a>✨
-   <br>
-   <!--不蒜子计数器-->
-   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-   <!--添加一个访问量-->
-   <span>本"<span style=" color: hsl(192 98% 55%); font-weight: bold; ">页面</span>"访问 <span id="busuanzi_value_page_pv" style=" color: hsl(192 98% 55%); font-weight: bold; "></span> 次 | 👀总访问 <span id="busuanzi_value_site_pv" style=" color: hsl(192 98% 55%); font-weight: bold; "></span> 次 | 总访客 <span id="busuanzi_value_site_uv" style=" color: hsl(192 98% 55%); font-weight: bold; "></span> 人</span>
-   <br>
-   <!--运行时间 -->
-   <script type="text/javascript">function runtime(){const t=new Date("09/01/2024 08:00:00"),n=new Date,s=n-t,e=Math.floor(s/1e3),o=Math.floor(e/86400),i=Math.floor(e%86400/3600),a=Math.floor(e%3600/60),r=e%60;document.getElementById("runningtime").innerHTML=`⏱️本站已运行: ${o}天${i}小时${a}分${r}秒 ☁️`}setInterval(runtime,1e3)</script>
-   <div class="transition text-50 text-sm text-center hidden md:block"><p id="runningtime"> </p></div>
-   </div>
+
+
+<div class="framework-info text-center py-4 space-y-2">
+    <div>
+    Powered by: 🪐 <a href="https://astro.build/" target="_blank" rel="noopener noreferrer" class="hover:text-primary">Astro</a> + 
+    <a href="https://github.com/saicaca/fuwari" target="_blank" rel="noopener noreferrer" class="hover:text-primary">Fuwari</a>✨
+    </div>
+
+    <div id="busuanzi_container">
+    <script is:inline async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <script is:inline>
+        document.addEventListener('swup:contentReplaced', () => {
+        if (window.busuanzi) {
+            window.busuanzi.fetch();
+        }
+        });
+    </script>
+
+    <span>
+        本"<span style="color: hsl(192 98% 55%); font-weight: bold;">页面</span>"访问 
+        <span id="busuanzi_value_page_pv" style="color: hsl(192 98% 55%); font-weight: bold;"></span> 次 |
+        👀总访问 <span id="busuanzi_value_site_pv" style="color: hsl(192 98% 55%); font-weight: bold;"></span> 次 |
+        总访客 <span id="busuanzi_value_site_uv" style="color: hsl(192 98% 55%); font-weight: bold;"></span> 人
+    </span>
+    </div>
+
+    <div>
+    <script is:inline type="text/javascript">
+        function runtime() {
+            const startTime = new Date("2024-09-01T08:00:00"); // 建议使用 ISO 8601 格式
+            const now = new Date();
+            const diff = now - startTime;
+            const secondsTotal = Math.floor(diff / 1000);
+
+            const days = Math.floor(secondsTotal / 86400);
+            const hours = Math.floor((secondsTotal % 86400) / 3600);
+            const minutes = Math.floor((secondsTotal % 3600) / 60);
+            const seconds = secondsTotal % 60;
+
+            const runningTimeEl = document.getElementById("runningtime");
+            if (runningTimeEl) {
+                runningTimeEl.innerHTML = `⏱️本站已运行: ${days}天${hours}小时${minutes}分${seconds}秒 ☁️`;
+            }
+        }
+        // 首次运行时立即调用一次，避免页面加载后延迟1秒才显示
+        runtime(); 
+        setInterval(runtime, 1000);
+        </script>
+        <div class="transition text-50 text-sm text-center hidden md:block">
+        <p id="runningtime">正在计算运行时间...</p>
+        </div>
+    </div>
+</div>
+
