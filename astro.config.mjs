@@ -119,7 +119,22 @@ export default defineConfig({
 			parseDirectiveNode,
 		],
 		rehypePlugins: [
-			rehypeKatex,
+			[
+				rehypeKatex,
+				{
+					strict: false,
+					trust: true,
+					throwOnError: false,
+					errorColor: "#cc0000",
+					macros: {
+						"\\RR": "\\mathbb{R}",
+						"\\NN": "\\mathbb{N}",
+						"\\ZZ": "\\mathbb{Z}",
+						"\\QQ": "\\mathbb{Q}",
+						"\\CC": "\\mathbb{C}",
+					},
+				},
+			],
 			rehypeSlug,
 			[
 				rehypeComponents,
