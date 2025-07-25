@@ -13,20 +13,28 @@ category: 指南
 
 (叠甲，我先前没有任何安装系统经验，也从没用过Linux，犯了很多低级错误)
 
+## 📋 内容概览
+
+- **一、Windows 11 尝试** - Windows 环境下的安装尝试和遇到的问题
+- **二、VMware 虚拟机尝试** - 虚拟机环境的限制和问题
+- **三、WSL (Windows Subsystem for Linux) 成功** - 最终成功的解决方案
+- **四、常见安装问题与解决方案** - CUTLASS 下载失败等常见问题的解决方法
+- **五、总结与经验** - 安装过程中的经验总结和建议
+
 ==================================================
 
 ## 系统配置信息 💻
 
 ==================================================
 
-* **操作系统**: Windows 11 Pro 24H2
-* **机器类型**: AMD64
-* **处理器**: 13th Gen Intel(R) Core(TM) i9-13900H 2.60 GHz
-* **总内存**: 31.73 GB
-* **GPU 1**: Intel(R) Iris(R) Xe Graphics
-* **GPU 2**: NVIDIA GeForce RTX 4060 Laptop GPU
-* **NVIDIA 驱动版本**: 572.83
-* **CUDA 版本 (宿主机)**: 12.8
+- **操作系统**: Windows 11 Pro 24H2
+- **机器类型**: AMD64
+- **处理器**: 13th Gen Intel(R) Core(TM) i9-13900H 2.60 GHz
+- **总内存**: 31.73 GB
+- **GPU 1**: Intel(R) Iris(R) Xe Graphics
+- **GPU 2**: NVIDIA GeForce RTX 4060 Laptop GPU
+- **NVIDIA 驱动版本**: 572.83
+- **CUDA 版本 (宿主机)**: 12.8
 
 ---
 
@@ -109,7 +117,7 @@ category: 指南
 
 4. **g++ 版本问题**:
     Jittor 在首次运行时会进行编译。此时遇到 `g++` 版本过低的问题。
-    * **解决方案**: 升级 `g++`。可以通过 `apt` 安装较新版本的 `g++` (例如 `g++-9`, `g++-10` 等，具体版本取决于 Jittor 的需求和 Ubuntu 22.04 的软件源)。如果安装了多个版本，可能需要使用 `update-alternatives` 来设置默认的 `g++` 版本。
+    - **解决方案**: 升级 `g++`。可以通过 `apt` 安装较新版本的 `g++` (例如 `g++-9`, `g++-10` 等，具体版本取决于 Jittor 的需求和 Ubuntu 22.04 的软件源)。如果安装了多个版本，可能需要使用 `update-alternatives` 来设置默认的 `g++` 版本。
 
         ```bash
         sudo apt update
@@ -119,7 +127,7 @@ category: 指南
         # sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 90
         ```
 
-    * 同时，确保新版 `g++` 的路径被正确添加到了系统环境变量 `PATH` 中，以便 Jittor 的编译脚本能够找到它。
+    - 同时，确保新版 `g++` 的路径被正确添加到了系统环境变量 `PATH` 中，以便 Jittor 的编译脚本能够找到它。
 
 5. **编译和测试**:
     解决 `g++` 版本问题后，Jittor 编译顺利通过。
@@ -133,16 +141,143 @@ category: 指南
 
 ---
 
-## 四、总结与经验 ✨
+## 四、常见安装问题与解决方案 🔧
 
-* **Windows 兼容性**: 在 Windows 上安装 Jittor 可能会遇到较多编译和环境兼容性问题，直接修改其底层代码风险较高，不建议新手轻易尝试。
-* **虚拟机 GPU**: 普通版本的 VMware Workstation (Player 或未授权 Pro) 对消费级 NVIDIA 显卡的 GPU Passthrough 支持有限，难以用于 CUDA 加速。
-* **WSL2 是优选**: 对于 Windows 用户，WSL2 是运行 Linux 环境和 Jittor 的更佳选择。
-  * **WSL GPU 驱动**: **切记** WSL2 会自动使用宿主机 Windows 的 NVIDIA 驱动。不要在 WSL 内部尝试安装 Linux 版的 NVIDIA 显卡驱动。确保宿主机驱动和 CUDA Toolkit (主要用于提供 `nvcc` 等编译工具和库，Jittor 可能会自带或下载特定版本) 是最新的。
-  * **CUDA in WSL**: Jittor 可能会在 WSL 环境中自动下载其适配的 CUDA toolkit，或者你可以遵循 NVIDIA 官方文档在 WSL 中安装 CUDA Toolkit (不含驱动部分)。
-* **依赖库版本**: 注意操作系统版本与所需依赖库（如 `libtinfo5`）的兼容性。较新的发行版可能移除了旧的库。
-* **编译器版本**: `g++` 等编译器版本对 Jittor 的编译至关重要，需确保版本符合 Jittor 要求。
-* **Python 版本**: Jittor 对 Python 版本有一定要求 (如示例中 Python 3.7 成功，3.9 失败)，建议查阅官方文档或使用其推荐的 Python 版本，并始终在**虚拟环境**中进行安装。
-* **耐心与排查**: 安装复杂软件时，遇到问题是常态。仔细阅读错误信息，查阅官方文档和社区讨论，逐步排查，是解决问题的关键。
+### 4.1 CUTLASS 下载失败问题
+
+**问题描述**: 在使用 `jittor.test_install()` 自动配置环境时，可能遇到以下错误：
+
+```text
+RuntimeError: MD5 mismatch between the server and the downloaded file /root/.cache/jittor/cutlass/cutlass.zip
+```
+
+**问题原因**:
+
+- CUTLASS 对应的清华网盘链接无法访问
+- 程序只创建了一个空的压缩包，导致 MD5 校验失败
+- GitHub 上的备用下载路径也可能无法访问
+
+**解决方案**:
+
+#### 方法一：手动替换下载链接
+
+1. **备份原文件**:
+
+   ```bash
+   cp /path/to/your/conda/envs/jt/lib/python3.7/site-packages/jittor/compile_extern.py /path/to/backup/jittor_compile_extern_bak.py
+   ```
+
+2. **获取新的下载链接和MD5**:
+   新的可用下载链接：`https://cg.cs.tsinghua.edu.cn/jittor/assets/cutlass.zip`
+
+3. **修改源码文件**:
+   编辑 `compile_extern.py` 文件，将原有的下载链接替换为新链接：
+
+   ```bash
+   # 找到你的 jittor 安装路径，通常在：
+   # /path/to/conda/envs/your_env/lib/python3.7/site-packages/jittor/compile_extern.py
+
+   # 使用 sed 命令替换下载链接
+   sed -i "s|https://cloud.tsinghua.edu.cn/f/171e49e5825549548bc4/?dl=1|https://cg.cs.tsinghua.edu.cn/jittor/assets/cutlass.zip|g" /path/to/your/jittor/compile_extern.py
+   ```
+
+4. **清除缓存并重新测试**:
+
+   ```bash
+   rm -rf ~/.cache/jittor/cutlass/
+   python -c "import jittor; jittor.test_install()"
+   ```
+
+#### 方法二：自动化脚本解决
+
+创建一个自动化脚本来处理这个问题：
+
+```bash
+#!/bin/bash
+
+# 自动修复 Jittor CUTLASS 下载问题
+# 使用方法：bash fix_jittor_cutlass.sh
+
+echo "🔧 开始修复 Jittor CUTLASS 下载问题..."
+
+# 检测 conda 环境
+if [ -z "$CONDA_DEFAULT_ENV" ]; then
+    echo "❌ 请先激活你的 conda 环境"
+    exit 1
+fi
+
+# 查找 jittor 安装路径
+JITTOR_PATH=$(python -c "import jittor; print(jittor.__file__)" 2>/dev/null | sed 's/__init__.py//')
+
+if [ -z "$JITTOR_PATH" ]; then
+    echo "❌ 未找到 Jittor 安装路径，请确保已安装 Jittor"
+    exit 1
+fi
+
+COMPILE_EXTERN_FILE="${JITTOR_PATH}compile_extern.py"
+
+echo "📍 找到 Jittor 路径: $JITTOR_PATH"
+
+# 备份原文件
+if [ -f "$COMPILE_EXTERN_FILE" ]; then
+    cp "$COMPILE_EXTERN_FILE" "${COMPILE_EXTERN_FILE}.backup.$(date +%Y%m%d_%H%M%S)"
+    echo "✅ 已备份原文件"
+else
+    echo "❌ 未找到 compile_extern.py 文件"
+    exit 1
+fi
+
+# 替换下载链接
+NEW_URL="https://cg.cs.tsinghua.edu.cn/jittor/assets/cutlass.zip"
+sed -i "s|https://cloud.tsinghua.edu.cn/f/171e49e5825549548bc4/?dl=1|$NEW_URL|g" "$COMPILE_EXTERN_FILE"
+
+echo "✅ 已更新下载链接为: $NEW_URL"
+
+# 清除缓存
+CACHE_DIR="$HOME/.cache/jittor/cutlass/"
+if [ -d "$CACHE_DIR" ]; then
+    rm -rf "$CACHE_DIR"
+    echo "✅ 已清除 CUTLASS 缓存"
+fi
+
+echo "🎉 修复完成！现在可以重新运行 jittor.test_install()"
+echo "💡 测试命令: python -c \"import jittor; jittor.test_install()\""
+```
+
+### 4.2 环境配置建议
+
+为了避免类似问题，建议使用以下命令创建专用环境：
+
+```bash
+# 创建包含必要编译工具的环境
+conda create -n rtdetr_env -c conda-forge python=3.7 gcc_linux-64 gxx_linux-64 -y
+conda activate rtdetr_env
+
+# 安装 Jittor
+pip install jittor
+
+# 测试安装
+python -c "import jittor; jittor.test_install()"
+```
+
+**注意事项**:
+
+- 使用 `conda-forge` 频道确保获取最新的编译工具
+- `gcc_linux-64` 和 `gxx_linux-64` 提供了必要的编译环境
+- Python 3.7 是经过验证的稳定版本
+
+---
+
+## 五、总结与经验 ✨
+
+- **Windows 兼容性**: 在 Windows 上安装 Jittor 可能会遇到较多编译和环境兼容性问题，直接修改其底层代码风险较高，不建议新手轻易尝试。
+- **虚拟机 GPU**: 普通版本的 VMware Workstation (Player 或未授权 Pro) 对消费级 NVIDIA 显卡的 GPU Passthrough 支持有限，难以用于 CUDA 加速。
+- **WSL2 是优选**: 对于 Windows 用户，WSL2 是运行 Linux 环境和 Jittor 的更佳选择。
+  - **WSL GPU 驱动**: **切记** WSL2 会自动使用宿主机 Windows 的 NVIDIA 驱动。不要在 WSL 内部尝试安装 Linux 版的 NVIDIA 显卡驱动。确保宿主机驱动和 CUDA Toolkit (主要用于提供 `nvcc` 等编译工具和库，Jittor 可能会自带或下载特定版本) 是最新的。
+  - **CUDA in WSL**: Jittor 可能会在 WSL 环境中自动下载其适配的 CUDA toolkit，或者你可以遵循 NVIDIA 官方文档在 WSL 中安装 CUDA Toolkit (不含驱动部分)。
+- **依赖库版本**: 注意操作系统版本与所需依赖库（如 `libtinfo5`）的兼容性。较新的发行版可能移除了旧的库。
+- **编译器版本**: `g++` 等编译器版本对 Jittor 的编译至关重要，需确保版本符合 Jittor 要求。
+- **Python 版本**: Jittor 对 Python 版本有一定要求 (如示例中 Python 3.7 成功，3.9 失败)，建议查阅官方文档或使用其推荐的 Python 版本，并始终在**虚拟环境**中进行安装。
+- **耐心与排查**: 安装复杂软件时，遇到问题是常态。仔细阅读错误信息，查阅官方文档和社区讨论，逐步排查，是解决问题的关键。
 
 至此，Jittor 总算在 WSL (Ubuntu 22.04 LTS + Python 3.7) 环境下成功安装并配置完毕，可以正常使用 GPU 进行加速了！🎉
