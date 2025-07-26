@@ -3,7 +3,7 @@ title: SVD与PCA
 published: 2025-7-26 15:53:33
 slug: SVD-and-PCA
 tags: ['深度学习', '机器学习', '线性代数']
-category: '学习笔记'
+category: '机器学习'
 draft: false
 image: ./bg.jpg
 ---

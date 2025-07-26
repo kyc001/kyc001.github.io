@@ -3,7 +3,7 @@ title: 线性回归与逻辑回归
 published: 2025-7-26 16:30:22
 slug: Linear-Regression-and-Logistic-Regression
 tags: ['深度学习', '机器学习', '统计学']
-category: '学习笔记'
+category: '机器学习'
 draft: false
 image: ./bg.jpg
 ---
