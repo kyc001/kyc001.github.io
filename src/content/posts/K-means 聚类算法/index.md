@@ -1,6 +1,6 @@
 ---
 title: K-means 聚类算法
-published: 2025-7-28 23:50:22
+published: 2025-7-27 23:50:22
 slug: k-means-clustering-algorithm
 tags: ['深度学习', '机器学习', '聚类算法', 'K-means']
 category: '机器学习'
@@ -264,3 +264,727 @@ print(cluster_analysis)
 ### 学习感悟
 
 K-means 是一个非常直观且高效的聚类算法，完美地展示了无监督学习的魅力——在没有答案的情况下发现数据中隐藏的模式。从理论推导的 E-M 步骤，到如何选择 $K$ 值的各种权衡，再到最终如何将聚类结果转化为有价值的商业洞察，整个过程构成了一个完整的、从数据到决策的闭环。虽然它有局限性，但作为探索性数据分析的第一步，K-means 无疑是强大且不可或缺的工具。
+
+---
+
+## 第二部分：K-means算法的数学理论深入
+
+### 2.1 距离度量与相似性函数
+
+#### 2.1.1 欧几里得距离的数学性质
+
+K-means算法默认使用欧几里得距离作为相似性度量，其数学定义为：
+
+$$d(\mathbf{x}_i, \mathbf{x}_j) = \|\mathbf{x}_i - \mathbf{x}_j\|_2 = \sqrt{\sum_{k=1}^{d}(x_{ik} - x_{jk})^2}$$
+
+**欧几里得距离的重要性质：**
+
+1. **非负性**：$d(\mathbf{x}_i, \mathbf{x}_j) \geq 0$，当且仅当 $\mathbf{x}_i = \mathbf{x}_j$ 时等于0
+2. **对称性**：$d(\mathbf{x}_i, \mathbf{x}_j) = d(\mathbf{x}_j, \mathbf{x}_i)$
+3. **三角不等式**：$d(\mathbf{x}_i, \mathbf{x}_k) \leq d(\mathbf{x}_i, \mathbf{x}_j) + d(\mathbf{x}_j, \mathbf{x}_k)$
+
+#### 2.1.2 其他距离度量
+
+虽然K-means通常使用欧几里得距离，但在特定应用中可以考虑其他距离度量：
+
+**曼哈顿距离（L1范数）：**
+$$d_1(\mathbf{x}_i, \mathbf{x}_j) = \sum_{k=1}^{d}|x_{ik} - x_{jk}|$$
+
+**闵可夫斯基距离（Lp范数）：**
+$$d_p(\mathbf{x}_i, \mathbf{x}_j) = \left(\sum_{k=1}^{d}|x_{ik} - x_{jk}|^p\right)^{1/p}$$
+
+**马哈拉诺比斯距离：**
+$$d_M(\mathbf{x}_i, \mathbf{x}_j) = \sqrt{(\mathbf{x}_i - \mathbf{x}_j)^T\mathbf{S}^{-1}(\mathbf{x}_i - \mathbf{x}_j)}$$
+
+其中 $\mathbf{S}$ 是协方差矩阵，该距离考虑了特征间的相关性。
+
+### 2.2 目标函数的数学分析
+
+#### 2.2.1 目标函数的凸性分析
+
+K-means的目标函数可以重写为：
+
+$$J(\mathbf{C}, \mathbf{M}) = \sum_{i=1}^{n}\min_{k=1,\ldots,K}\|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2$$
+
+其中 $\mathbf{C} = \{C_1, C_2, \ldots, C_K\}$ 表示簇的划分，$\mathbf{M} = \{\boldsymbol{\mu}_1, \boldsymbol{\mu}_2, \ldots, \boldsymbol{\mu}_K\}$ 表示簇中心。
+
+**重要性质：**
+
+1. **关于簇中心的凸性**：固定簇划分 $\mathbf{C}$ 时，目标函数关于簇中心 $\mathbf{M}$ 是凸函数
+2. **关于簇划分的非凸性**：固定簇中心 $\mathbf{M}$ 时，目标函数关于簇划分 $\mathbf{C}$ 是非凸的
+3. **整体非凸性**：联合优化问题是非凸的，存在多个局部最优解
+
+#### 2.2.2 最优性条件
+
+**簇中心的最优性条件：**
+对于固定的簇划分，最优簇中心满足：
+$$\frac{\partial J}{\partial \boldsymbol{\mu}_k} = -2\sum_{i \in C_k}(\mathbf{x}_i - \boldsymbol{\mu}_k) = 0$$
+
+解得：
+$$\boldsymbol{\mu}_k^* = \frac{1}{|C_k|}\sum_{i \in C_k}\mathbf{x}_i$$
+
+这证明了最优簇中心就是簇内所有点的质心（均值）。
+
+**簇划分的最优性条件：**
+对于固定的簇中心，最优簇划分满足：
+$$C_k^* = \{i : \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2 \leq \|\mathbf{x}_i - \boldsymbol{\mu}_j\|^2, \forall j \neq k\}$$
+
+即每个点应该分配给距离最近的簇中心。
+
+### 2.3 收敛性理论分析
+
+#### 2.3.1 收敛性证明
+
+**定理**：K-means算法在有限步内收敛到局部最优解。
+
+**证明思路：**
+
+1. **目标函数单调性**：每次迭代后，目标函数值 $J$ 单调递减或保持不变
+   * E步：固定簇中心，重新分配点到最近簇，必然使 $J$ 减小或不变
+   * M步：固定簇划分，更新簇中心为质心，必然使 $J$ 减小或不变
+
+2. **有界性**：目标函数 $J \geq 0$，有下界
+
+3. **有限状态空间**：对于有限数据集，可能的簇划分数量有限
+
+4. **严格递减性**：除非已达到局部最优，否则每次迭代 $J$ 严格递减
+
+因此，算法必在有限步内收敛到某个局部最优解。
+
+#### 2.3.2 收敛速度分析
+
+**线性收敛率**：在一般情况下，K-means具有线性收敛速度：
+$$J^{(t+1)} - J^* \leq \rho(J^{(t)} - J^*)$$
+
+其中 $0 < \rho < 1$ 是收敛因子，$J^*$ 是局部最优值。
+
+**影响收敛速度的因素：**
+
+1. **初始化质量**：好的初始化可以显著减少迭代次数
+2. **数据分布**：簇间分离度越高，收敛越快
+3. **维度诅咒**：高维数据可能导致收敛变慢
+4. **簇的数量**：K值过大可能影响收敛稳定性
+
+### 2.4 K-means++初始化算法
+
+#### 2.4.1 算法动机
+
+标准K-means对初始化敏感，随机初始化可能导致：
+
+* 收敛到较差的局部最优解
+* 需要更多迭代次数
+* 结果不稳定
+
+K-means++通过智能初始化策略解决这些问题。
+
+#### 2.4.2 算法描述
+
+**K-means++初始化步骤：**
+
+1. **选择第一个中心**：从数据点中均匀随机选择第一个簇中心 $\boldsymbol{\mu}_1$
+
+2. **迭代选择后续中心**：对于 $i = 2, 3, \ldots, K$：
+   * 计算每个点 $\mathbf{x}_j$ 到最近已选中心的距离：
+     $$D(\mathbf{x}_j) = \min_{l=1,\ldots,i-1}\|\mathbf{x}_j - \boldsymbol{\mu}_l\|^2$$
+   * 以概率正比于 $D(\mathbf{x}_j)^2$ 选择下一个中心：
+     $$P(\mathbf{x}_j) = \frac{D(\mathbf{x}_j)^2}{\sum_{k=1}^{n}D(\mathbf{x}_k)^2}$$
+
+#### 2.4.3 理论保证
+
+**近似比定理**：K-means++初始化保证期望目标函数值不超过最优解的 $O(\log K)$ 倍：
+
+$$\mathbb{E}[J_{\text{K-means++}}] \leq 8(\log K + 2) \cdot J_{\text{OPT}}$$
+
+这个理论保证使K-means++成为实际应用中的标准选择。
+
+### 2.5 算法复杂度分析
+
+#### 2.5.1 时间复杂度
+
+**单次迭代复杂度：**
+
+* E步（分配）：$O(nKd)$，需要计算每个点到每个中心的距离
+* M步（更新）：$O(nd)$，计算新的簇中心
+
+**总时间复杂度：**
+$$O(nKdt)$$
+
+其中：
+
+* $n$：样本数量
+* $K$：簇的数量
+* $d$：特征维度
+* $t$：迭代次数
+
+#### 2.5.2 空间复杂度
+
+**存储需求：**
+
+* 数据矩阵：$O(nd)$
+* 簇中心：$O(Kd)$
+* 簇分配：$O(n)$
+
+**总空间复杂度：**$O(nd + Kd) = O((n+K)d)$
+
+#### 2.5.3 优化策略
+
+**加速技术：**
+
+1. **三角不等式加速**：利用三角不等式减少距离计算
+2. **KD树加速**：在低维空间中使用KD树加速最近邻搜索
+3. **Mini-batch K-means**：使用小批量数据进行更新，适合大规模数据
+4. **并行化**：E步和M步都可以并行化处理
+
+## 第三部分：K-means算法的变种与扩展
+
+### 3.1 K-medoids算法（PAM）
+
+#### 3.1.1 算法动机
+
+K-means使用均值作为簇中心，存在以下问题：
+
+* 对异常值敏感
+* 簇中心可能不是实际数据点
+* 只适用于数值型数据
+
+K-medoids（也称PAM，Partitioning Around Medoids）使用实际数据点作为簇中心。
+
+#### 3.1.2 算法描述
+
+**目标函数：**
+$$J = \sum_{i=1}^{n}\min_{k=1,\ldots,K}d(\mathbf{x}_i, \mathbf{m}_k)$$
+
+其中 $\mathbf{m}_k$ 是第k个簇的medoid（中位点），必须是数据集中的实际点。
+
+**算法步骤：**
+
+1. **初始化**：随机选择K个数据点作为初始medoids
+2. **分配步**：将每个点分配给最近的medoid
+3. **更新步**：对每个簇，选择使簇内总距离最小的点作为新medoid：
+   $$\mathbf{m}_k = \arg\min_{\mathbf{x}_j \in C_k}\sum_{\mathbf{x}_i \in C_k}d(\mathbf{x}_i, \mathbf{x}_j)$$
+
+#### 3.1.3 优缺点分析
+
+**优点：**
+
+* 对异常值更鲁棒
+* 簇中心是实际数据点，更有解释性
+* 可以使用任意距离度量
+
+**缺点：**
+
+* 时间复杂度更高：$O(n^2Kt)$
+* 在大数据集上计算成本昂贵
+
+### 3.2 Fuzzy C-means算法
+
+#### 3.2.1 软聚类的概念
+
+传统K-means进行硬聚类，每个点只属于一个簇。Fuzzy C-means引入模糊集合理论，允许每个点以不同程度属于多个簇。
+
+#### 3.2.2 数学模型
+
+**隶属度矩阵**：定义隶属度矩阵 $\mathbf{U} = [u_{ik}]_{n \times K}$，其中 $u_{ik}$ 表示点 $\mathbf{x}_i$ 属于簇 $k$ 的程度。
+
+**约束条件：**
+
+1. $0 \leq u_{ik} \leq 1$，$\forall i, k$
+2. $\sum_{k=1}^{K} u_{ik} = 1$，$\forall i$
+3. $0 < \sum_{i=1}^{n} u_{ik} < n$，$\forall k$
+
+**目标函数：**
+$$J_m = \sum_{i=1}^{n}\sum_{k=1}^{K} u_{ik}^m \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2$$
+
+其中 $m > 1$ 是模糊化参数，控制聚类的"软"程度。
+
+#### 3.2.3 优化算法
+
+使用拉格朗日乘数法，可以得到更新公式：
+
+**隶属度更新：**
+$$u_{ik} = \frac{1}{\sum_{j=1}^{K}\left(\frac{\|\mathbf{x}_i - \boldsymbol{\mu}_k\|}{\|\mathbf{x}_i - \boldsymbol{\mu}_j\|}\right)^{\frac{2}{m-1}}}$$
+
+**簇中心更新：**
+$$\boldsymbol{\mu}_k = \frac{\sum_{i=1}^{n} u_{ik}^m \mathbf{x}_i}{\sum_{i=1}^{n} u_{ik}^m}$$
+
+### 3.3 Mini-batch K-means
+
+#### 3.3.1 大数据挑战
+
+标准K-means在处理大规模数据时面临挑战：
+
+* 内存需求：需要将所有数据加载到内存
+* 计算成本：每次迭代需要遍历所有数据点
+* 收敛速度：大数据集可能需要更多迭代
+
+#### 3.3.2 Mini-batch策略
+
+**核心思想**：每次迭代只使用数据的一个小批量（mini-batch）进行更新。
+
+**算法步骤：**
+
+1. **初始化**：选择初始簇中心
+2. **采样**：随机采样大小为 $b$ 的mini-batch
+3. **分配**：将mini-batch中的点分配给最近的簇中心
+4. **更新**：使用学习率 $\eta$ 更新簇中心：
+   $$\boldsymbol{\mu}_k^{(t+1)} = (1-\eta)\boldsymbol{\mu}_k^{(t)} + \eta \cdot \frac{1}{|C_k|}\sum_{\mathbf{x}_i \in C_k}\mathbf{x}_i$$
+
+#### 3.3.3 学习率设计
+
+**自适应学习率**：
+$$\eta_k = \frac{|C_k|}{|C_k| + \text{count}_k}$$
+
+其中 $\text{count}_k$ 是簇 $k$ 在历史中被更新的次数。
+
+**优势分析：**
+
+* 时间复杂度：$O(bKdt)$，其中 $b \ll n$
+* 内存复杂度：$O(bd + Kd)$
+* 适合在线学习和流数据处理
+
+### 3.4 核K-means算法
+
+#### 3.4.1 非线性聚类需求
+
+标准K-means假设簇是球形的，无法处理复杂的非线性结构。核K-means通过核技巧将数据映射到高维特征空间。
+
+#### 3.4.2 核函数与特征映射
+
+**核函数定义**：$\kappa(\mathbf{x}_i, \mathbf{x}_j) = \langle\phi(\mathbf{x}_i), \phi(\mathbf{x}_j)\rangle$
+
+**常用核函数：**
+
+1. **多项式核**：$\kappa(\mathbf{x}_i, \mathbf{x}_j) = (\mathbf{x}_i^T\mathbf{x}_j + c)^d$
+2. **RBF核**：$\kappa(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma\|\mathbf{x}_i - \mathbf{x}_j\|^2)$
+3. **Sigmoid核**：$\kappa(\mathbf{x}_i, \mathbf{x}_j) = \tanh(\alpha\mathbf{x}_i^T\mathbf{x}_j + c)$
+
+#### 3.4.3 核K-means目标函数
+
+在特征空间中，目标函数变为：
+$$J = \sum_{i=1}^{n}\min_{k=1,\ldots,K}\|\phi(\mathbf{x}_i) - \boldsymbol{\mu}_k^{\phi}\|^2$$
+
+其中 $\boldsymbol{\mu}_k^{\phi} = \frac{1}{|C_k|}\sum_{i \in C_k}\phi(\mathbf{x}_i)$ 是特征空间中的簇中心。
+
+**距离计算**：
+$$\|\phi(\mathbf{x}_i) - \boldsymbol{\mu}_k^{\phi}\|^2 = \kappa(\mathbf{x}_i, \mathbf{x}_i) - \frac{2}{|C_k|}\sum_{j \in C_k}\kappa(\mathbf{x}_i, \mathbf{x}_j) + \frac{1}{|C_k|^2}\sum_{j,l \in C_k}\kappa(\mathbf{x}_j, \mathbf{x}_l)$$
+
+## 第四部分：聚类评估与验证
+
+### 4.1 内部评估指标
+
+#### 4.1.1 轮廓系数（Silhouette Coefficient）
+
+**定义**：对于点 $\mathbf{x}_i$，其轮廓系数为：
+$$s_i = \frac{b_i - a_i}{\max(a_i, b_i)}$$
+
+其中：
+
+* $a_i$：点 $i$ 到同簇其他点的平均距离
+* $b_i$：点 $i$ 到最近异簇所有点的平均距离
+
+**数学表达：**
+$$a_i = \frac{1}{|C_k|-1}\sum_{j \in C_k, j \neq i}d(\mathbf{x}_i, \mathbf{x}_j)$$
+$$b_i = \min_{l \neq k}\frac{1}{|C_l|}\sum_{j \in C_l}d(\mathbf{x}_i, \mathbf{x}_j)$$
+
+**整体轮廓系数**：
+$$S = \frac{1}{n}\sum_{i=1}^{n}s_i$$
+
+**取值范围**：$s_i \in [-1, 1]$
+
+* $s_i$ 接近1：聚类效果好
+* $s_i$ 接近0：点在簇边界上
+* $s_i$ 接近-1：点可能被分配到错误的簇
+
+#### 4.1.2 Calinski-Harabasz指数
+
+**定义**：
+$$CH = \frac{\text{tr}(B_K)}{\text{tr}(W_K)} \cdot \frac{n-K}{K-1}$$
+
+其中：
+
+* $B_K$：簇间散布矩阵
+* $W_K$：簇内散布矩阵
+
+**数学表达：**
+$$B_K = \sum_{k=1}^{K}|C_k|(\boldsymbol{\mu}_k - \boldsymbol{\mu})(\boldsymbol{\mu}_k - \boldsymbol{\mu})^T$$
+$$W_K = \sum_{k=1}^{K}\sum_{i \in C_k}(\mathbf{x}_i - \boldsymbol{\mu}_k)(\mathbf{x}_i - \boldsymbol{\mu}_k)^T$$
+
+其中 $\boldsymbol{\mu} = \frac{1}{n}\sum_{i=1}^{n}\mathbf{x}_i$ 是全局均值。
+
+**解释**：CH指数越大，表示簇间分离度越高，簇内紧密度越高。
+
+#### 4.1.3 Davies-Bouldin指数
+
+**定义**：
+$$DB = \frac{1}{K}\sum_{k=1}^{K}\max_{l \neq k}\left(\frac{\sigma_k + \sigma_l}{d(\boldsymbol{\mu}_k, \boldsymbol{\mu}_l)}\right)$$
+
+其中：
+
+* $\sigma_k = \frac{1}{|C_k|}\sum_{i \in C_k}\|\mathbf{x}_i - \boldsymbol{\mu}_k\|$：簇内平均距离
+* $d(\boldsymbol{\mu}_k, \boldsymbol{\mu}_l)$：簇中心间距离
+
+**解释**：DB指数越小，表示聚类效果越好。
+
+### 4.2 外部评估指标
+
+#### 4.2.1 调整兰德指数（Adjusted Rand Index, ARI）
+
+当有真实标签时，可以使用外部指标评估聚类效果。
+
+**兰德指数**：
+$$RI = \frac{TP + TN}{TP + FP + FN + TN}$$
+
+其中：
+
+* TP：同簇且同类的点对数
+* TN：异簇且异类的点对数
+* FP：同簇但异类的点对数
+* FN：异簇但同类的点对数
+
+**调整兰德指数**：
+$$ARI = \frac{RI - E[RI]}{\max(RI) - E[RI]}$$
+
+ARI的取值范围为[-1, 1]，值越大表示聚类效果越好。
+
+#### 4.2.2 归一化互信息（Normalized Mutual Information, NMI）
+
+**互信息**：
+$$MI(C, T) = \sum_{k=1}^{K}\sum_{l=1}^{L}P(k,l)\log\frac{P(k,l)}{P(k)P(l)}$$
+
+其中C是聚类结果，T是真实标签。
+
+**归一化互信息**：
+$$NMI = \frac{MI(C, T)}{\sqrt{H(C) \cdot H(T)}}$$
+
+NMI的取值范围为[0, 1]，值越大表示聚类效果越好。
+
+## 第五部分：实际应用技巧与最佳实践
+
+### 5.1 数据预处理策略
+
+#### 5.1.1 特征标准化
+
+**问题**：不同特征的量纲和数值范围差异很大时，欧几里得距离会被大数值特征主导。
+
+**解决方案**：
+
+1. **Z-score标准化**：
+   $$\mathbf{x}_i^{(j)} = \frac{x_i^{(j)} - \mu^{(j)}}{\sigma^{(j)}}$$
+
+2. **Min-Max标准化**：
+   $$\mathbf{x}_i^{(j)} = \frac{x_i^{(j)} - \min^{(j)}}{\max^{(j)} - \min^{(j)}}$$
+
+3. **鲁棒标准化**：
+   $$\mathbf{x}_i^{(j)} = \frac{x_i^{(j)} - \text{median}^{(j)}}{\text{IQR}^{(j)}}$$
+
+#### 5.1.2 异常值处理
+
+**检测方法**：
+
+1. **统计方法**：3σ原则，IQR方法
+2. **基于距离**：局部异常因子（LOF）
+3. **基于密度**：DBSCAN预处理
+
+**处理策略**：
+
+* 删除异常值
+* 异常值截断（Winsorization）
+* 使用鲁棒的聚类算法（如K-medoids）
+
+#### 5.1.3 维度降维
+
+**高维数据的挑战**：
+
+* 维度诅咒：高维空间中距离失去区分性
+* 计算复杂度增加
+* 噪声特征影响
+
+**降维方法**：
+
+1. **主成分分析（PCA）**：
+   $$\mathbf{Y} = \mathbf{X}\mathbf{W}$$
+   其中W是主成分矩阵
+
+2. **t-SNE**：适合可视化，保持局部结构
+3. **UMAP**：保持全局和局部结构
+4. **特征选择**：基于方差、相关性或模型的特征选择
+
+### 5.2 K值选择的高级方法
+
+#### 5.2.1 信息准则方法
+
+**贝叶斯信息准则（BIC）**：
+$$BIC(K) = -2\ln(L) + K \cdot \ln(n)$$
+
+其中L是似然函数，第二项是复杂度惩罚。
+
+**赤池信息准则（AIC）**：
+$$AIC(K) = -2\ln(L) + 2K$$
+
+选择使BIC或AIC最小的K值。
+
+#### 5.2.2 Gap统计量
+
+**定义**：
+$$\text{Gap}(K) = \mathbb{E}[\log(W_K^*)] - \log(W_K)$$
+
+其中：
+
+* $W_K$：实际数据的簇内平方和
+* $W_K^*$：参考分布（如均匀分布）的簇内平方和
+
+**算法步骤**：
+
+1. 对每个K，计算实际数据的$W_K$
+2. 生成B个参考数据集，计算$W_K^{*(b)}$
+3. 计算Gap统计量和标准误差
+4. 选择满足Gap(K) ≥ Gap(K+1) - s_{K+1}的最小K
+
+#### 5.2.3 X-means算法
+
+**核心思想**：自动确定K值，通过BIC准则决定是否分裂簇。
+
+**算法流程**：
+
+1. 从K=1开始运行K-means
+2. 对每个簇，尝试分裂为两个子簇
+3. 使用BIC准则判断分裂是否改善模型
+4. 重复直到没有簇需要分裂
+
+### 5.3 处理特殊数据类型
+
+#### 5.3.1 类别型数据聚类
+
+**K-modes算法**：
+
+**距离度量**：使用汉明距离
+$$d(\mathbf{x}_i, \mathbf{x}_j) = \sum_{l=1}^{d}\delta(x_{il}, x_{jl})$$
+
+其中$\delta(a,b) = 0$如果$a=b$，否则为1。
+
+**簇中心**：使用众数而非均值
+$$\text{mode}_k^{(l)} = \arg\max_{v}\sum_{i \in C_k}\mathbf{1}(x_i^{(l)} = v)$$
+
+#### 5.3.2 混合数据类型
+
+**K-prototypes算法**：结合K-means和K-modes
+
+**距离度量**：
+$$d(\mathbf{x}_i, \mathbf{x}_j) = \sum_{l=1}^{d_n}(x_{il}^{(n)} - x_{jl}^{(n)})^2 + \gamma\sum_{l=1}^{d_c}\delta(x_{il}^{(c)}, x_{jl}^{(c)})$$
+
+其中$\gamma$是权重参数，平衡数值型和类别型特征的贡献。
+
+### 5.4 大规模数据处理
+
+#### 5.4.1 分布式K-means
+
+**MapReduce框架**：
+
+**Map阶段**：
+
+* 输入：数据分片和当前簇中心
+* 输出：(簇ID, 点的坐标和计数)
+
+**Reduce阶段**：
+
+* 输入：同一簇的所有点
+* 输出：新的簇中心
+
+**Spark实现**：
+
+```python
+# 伪代码
+def distributed_kmeans(data_rdd, k, max_iter):
+    centers = initialize_centers(k)
+
+    for iteration in range(max_iter):
+        # 广播簇中心
+        broadcast_centers = spark.broadcast(centers)
+
+        # 分配点到最近簇
+        assignments = data_rdd.map(lambda x: assign_to_cluster(x, broadcast_centers.value))
+
+        # 计算新簇中心
+        new_centers = assignments.reduceByKey(lambda a, b: combine_points(a, b)) \
+                                .map(lambda x: compute_center(x))
+
+        centers = new_centers.collect()
+```
+
+#### 5.4.2 在线K-means
+
+**流数据处理**：
+
+**算法特点**：
+
+* 数据逐个到达，无法存储所有历史数据
+* 需要实时更新簇中心
+* 内存使用固定
+
+**更新策略**：
+$$\boldsymbol{\mu}_k^{(t+1)} = \frac{n_k^{(t)}\boldsymbol{\mu}_k^{(t)} + \mathbf{x}_{new}}{n_k^{(t)} + 1}$$
+
+其中$n_k^{(t)}$是簇k在时刻t的点数。
+
+## 第六部分：实际项目案例分析
+
+### 6.1 客户细分案例
+
+#### 6.1.1 业务背景
+
+**目标**：基于客户行为数据进行市场细分，制定差异化营销策略。
+
+**数据特征**：
+
+* 人口统计学特征：年龄、性别、收入、教育水平
+* 行为特征：购买频率、平均订单金额、品类偏好
+* 时间特征：客户生命周期、最近购买时间
+
+#### 6.1.2 技术实现
+
+**特征工程**：
+
+1. **RFM分析**：
+   * Recency：最近购买时间
+   * Frequency：购买频率
+   * Monetary：购买金额
+
+2. **特征变换**：
+
+   ```python
+   # 对数变换处理偏态分布
+   df['log_monetary'] = np.log1p(df['monetary'])
+
+   # 标准化处理
+   scaler = StandardScaler()
+   features_scaled = scaler.fit_transform(features)
+   ```
+
+**聚类分析**：
+
+```python
+# K值选择
+inertias = []
+silhouette_scores = []
+K_range = range(2, 11)
+
+for k in K_range:
+    kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
+    kmeans.fit(features_scaled)
+    inertias.append(kmeans.inertia_)
+    silhouette_scores.append(silhouette_score(features_scaled, kmeans.labels_))
+
+# 最终聚类
+optimal_k = 5
+kmeans = KMeans(n_clusters=optimal_k, random_state=42)
+cluster_labels = kmeans.fit_predict(features_scaled)
+```
+
+#### 6.1.3 结果解释
+
+**簇特征分析**：
+
+| 簇ID | 客户类型     | 特征描述     | 营销策略            |
+| ---- | ------------ | ------------ | ------------------- |
+| 0    | 高价值客户   | 高频高额购买 | VIP服务，个性化推荐 |
+| 1    | 潜力客户     | 中频中额购买 | 促销活动，品类扩展  |
+| 2    | 新客户       | 低频低额购买 | 欢迎礼包，引导购买  |
+| 3    | 流失风险客户 | 长时间未购买 | 召回活动，优惠券    |
+| 4    | 价格敏感客户 | 促销时购买   | 定向折扣，限时优惠  |
+
+### 6.2 图像分割案例
+
+#### 6.2.1 技术原理
+
+**颜色空间聚类**：将图像像素在颜色空间中进行聚类，实现图像分割。
+
+**算法流程**：
+
+1. 将图像从RGB转换到Lab颜色空间
+2. 提取像素的颜色特征
+3. 使用K-means进行聚类
+4. 将聚类结果映射回图像
+
+#### 6.2.2 代码实现
+
+```python
+import cv2
+import numpy as np
+from sklearn.cluster import KMeans
+
+def image_segmentation(image_path, k=3):
+    # 读取图像
+    image = cv2.imread(image_path)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2LAB)
+
+    # 重塑为二维数组
+    pixel_values = image.reshape((-1, 3))
+    pixel_values = np.float32(pixel_values)
+
+    # K-means聚类
+    kmeans = KMeans(n_clusters=k, random_state=42)
+    labels = kmeans.fit_predict(pixel_values)
+    centers = kmeans.cluster_centers_
+
+    # 将聚类结果映射回图像
+    centers = np.uint8(centers)
+    segmented_data = centers[labels.flatten()]
+    segmented_image = segmented_data.reshape(image.shape)
+
+    return segmented_image
+```
+
+### 6.3 文档聚类案例
+
+#### 6.3.1 文本预处理
+
+**TF-IDF特征提取**：
+$$\text{TF-IDF}(t,d) = \text{TF}(t,d) \times \text{IDF}(t)$$
+
+其中：
+$$\text{TF}(t,d) = \frac{\text{count}(t,d)}{\sum_{t' \in d}\text{count}(t',d)}$$
+$$\text{IDF}(t) = \log\frac{N}{|\{d : t \in d\}|}$$
+
+**降维处理**：
+使用截断SVD（LSA）降维：
+$$\mathbf{X} \approx \mathbf{U}_k\mathbf{\Sigma}_k\mathbf{V}_k^T$$
+
+#### 6.3.2 聚类效果评估
+
+**主题一致性**：使用困惑度和主题连贯性评估聚类质量。
+
+**可视化分析**：使用t-SNE将高维文档向量投影到2D空间进行可视化。
+
+## 学习总结与思考
+
+### 算法优势与局限性
+
+**K-means的优势：**
+
+1. **简单高效**：算法原理直观，实现简单，计算复杂度低
+2. **可扩展性**：适合大规模数据处理，有多种优化变种
+3. **广泛适用**：在多个领域都有成功应用案例
+4. **理论基础**：有完整的数学理论支撑
+
+**主要局限性：**
+
+1. **K值选择**：需要预先指定簇数，缺乏自适应性
+2. **形状假设**：假设簇是球形的，无法处理复杂形状
+3. **初始化敏感**：结果依赖于初始化，可能陷入局部最优
+4. **异常值敏感**：均值计算容易受异常值影响
+
+### 实际应用建议
+
+1. **数据预处理至关重要**：标准化、异常值处理、降维等步骤直接影响聚类效果
+2. **多种方法结合**：使用多个指标选择K值，结合领域知识验证结果
+3. **算法选择**：根据数据特点选择合适的变种算法
+4. **结果解释**：聚类结果需要结合业务背景进行解释和验证
+
+### 未来发展方向
+
+1. **深度聚类**：结合深度学习的端到端聚类方法
+2. **自适应聚类**：能够自动确定簇数和形状的算法
+3. **多模态聚类**：处理图像、文本、音频等多种数据类型
+4. **增量学习**：支持在线学习和概念漂移的聚类算法
+
+K-means作为聚类分析的基石算法，虽然有其局限性，但其简单性和有效性使其在实际应用中仍然占据重要地位。通过深入理解其数学原理、掌握各种变种算法、熟练运用评估方法，我们能够在实际项目中更好地发挥其价值。
