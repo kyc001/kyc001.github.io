@@ -23,7 +23,7 @@ image: ./bg.jpg
 
 在学习线性SVM时，我们总是假设数据是线性可分的。但现实中的数据往往是这样的：
 
-```
+```text
 线性不可分的典型案例：
 
 情况1: 同心圆数据
@@ -46,7 +46,7 @@ image: ./bg.jpg
     ●○○○○
 ```
 
-*图1：典型的线性不可分数据分布*
+##### 图1：典型的线性不可分数据分布
 
 对于这些数据，传统的线性分类器完全无能为力。这时就需要**核技巧（Kernel Trick）**的帮助。
 
@@ -138,14 +138,18 @@ $$K(\mathbf{x}_i, \mathbf{x}_j) = \tanh(\gamma\mathbf{x}_i^T\mathbf{x}_j + r)$$
 
 **Mercer条件：**
 核矩阵 $\mathbf{K}$ 必须是**半正定**的，即对于任意的 $\{x_1, x_2, \ldots, x_n\}$：
-$$\mathbf{K} = \begin{bmatrix}
-K(x_1,x_1) & K(x_1,x_2) & \cdots & K(x_1,x_n) \\
-K(x_2,x_1) & K(x_2,x_2) & \cdots & K(x_2,x_n) \\
-\vdots & \vdots & \ddots & \vdots \\
+
+$$
+\mathbf{K} = \begin{bmatrix}
+K(x_1,x_1) & K(x_1,x_2) & \cdots & K(x_1,x_n) \\\\
+K(x_2,x_1) & K(x_2,x_2) & \cdots & K(x_2,x_n) \\\\
+\vdots & \vdots & \ddots & \vdots \\\\
 K(x_n,x_1) & K(x_n,x_2) & \cdots & K(x_n,x_n)
-\end{bmatrix} \succeq 0$$
+\end{bmatrix} \succeq 0
+$$
 
 **核函数的组合规则：**
+
 1. 如果 $K_1$ 和 $K_2$ 是核函数，则 $K_1 + K_2$ 也是核函数
 2. 如果 $K$ 是核函数，$c > 0$，则 $cK$ 也是核函数
 3. 如果 $K_1$ 和 $K_2$ 是核函数，则 $K_1 \cdot K_2$ 也是核函数
@@ -154,7 +158,7 @@ K(x_n,x_1) & K(x_n,x_2) & \cdots & K(x_n,x_n)
 
 为了更深入理解核函数的工作原理，我尝试实现了一个简化版的核SVM：
 
-````python
+```python
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_circles, make_moons
@@ -256,7 +260,7 @@ class KernelSVM:
         """返回到决策边界的距离"""
         K = self.compute_kernel_matrix(X, self.support_vectors)
         return np.dot(K, self.alphas) + self.b
-````
+```
 
 ### 1.3 不同核函数效果的可视化对比
 
@@ -335,6 +339,7 @@ visualize_kernel_effects()
 *表1：不同核函数在各种数据类型上的性能表现*
 
 从实验结果可以看出：
+
 - **RBF核**：在非线性数据上表现最好，是最常用的选择
 - **线性核**：在线性可分或高维稀疏数据上表现最好
 - **多项式核**：介于两者之间，但参数调优较复杂
@@ -352,6 +357,7 @@ C控制对误分类的惩罚程度，在对偶问题中体现为约束条件：
 $$0 \leq \alpha_i \leq C$$
 
 **参数影响：**
+
 - **C值大**：对误分类惩罚严厉，模型复杂，容易过拟合
 - **C值小**：允许更多误分类，模型简单，可能欠拟合
 
@@ -385,6 +391,7 @@ def plot_C_effect():
 $$K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma \|\mathbf{x}_i - \mathbf{x}_j\|^2)$$
 
 **参数影响：**
+
 - **γ值大**：影响范围窄，决策边界复杂，易过拟合
 - **γ值小**：影响范围广，决策边界平滑，可能欠拟合
 
@@ -696,6 +703,7 @@ def multi_objective_optimization(X, y):
 作为SVM的实际应用，我选择实现一个新闻文本分类系统。这个项目能很好地展示SVM在高维稀疏数据上的优势。
 
 **项目目标：**
+
 - 实现完整的文本预处理流程
 - 比较不同核函数在文本分类上的效果
 - 使用交叉验证选择最佳参数
