@@ -49,13 +49,13 @@ const totalNotes = allNotes.length;
 
     <!-- 页面标题 -->
     <div class="card-base px-9 py-8 mb-8 onload-animation" style="animation-delay: calc(var(--content-delay) + 50ms)">
-      <h1 class="text-4xl font-bold mb-3">🏷️ 标签索引</h1>
+      <h1 class="text-4xl font-bold mb-3 text-black/90 dark:text-white/90">🏷️ 标签索引</h1>
       <p class="text-neutral-500 dark:text-neutral-400 mb-4">
         按标签分类浏览所有笔记内容
       </p>
       
       <!-- 统计信息 -->
-      <div class="flex gap-6 text-sm">
+      <div class="flex gap-6 text-sm text-neutral-600 dark:text-neutral-400">
         <div class="flex items-center gap-2">
           <Icon name="material-symbols:label-outline" class="text-lg" />
           <span>{totalTags} 个标签</span>
@@ -69,7 +69,7 @@ const totalNotes = allNotes.length;
 
     <!-- 标签云 -->
     <div class="card-base px-9 py-8 mb-8 onload-animation" style="animation-delay: calc(var(--content-delay) + 100ms)">
-      <h2 class="text-2xl font-bold mb-6">标签云</h2>
+      <h2 class="text-2xl font-bold mb-6 text-black/90 dark:text-white/90">标签云</h2>
       <div class="flex flex-wrap gap-3">
         {tags.map(tag => {
           // 根据笔记数量计算大小
@@ -78,7 +78,7 @@ const totalNotes = allNotes.length;
           return (
             <a
               href={`#tag-${tag.name}`}
-              class={`px-4 py-2 rounded-full bg-neutral-100 dark:bg-neutral-800 hover:bg-[oklch(0.7_0.14_var(--hue))] hover:text-white transition-all ${sizeClass} font-medium`}
+              class={`px-4 py-2 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-[oklch(0.7_0.14_var(--hue))] hover:text-white transition-all ${sizeClass} font-medium`}
             >
               {tag.name}
               <span class="ml-2 text-sm opacity-70">({tag.count})</span>
@@ -97,11 +97,11 @@ const totalNotes = allNotes.length;
           style={`animation-delay: calc(var(--content-delay) + ${(index + 3) * 50}ms)`}
         >
           <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-bold flex items-center gap-3">
+            <h2 class="text-2xl font-bold flex items-center gap-3 text-black/90 dark:text-white/90">
               <Icon name="material-symbols:label" class="text-[oklch(0.7_0.14_var(--hue))]" />
               {tag.name}
             </h2>
-            <span class="text-sm text-neutral-500 px-3 py-1 rounded-full bg-neutral-100 dark:bg-neutral-800">
+            <span class="text-sm text-neutral-500 dark:text-neutral-400 px-3 py-1 rounded-full bg-neutral-100 dark:bg-neutral-800">
               {tag.count} 篇
             </span>
           </div>
@@ -118,10 +118,10 @@ const totalNotes = allNotes.length;
                 >
                   <div class="flex-shrink-0 w-2 h-2 rounded-full bg-[oklch(0.7_0.14_var(--hue))] group-hover:scale-150 transition-transform"></div>
                   <div class="flex-1 min-w-0">
-                    <div class="font-medium group-hover:text-[oklch(0.7_0.14_var(--hue))] transition-colors">
+                    <div class="font-medium text-black/90 dark:text-white/90 group-hover:text-[oklch(0.7_0.14_var(--hue))] transition-colors">
                       {note.data.title}
                     </div>
-                    <div class="text-sm text-neutral-500 flex items-center gap-2 mt-1">
+                    <div class="text-sm text-neutral-500 dark:text-neutral-400 flex items-center gap-2 mt-1">
                       <span>{note.data.category}</span>
                       {note.data.order && (
                         <>
