@@ -27,8 +27,6 @@ const courses = Object.entries(notesByCategory).map(([category, notes]) => {
 	// 按 order 排序
 	notes.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
 
-	// 找到课程首页（index）
-	const indexNote = notes.find((n) => n.slug.endsWith("/index"));
 	const firstNote = notes[0];
 
 	return {
