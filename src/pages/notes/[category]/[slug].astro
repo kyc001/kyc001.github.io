@@ -1,52 +1,57 @@
 ---
-import MainGridLayout from "@layouts/MainGridLayout.astro";
-import Markdown from "@components/misc/Markdown.astro";
-import ImageWrapper from "@components/misc/ImageWrapper.astro";
-import { Icon } from "astro-icon/components";
 import { getCollection } from "astro:content";
 import path from "node:path";
+import ImageWrapper from "@components/misc/ImageWrapper.astro";
+import Markdown from "@components/misc/Markdown.astro";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { Icon } from "astro-icon/components";
 
 function getDir(p: string): string {
-  const lastSlash = p.lastIndexOf('/');
-  return lastSlash !== -1 ? p.substring(0, lastSlash) : '';
+	const lastSlash = p.lastIndexOf("/");
+	return lastSlash !== -1 ? p.substring(0, lastSlash) : "";
 }
 
 export async function getStaticPaths() {
-  const notes = await getCollection('notes');
-  return notes.map(note => {
-    const category = note.data.category;
-    const slugParts = note.slug.split('/');
-    const slug = slugParts[slugParts.length - 1].replace(/\.md$/, '');
+	const notes = await getCollection("notes");
+	return notes.map((note) => {
+		const category = note.data.category;
+		const slugParts = note.slug.split("/");
+		const slug = slugParts[slugParts.length - 1].replace(/\.md$/, "");
 
-    return {
-      params: { category, slug },
-      props: { note, category, slug }
-    };
-  });
+		return {
+			params: { category, slug },
+			props: { note, category, slug },
+		};
+	});
 }
 
 const { note, category, slug } = Astro.props;
 const { Content, headings } = await note.render();
 
 // 获取同课程的所有笔记（非 draft），按 order 排序
-const allNotes = (await getCollection('notes')).filter(n => n.data.category === category && !n.data.draft);
+const allNotes = (await getCollection("notes")).filter(
+	(n) => n.data.category === category && !n.data.draft,
+);
 allNotes.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
 
 // 根据 clean slug 找到当前索引
-const currentIndex = allNotes.findIndex(n => (n.slug.split('/').pop() ?? '').replace(/\.md$/, '') === slug);
+const currentIndex = allNotes.findIndex(
+	(n) => (n.slug.split("/").pop() ?? "").replace(/\.md$/, "") === slug,
+);
 const prevNote = currentIndex > 0 ? allNotes[currentIndex - 1] : null;
-const nextNote = currentIndex < allNotes.length - 1 ? allNotes[currentIndex + 1] : null;
+const nextNote =
+	currentIndex < allNotes.length - 1 ? allNotes[currentIndex + 1] : null;
 
 // JSON-LD
 const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "LearningResource",
-  name: note.data.title,
-  description: note.data.description,
-  datePublished: note.data.date?.toISOString?.(),
-  keywords: note.data.tags?.join(', '),
-  learningResourceType: "Course Material",
-  educationalLevel: category,
+	"@context": "https://schema.org",
+	"@type": "LearningResource",
+	name: note.data.title,
+	description: note.data.description,
+	datePublished: note.data.date?.toISOString?.(),
+	keywords: note.data.tags?.join(", "),
+	learningResourceType: "Course Material",
+	educationalLevel: category,
 };
 ---
 

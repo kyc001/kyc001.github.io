@@ -1,65 +1,65 @@
 ---
-import { getCollection } from 'astro:content';
-import MainGridLayout from '../../../layouts/MainGridLayout.astro';
-import { Icon } from 'astro-icon/components';
-import type { GetStaticPaths } from 'astro';
-import NoteListItem from '../../../components/NoteListItem.astro';
+import { getCollection } from "astro:content";
+import type { GetStaticPaths } from "astro";
+import { Icon } from "astro-icon/components";
+import NoteListItem from "../../../components/NoteListItem.astro";
+import MainGridLayout from "../../../layouts/MainGridLayout.astro";
 
 export const getStaticPaths = (async () => {
-  const allNotes = await getCollection('notes', ({ data }) => !data.draft);
-  
-  // 按课程分组
-  const categories = [...new Set(allNotes.map(note => note.data.category))];
-  
-  return categories.map(category => {
-    const notes = allNotes
-      .filter(note => note.data.category === category)
-      .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
-    
-    return {
-      params: { category: category.toLowerCase() },
-      props: { category, notes }
-    };
-  });
+	const allNotes = await getCollection("notes", ({ data }) => !data.draft);
+
+	// 按课程分组
+	const categories = [...new Set(allNotes.map((note) => note.data.category))];
+
+	return categories.map((category) => {
+		const notes = allNotes
+			.filter((note) => note.data.category === category)
+			.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+
+		return {
+			params: { category: category.toLowerCase() },
+			props: { category, notes },
+		};
+	});
 }) satisfies GetStaticPaths;
 
 const { category, notes } = Astro.props;
 
 // 课程名称映射
 function getCategoryName(category: string): string {
-  const names: Record<string, string> = {
-    diffusion: '扩散模型与生成方法',
-    '3dgen': '3D 内容生成',
-    rl: '强化学习',
-    guide: '使用指南',
-  };
-  return names[category] || category;
+	const names: Record<string, string> = {
+		diffusion: "扩散模型与生成方法",
+		"3dgen": "3D 内容生成",
+		rl: "强化学习",
+		guide: "使用指南",
+	};
+	return names[category] || category;
 }
 
 // 课程描述映射
 function getCategoryDescription(category: string): string {
-  const descriptions: Record<string, string> = {
-    diffusion: '深入学习扩散模型、Flow Matching 和 Rectified Flow 的理论与实践',
-    '3dgen': '探索基于深度学习的 3D 内容生成技术',
-    rl: '强化学习基础理论与前沿算法',
-    guide: '了解博客笔记系统的使用方法和高级功能',
-  };
-  return descriptions[category] || '课程笔记';
+	const descriptions: Record<string, string> = {
+		diffusion: "深入学习扩散模型、Flow Matching 和 Rectified Flow 的理论与实践",
+		"3dgen": "探索基于深度学习的 3D 内容生成技术",
+		rl: "强化学习基础理论与前沿算法",
+		guide: "了解博客笔记系统的使用方法和高级功能",
+	};
+	return descriptions[category] || "课程笔记";
 }
 
 const courseName = getCategoryName(category);
 const courseDescription = getCategoryDescription(category);
 
 // 找到课程首页 - 使用 note.id 而不是 note.slug
-const indexNote = notes.find(n => {
-  const parts = n.id.split('/');
-  const filename = parts[parts.length - 1];
-  return filename === 'index.md' || filename === 'index';
+const indexNote = notes.find((n) => {
+	const parts = n.id.split("/");
+	const filename = parts[parts.length - 1];
+	return filename === "index.md" || filename === "index";
 });
 const courseImage = indexNote?.data.image;
 
 // 统计信息
-const totalTags = [...new Set(notes.flatMap(n => n.data.tags || []))];
+const totalTags = [...new Set(notes.flatMap((n) => n.data.tags || []))];
 ---
 
 <MainGridLayout 
