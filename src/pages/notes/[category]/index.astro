@@ -1,0 +1,147 @@
+---
+import { getCollection } from 'astro:content';
+import MainGridLayout from '../../../layouts/MainGridLayout.astro';
+import { Icon } from 'astro-icon/components';
+import type { GetStaticPaths } from 'astro';
+import NoteListItem from '../../../components/NoteListItem.astro';
+
+export const getStaticPaths = (async () => {
+  const allNotes = await getCollection('notes', ({ data }) => !data.draft);
+  
+  // 按课程分组
+  const categories = [...new Set(allNotes.map(note => note.data.category))];
+  
+  return categories.map(category => {
+    const notes = allNotes
+      .filter(note => note.data.category === category)
+      .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+    
+    return {
+      params: { category: category.toLowerCase() },
+      props: { category, notes }
+    };
+  });
+}) satisfies GetStaticPaths;
+
+const { category, notes } = Astro.props;
+
+// 课程名称映射
+function getCategoryName(category: string): string {
+  const names: Record<string, string> = {
+    diffusion: '扩散模型与生成方法',
+    '3dgen': '3D 内容生成',
+    rl: '强化学习',
+    guide: '使用指南',
+  };
+  return names[category] || category;
+}
+
+// 课程描述映射
+function getCategoryDescription(category: string): string {
+  const descriptions: Record<string, string> = {
+    diffusion: '深入学习扩散模型、Flow Matching 和 Rectified Flow 的理论与实践',
+    '3dgen': '探索基于深度学习的 3D 内容生成技术',
+    rl: '强化学习基础理论与前沿算法',
+    guide: '了解博客笔记系统的使用方法和高级功能',
+  };
+  return descriptions[category] || '课程笔记';
+}
+
+const courseName = getCategoryName(category);
+const courseDescription = getCategoryDescription(category);
+
+// 找到课程首页 - 使用 note.id 而不是 note.slug
+const indexNote = notes.find(n => {
+  const parts = n.id.split('/');
+  const filename = parts[parts.length - 1];
+  return filename === 'index.md' || filename === 'index';
+});
+const courseImage = indexNote?.data.image;
+
+// 统计信息
+const totalTags = [...new Set(notes.flatMap(n => n.data.tags || []))];
+---
+
+<MainGridLayout 
+  title={`${courseName} 笔记`} 
+  description={courseDescription}
+  banner={courseImage}
+>
+  <div class="min-h-screen">
+    <!-- 返回按钮 -->
+    <a 
+      href="/notes/"
+      class="inline-flex items-center gap-2 mb-6 text-neutral-600 dark:text-neutral-400 hover:text-[oklch(0.7_0.14_var(--hue))] transition-colors onload-animation"
+    >
+      <Icon name="material-symbols:arrow-back" class="text-xl" />
+      <span>返回笔记列表</span>
+    </a>
+
+    <!-- 课程信息卡片 -->
+    <div class="card-base px-9 py-8 mb-8 onload-animation" style="animation-delay: calc(var(--content-delay) + 50ms)">
+      <div class="flex items-start justify-between mb-4">
+        <div>
+          <h1 class="text-4xl font-bold mb-3 text-black/90 dark:text-white/90">{courseName}</h1>
+          <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+            {courseDescription}
+          </p>
+        </div>
+      </div>
+
+      <!-- 统计信息 -->
+      <div class="flex flex-wrap gap-4 text-sm text-neutral-600 dark:text-neutral-400">
+        <div class="flex items-center gap-2">
+          <Icon name="material-symbols:description-outline" class="text-lg" />
+          <span>{notes.length} 篇笔记</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <Icon name="material-symbols:label-outline" class="text-lg" />
+          <span>{totalTags.length} 个标签</span>
+        </div>
+      </div>
+
+      <!-- 标签云 -->
+      {totalTags.length > 0 && (
+        <div class="mt-4 pt-4 border-t border-neutral-200 dark:border-neutral-700">
+          <div class="flex flex-wrap gap-2">
+            {totalTags.map(tag => (
+              <span class="text-xs px-3 py-1 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-[oklch(0.9_0.03_var(--hue))] dark:hover:bg-[oklch(0.3_0.05_var(--hue))] transition-colors">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+
+    <!-- 章节列表 -->
+    <div class="space-y-4 notes-container">
+      {notes.map((note, index) => {
+        // 从 note.slug 中移除 category 前缀和 .md 后缀
+        // note.slug 格式: "3dgen/01-overview" 或 "diffusion/02-flow-matching"
+        const slugParts = note.slug.split('/');
+        const cleanSlug = slugParts[slugParts.length - 1].replace(/\.md$/, '');
+        
+        return (
+          <NoteListItem
+            title={note.data.title}
+            description={note.data.description}
+            tags={note.data.tags}
+            order={note.data.order}
+            href={`/notes/${note.data.category}/${cleanSlug}/`}
+            index={index + 2}
+            class="note-list-item"
+          />
+        );
+      })}
+    </div>
+
+    <!-- 空状态 -->
+    {notes.length === 0 && (
+      <div class="card-base px-9 py-20 text-center">
+        <Icon name="material-symbols:description-off-outline" class="text-6xl text-neutral-400 mx-auto mb-4" />
+        <p class="text-neutral-500">该课程暂无笔记</p>
+      </div>
+    )}
+  </div>
+</MainGridLayout>

@@ -1,0 +1,83 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+	placeholder?: string;
+	className?: string;
+	style?: string;
+}
+
+const { placeholder = "搜索笔记...", className = "", style = "" } = Astro.props;
+---
+
+<div class={`card-base px-6 py-4 ${className}`} style={style}>
+	<div class="relative">
+		<Icon 
+			name="material-symbols:search" 
+			class="absolute left-4 top-1/2 -translate-y-1/2 text-xl text-neutral-400"
+		/>
+		<input
+			type="text"
+			id="note-search-input"
+			placeholder={placeholder}
+			class="w-full pl-12 pr-4 py-3 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-[oklch(0.7_0.14_var(--hue))] transition-all"
+		/>
+	</div>
+</div>
+
+<script>
+	function initSearch() {
+		const input = document.getElementById('note-search-input') as HTMLInputElement;
+		if (!input) return;
+
+		input.addEventListener('input', (e) => {
+			const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
+			
+			// 查找所有笔记卡片和列表项
+			const cards = document.querySelectorAll('.note-card, .note-list-item');
+			
+			cards.forEach(card => {
+				const text = card.textContent?.toLowerCase() || '';
+				// 也搜索 data-note-titles 属性（包含该课程的所有笔记标题）
+				const noteTitles = (card as HTMLElement).dataset.noteTitles?.toLowerCase() || '';
+				const searchText = text + ' ' + noteTitles;
+				const shouldShow = query === '' || searchText.includes(query);
+				
+				if (card instanceof HTMLElement) {
+					card.style.display = shouldShow ? '' : 'none';
+				}
+			});
+
+			// 显示搜索结果计数
+			const visibleCount = Array.from(cards).filter(
+				card => card instanceof HTMLElement && card.style.display !== 'none'
+			).length;
+			
+			// 可以在这里添加"无结果"提示
+			const container = document.querySelector('.notes-container');
+			let noResults = document.getElementById('no-search-results');
+			
+			if (visibleCount === 0 && query !== '') {
+				if (!noResults && container) {
+					noResults = document.createElement('div');
+					noResults.id = 'no-search-results';
+					noResults.className = 'text-center py-12 text-neutral-500';
+					noResults.innerHTML = `
+						<div class="text-4xl mb-2">🔍</div>
+						<p>未找到匹配的笔记</p>
+					`;
+					container.appendChild(noResults);
+				}
+			} else if (noResults) {
+				noResults.remove();
+			}
+		});
+	}
+
+	// 初始化
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initSearch);
+	} else {
+		initSearch();
+	}
+</script>

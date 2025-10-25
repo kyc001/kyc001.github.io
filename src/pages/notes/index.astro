@@ -1,0 +1,120 @@
+---
+import { getCollection } from 'astro:content';
+import MainGridLayout from '../../layouts/MainGridLayout.astro';
+import { Icon } from 'astro-icon/components';
+import NoteCard from '../../components/NoteCard.astro';
+
+// 获取所有笔记
+const allNotes = await getCollection('notes', ({ data }) => {
+  return !data.draft;
+});
+
+// 按课程分组
+const notesByCategory = allNotes.reduce((acc, note) => {
+  const category = note.data.category;
+  if (!acc[category]) {
+    acc[category] = [];
+  }
+  acc[category].push(note);
+  return acc;
+}, {} as Record<string, typeof allNotes>);
+
+// 为每个课程生成统计信息
+const courses = Object.entries(notesByCategory).map(([category, notes]) => {
+  // 按 order 排序
+  notes.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+  
+  // 找到课程首页（index）
+  const indexNote = notes.find(n => n.slug.endsWith('/index'));
+  const firstNote = notes[0];
+  
+  return {
+    name: getCategoryName(category),
+    slug: category.toLowerCase(),
+    description: getCategoryDescription(category),
+    noteCount: notes.length,
+    image: firstNote?.data.image || '',
+    tags: [...new Set(notes.flatMap(n => n.data.tags || []))],
+    noteTitles: notes.map(n => n.data.title).join(' '), // 添加所有笔记标题用于搜索
+  };
+});
+
+// 课程名称映射
+function getCategoryName(category: string): string {
+  const names: Record<string, string> = {
+    diffusion: '扩散模型与生成方法',
+    '3dgen': '3D 内容生成',
+    rl: '强化学习',
+    guide: '使用指南',
+  };
+  return names[category] || category;
+}
+
+// 课程描述映射
+function getCategoryDescription(category: string): string {
+  const descriptions: Record<string, string> = {
+    diffusion: '深入学习扩散模型、Flow Matching 和 Rectified Flow 的理论与实践',
+    '3dgen': '探索基于深度学习的 3D 内容生成技术',
+    rl: '强化学习基础理论与前沿算法',
+    guide: '了解博客笔记系统的使用方法和高级功能',
+  };
+  return descriptions[category] || '课程笔记';
+}
+
+// 按课程名称排序
+courses.sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<MainGridLayout title="学习笔记" description="笔记合集">
+  <div class="min-h-screen">
+    <!-- 页面标题 -->
+    <div class="card-base px-9 py-11 mb-8 onload-animation">
+      <h1 class="text-4xl font-bold mb-3 text-black/90 dark:text-white/90"> 学习笔记</h1>
+      <p class="text-neutral-500 dark:text-neutral-400">
+        整理一些笔记
+      </p>
+      <div class="mt-4 flex gap-4 text-sm flex-wrap text-neutral-600 dark:text-neutral-400">
+        <div class="flex items-center gap-2">
+          <Icon name="material-symbols:folder-open" class="text-lg" />
+          <span>{courses.length} 个课程</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <Icon name="material-symbols:description-outline" class="text-lg" />
+          <span>{allNotes.length} 篇笔记</span>
+        </div>
+        <a 
+          href="/notes/tags/"
+          class="flex items-center gap-2 text-[oklch(0.7_0.14_var(--hue))] hover:underline"
+        >
+          <Icon name="material-symbols:label-outline" class="text-lg" />
+          <span>浏览标签</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 课程卡片网格 -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 notes-container">
+      {courses.map((course, index) => (
+        <NoteCard
+          name={course.name}
+          slug={`${course.slug}/`}
+          description={course.description}
+          noteCount={course.noteCount}
+          image={course.image}
+          tags={course.tags}
+          noteTitles={course.noteTitles}
+          index={index + 2}
+          class="note-card"
+        />
+      ))}
+    </div>
+
+    <!-- 空状态 -->
+    {courses.length === 0 && (
+      <div class="card-base px-9 py-20 text-center">
+        <Icon name="material-symbols:folder-off-outline" class="text-6xl text-neutral-400 mx-auto mb-4" />
+        <p class="text-neutral-500">暂无笔记内容</p>
+      </div>
+    )}
+  </div>
+</MainGridLayout>
