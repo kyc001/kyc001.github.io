@@ -1,33 +1,36 @@
 ---
-import { getCollection } from 'astro:content';
-import MainGridLayout from '../../layouts/MainGridLayout.astro';
-import { Icon } from 'astro-icon/components';
+import { getCollection } from "astro:content";
+import { Icon } from "astro-icon/components";
+import MainGridLayout from "../../layouts/MainGridLayout.astro";
 
 // 获取所有笔记
-const allNotes = await getCollection('notes', ({ data }) => !data.draft);
+const allNotes = await getCollection("notes", ({ data }) => !data.draft);
 
 // 按标签分组
 const tagMap = new Map<string, typeof allNotes>();
 
-allNotes.forEach(note => {
-  if (note.data.tags) {
-    note.data.tags.forEach(tag => {
-      if (!tagMap.has(tag)) {
-        tagMap.set(tag, []);
-      }
-      tagMap.get(tag)!.push(note);
-    });
-  }
+allNotes.forEach((note) => {
+	if (note.data.tags) {
+		note.data.tags.forEach((tag) => {
+			if (!tagMap.has(tag)) {
+				tagMap.set(tag, []);
+			}
+			const tagNotes = tagMap.get(tag);
+			if (tagNotes) {
+				tagNotes.push(note);
+			}
+		});
+	}
 });
 
 // 转换为数组并按笔记数量排序
 const tags = Array.from(tagMap.entries())
-  .map(([name, notes]) => ({
-    name,
-    count: notes.length,
-    notes: notes.sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
-  }))
-  .sort((a, b) => b.count - a.count);
+	.map(([name, notes]) => ({
+		name,
+		count: notes.length,
+		notes: notes.sort((a, b) => (a.data.order || 0) - (b.data.order || 0)),
+	}))
+	.sort((a, b) => b.count - a.count);
 
 const totalTags = tags.length;
 const totalNotes = allNotes.length;

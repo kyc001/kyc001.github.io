@@ -1,5 +1,5 @@
 ---
-import { Icon } from 'astro-icon/components';
+import { Icon } from "astro-icon/components";
 
 interface Props {
 	name: string;
@@ -12,7 +12,16 @@ interface Props {
 	index?: number;
 }
 
-const { name, slug, description, noteCount, image, tags = [], noteTitles = '', index = 0 } = Astro.props;
+const {
+	name,
+	slug,
+	description,
+	noteCount,
+	image,
+	tags = [],
+	noteTitles = "",
+	index = 0,
+} = Astro.props;
 ---
 
 <a 

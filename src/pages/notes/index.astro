@@ -1,64 +1,67 @@
 ---
-import { getCollection } from 'astro:content';
-import MainGridLayout from '../../layouts/MainGridLayout.astro';
-import { Icon } from 'astro-icon/components';
-import NoteCard from '../../components/NoteCard.astro';
+import { getCollection } from "astro:content";
+import { Icon } from "astro-icon/components";
+import NoteCard from "../../components/NoteCard.astro";
+import MainGridLayout from "../../layouts/MainGridLayout.astro";
 
 // 获取所有笔记
-const allNotes = await getCollection('notes', ({ data }) => {
-  return !data.draft;
+const allNotes = await getCollection("notes", ({ data }) => {
+	return !data.draft;
 });
 
 // 按课程分组
-const notesByCategory = allNotes.reduce((acc, note) => {
-  const category = note.data.category;
-  if (!acc[category]) {
-    acc[category] = [];
-  }
-  acc[category].push(note);
-  return acc;
-}, {} as Record<string, typeof allNotes>);
+const notesByCategory = allNotes.reduce(
+	(acc, note) => {
+		const category = note.data.category;
+		if (!acc[category]) {
+			acc[category] = [];
+		}
+		acc[category].push(note);
+		return acc;
+	},
+	{} as Record<string, typeof allNotes>,
+);
 
 // 为每个课程生成统计信息
 const courses = Object.entries(notesByCategory).map(([category, notes]) => {
-  // 按 order 排序
-  notes.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
-  
-  // 找到课程首页（index）
-  const indexNote = notes.find(n => n.slug.endsWith('/index'));
-  const firstNote = notes[0];
-  
-  return {
-    name: getCategoryName(category),
-    slug: category.toLowerCase(),
-    description: getCategoryDescription(category),
-    noteCount: notes.length,
-    image: firstNote?.data.image || '',
-    tags: [...new Set(notes.flatMap(n => n.data.tags || []))],
-    noteTitles: notes.map(n => n.data.title).join(' '), // 添加所有笔记标题用于搜索
-  };
+	// 按 order 排序
+	notes.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+
+	// 找到课程首页（index）
+	const indexNote = notes.find((n) => n.slug.endsWith("/index"));
+	const firstNote = notes[0];
+
+	return {
+		name: getCategoryName(category),
+		slug: category.toLowerCase(),
+		description: getCategoryDescription(category),
+		noteCount: notes.length,
+		image: firstNote?.data.image || "",
+		tags: [...new Set(notes.flatMap((n) => n.data.tags || []))],
+		noteTitles: notes.map((n) => n.data.title).join(" "), // 添加所有笔记标题用于搜索
+	};
 });
 
 // 课程名称映射
 function getCategoryName(category: string): string {
-  const names: Record<string, string> = {
-    diffusion: '扩散模型与生成方法',
-    '3dgen': '3D 内容生成',
-    rl: '强化学习',
-    guide: '使用指南',
-  };
-  return names[category] || category;
+	const names: Record<string, string> = {
+		diffusion: "扩散模型与生成方法",
+		"3dgen": "3D 内容生成",
+		rl: "强化学习",
+		guide: "使用指南",
+	};
+	return names[category] || category;
 }
 
 // 课程描述映射
 function getCategoryDescription(category: string): string {
-  const descriptions: Record<string, string> = {
-    diffusion: '深入学习扩散模型、Flow Matching 和 Rectified Flow 的理论与实践',
-    '3dgen': '探索基于深度学习的 3D 内容生成技术',
-    rl: '强化学习基础理论与前沿算法',
-    guide: '了解博客笔记系统的使用方法和高级功能',
-  };
-  return descriptions[category] || '课程笔记';
+	const descriptions: Record<string, string> = {
+		diffusion: "深入学习扩散模型、Flow Matching 和 Rectified Flow 的理论与实践",
+		"3dgen": "探索基于深度学习的 3D 内容生成技术",
+		rl: "强化学习基础理论与前沿算法",
+		guide: "了解博客笔记系统的使用方法和高级功能",
+	};
+	return descriptions[category] || "课程笔记";
 }
 
 // 按课程名称排序
