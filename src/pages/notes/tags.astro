@@ -1,0 +1,157 @@
+---
+import { getCollection } from 'astro:content';
+import MainGridLayout from '../../layouts/MainGridLayout.astro';
+import { Icon } from 'astro-icon/components';
+
+// 获取所有笔记
+const allNotes = await getCollection('notes', ({ data }) => !data.draft);
+
+// 按标签分组
+const tagMap = new Map<string, typeof allNotes>();
+
+allNotes.forEach(note => {
+  if (note.data.tags) {
+    note.data.tags.forEach(tag => {
+      if (!tagMap.has(tag)) {
+        tagMap.set(tag, []);
+      }
+      tagMap.get(tag)!.push(note);
+    });
+  }
+});
+
+// 转换为数组并按笔记数量排序
+const tags = Array.from(tagMap.entries())
+  .map(([name, notes]) => ({
+    name,
+    count: notes.length,
+    notes: notes.sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
+  }))
+  .sort((a, b) => b.count - a.count);
+
+const totalTags = tags.length;
+const totalNotes = allNotes.length;
+---
+
+<MainGridLayout title="笔记标签" description="按标签浏览所有笔记">
+  <div class="min-h-screen">
+    <!-- 返回按钮 -->
+    <a 
+      href="/notes/"
+      class="inline-flex items-center gap-2 mb-6 text-neutral-600 dark:text-neutral-400 hover:text-[oklch(0.7_0.14_var(--hue))] transition-colors onload-animation"
+    >
+      <Icon name="material-symbols:arrow-back" class="text-xl" />
+      <span>返回笔记列表</span>
+    </a>
+
+    <!-- 页面标题 -->
+    <div class="card-base px-9 py-8 mb-8 onload-animation" style="animation-delay: calc(var(--content-delay) + 50ms)">
+      <h1 class="text-4xl font-bold mb-3">🏷️ 标签索引</h1>
+      <p class="text-neutral-500 dark:text-neutral-400 mb-4">
+        按标签分类浏览所有笔记内容
+      </p>
+      
+      <!-- 统计信息 -->
+      <div class="flex gap-6 text-sm">
+        <div class="flex items-center gap-2">
+          <Icon name="material-symbols:label-outline" class="text-lg" />
+          <span>{totalTags} 个标签</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <Icon name="material-symbols:description-outline" class="text-lg" />
+          <span>{totalNotes} 篇笔记</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 标签云 -->
+    <div class="card-base px-9 py-8 mb-8 onload-animation" style="animation-delay: calc(var(--content-delay) + 100ms)">
+      <h2 class="text-2xl font-bold mb-6">标签云</h2>
+      <div class="flex flex-wrap gap-3">
+        {tags.map(tag => {
+          // 根据笔记数量计算大小
+          const sizeClass = tag.count >= 5 ? 'text-2xl' : tag.count >= 3 ? 'text-xl' : 'text-base';
+          
+          return (
+            <a
+              href={`#tag-${tag.name}`}
+              class={`px-4 py-2 rounded-full bg-neutral-100 dark:bg-neutral-800 hover:bg-[oklch(0.7_0.14_var(--hue))] hover:text-white transition-all ${sizeClass} font-medium`}
+            >
+              {tag.name}
+              <span class="ml-2 text-sm opacity-70">({tag.count})</span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+
+    <!-- 标签详细列表 -->
+    <div class="space-y-8">
+      {tags.map((tag, index) => (
+        <div 
+          id={`tag-${tag.name}`}
+          class="card-base px-9 py-8 onload-animation scroll-mt-24"
+          style={`animation-delay: calc(var(--content-delay) + ${(index + 3) * 50}ms)`}
+        >
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold flex items-center gap-3">
+              <Icon name="material-symbols:label" class="text-[oklch(0.7_0.14_var(--hue))]" />
+              {tag.name}
+            </h2>
+            <span class="text-sm text-neutral-500 px-3 py-1 rounded-full bg-neutral-100 dark:bg-neutral-800">
+              {tag.count} 篇
+            </span>
+          </div>
+
+          <div class="space-y-3">
+            {tag.notes.map(note => {
+              const [category, ...slugParts] = note.slug.split('/');
+              const slug = slugParts.join('/') || 'index';
+              
+              return (
+                <a
+                  href={`/notes/${category.toLowerCase()}/${slug}/`}
+                  class="group flex items-center gap-3 p-4 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors"
+                >
+                  <div class="flex-shrink-0 w-2 h-2 rounded-full bg-[oklch(0.7_0.14_var(--hue))] group-hover:scale-150 transition-transform"></div>
+                  <div class="flex-1 min-w-0">
+                    <div class="font-medium group-hover:text-[oklch(0.7_0.14_var(--hue))] transition-colors">
+                      {note.data.title}
+                    </div>
+                    <div class="text-sm text-neutral-500 flex items-center gap-2 mt-1">
+                      <span>{note.data.category}</span>
+                      {note.data.order && (
+                        <>
+                          <span>•</span>
+                          <span>第 {note.data.order} 篇</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <Icon 
+                    name="material-symbols:arrow-forward" 
+                    class="flex-shrink-0 text-lg opacity-0 group-hover:opacity-100 transition-opacity text-[oklch(0.7_0.14_var(--hue))]"
+                  />
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- 空状态 -->
+    {tags.length === 0 && (
+      <div class="card-base px-9 py-20 text-center">
+        <Icon name="material-symbols:label-off-outline" class="text-6xl text-neutral-400 mx-auto mb-4" />
+        <p class="text-neutral-500">暂无标签</p>
+      </div>
+    )}
+  </div>
+</MainGridLayout>
+
+<style>
+  .scroll-mt-24 {
+    scroll-margin-top: 6rem;
+  }
+</style>
