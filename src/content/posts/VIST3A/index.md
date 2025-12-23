@@ -8,7 +8,7 @@ draft: false
 ---
 # **VIST3A: Text-to-3D by Stitching a Multi-view Reconstruction Network to a Video Generator**
 
-![使用 VIST3A 进行文本到 3D 的生成](img/Pasted%20image%2020251125212548.png)
+![](img/Pasted%20image%2020251125212548.png)
 - 视频模型擅长根据文本提示生成latent内容。3D基础模型擅长解码，生成一致的场景，结合视频生成模型和3D重建网络，对齐laten变量，得到端到端的模型
 ## 摘要
 - 大型预训练模型发展快
