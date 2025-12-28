@@ -1,5 +1,5 @@
 ---
-title: Wan 视频扩散模型技术原理学习笔记
+title: Wan 学习笔记
 published: 2025-10-18 00:13:20
 slug: wan-video-diffusion
 tags: ['视频生成', '扩散模型', '计算机视觉']
