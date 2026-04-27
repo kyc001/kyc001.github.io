@@ -1,6 +1,6 @@
 ---
-import { Icon } from "astro-icon/components";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { Icon } from "astro-icon/components";
 
 const friends = [
 	{
@@ -10,46 +10,126 @@ const friends = [
 		avatar: "https://joyehuang.me/favicon/favicon.ico",
 	},
 ];
+
+const mySite = {
+	name: "kyc001's Blog",
+	description: "苔花如米小，也学牡丹开。",
+	url: "https://kyc001.github.io/",
+	avatar: "/avatar.jpg",
+	avatarUrl: "https://kyc001.github.io/avatar.jpg",
+};
+
+const mySiteInfo = [
+	["Name", mySite.name],
+	["Desc", mySite.description],
+	["Link", mySite.url],
+	["Avatar", mySite.avatarUrl],
+];
 ---
 
 <MainGridLayout title="友链" description="友情链接">
-	<div class="min-h-screen">
-		<section class="card-base px-9 py-11 mb-8 onload-animation">
-			<h1 class="text-4xl font-bold mb-3 text-black/90 dark:text-white/90">友链</h1>
-			<p class="text-neutral-500 dark:text-neutral-400">一些值得拜访的朋友和站点。</p>
+	<div class="min-h-screen space-y-8">
+		<section class="card-base overflow-hidden px-9 py-11 onload-animation">
+			<div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+				<div>
+					<h1 class="text-4xl font-bold mb-3 text-black/90 dark:text-white/90">友链</h1>
+					<p class="max-w-2xl text-neutral-500 dark:text-neutral-400">
+						在互联网的小巷里，放几盏通往朋友家的灯。
+					</p>
+				</div>
+				<div class="rounded-lg border border-black/10 px-4 py-3 text-sm text-neutral-600 dark:border-white/10 dark:text-neutral-300">
+					<span class="font-bold text-[var(--primary)]">{friends.length}</span> 个朋友站点
+				</div>
+			</div>
 		</section>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-			{friends.map((friend) => (
+		<section>
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+				{friends.map((friend) => (
+					<a
+						href={friend.url}
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label={`访问 ${friend.name}`}
+						class="card-base group flex items-center gap-5 px-6 py-5 transition-all hover:-translate-y-1 hover:shadow-lg"
+					>
+						<img
+							src={friend.avatar}
+							alt={`${friend.name} avatar`}
+							loading="lazy"
+							class="h-16 w-16 shrink-0 rounded-full bg-neutral-100 object-cover ring-1 ring-black/10 dark:bg-neutral-800 dark:ring-white/10"
+						/>
+						<div class="min-w-0 flex-1">
+							<div class="flex items-center gap-2">
+								<h2 class="truncate text-xl font-bold text-black/90 dark:text-white/90">
+									{friend.name}
+								</h2>
+								<Icon
+									name="fa6-solid:arrow-up-right-from-square"
+									class="shrink-0 text-sm text-neutral-400 transition group-hover:text-[var(--primary)]"
+								/>
+							</div>
+							<p class="mt-1 line-clamp-2 text-sm text-neutral-500 dark:text-neutral-400">
+								{friend.description}
+							</p>
+						</div>
+					</a>
+				))}
+			</div>
+		</section>
+
+		<section class="card-base px-7 py-7">
+			<div class="grid grid-cols-1 gap-7 lg:grid-cols-[1fr_18rem]">
+				<div>
+					<p class="mb-2 text-sm font-bold text-[var(--primary)]">交换友链</p>
+					<h2 class="mb-3 text-2xl font-bold text-black/90 dark:text-white/90">
+						欢迎来交换友链
+					</h2>
+					<p class="max-w-2xl text-neutral-500 dark:text-neutral-400">
+						如果你也维护着自己的博客，欢迎带着站点信息来交换。一般包含名称、简介、链接和头像即可。
+					</p>
+
+					<div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+						{mySiteInfo.map(([label, value]) => (
+							<div class="rounded-lg border border-black/10 bg-black/[0.02] px-4 py-3 dark:border-white/10 dark:bg-white/[0.03]">
+								<div class="mb-1 text-xs font-bold uppercase text-neutral-400">{label}</div>
+								<div class="break-all text-sm text-neutral-700 dark:text-neutral-200">{value}</div>
+							</div>
+						))}
+					</div>
+				</div>
+
 				<a
-					href={friend.url}
+					href={mySite.url}
 					target="_blank"
 					rel="noopener noreferrer"
-					aria-label={`访问 ${friend.name}`}
-					class="card-base group flex items-center gap-5 px-6 py-5 transition-all hover:-translate-y-1 hover:shadow-lg"
+					class="group flex h-full flex-col justify-between rounded-lg border border-black/10 bg-black/[0.02] p-5 transition hover:-translate-y-1 hover:shadow-lg dark:border-white/10 dark:bg-white/[0.03]"
 				>
-					<img
-						src={friend.avatar}
-						alt={`${friend.name} avatar`}
-						loading="lazy"
-						class="h-16 w-16 shrink-0 rounded-full bg-neutral-100 object-cover ring-1 ring-black/10 dark:bg-neutral-800 dark:ring-white/10"
-					/>
-					<div class="min-w-0 flex-1">
-						<div class="flex items-center gap-2">
-							<h2 class="truncate text-xl font-bold text-black/90 dark:text-white/90">
-								{friend.name}
-							</h2>
-							<Icon
-								name="fa6-solid:arrow-up-right-from-square"
-								class="shrink-0 text-sm text-neutral-400 transition group-hover:text-[var(--primary)]"
-							/>
+					<div class="flex items-center gap-4">
+						<img
+							src={mySite.avatar}
+							alt={`${mySite.name} avatar`}
+							loading="lazy"
+							class="h-16 w-16 rounded-full bg-neutral-100 object-cover ring-1 ring-black/10 dark:bg-neutral-800 dark:ring-white/10"
+						/>
+						<div class="min-w-0">
+							<div class="truncate text-lg font-bold text-black/90 dark:text-white/90">
+								{mySite.name}
+							</div>
+							<div class="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+								{mySite.description}
+							</div>
 						</div>
-						<p class="mt-1 line-clamp-2 text-sm text-neutral-500 dark:text-neutral-400">
-							{friend.description}
-						</p>
+					</div>
+					<div class="mt-6 flex items-center justify-between text-sm text-neutral-500 dark:text-neutral-400">
+						<span>我的站点信息</span>
+						<Icon
+							name="fa6-solid:arrow-up-right-from-square"
+							class="text-xs transition group-hover:text-[var(--primary)]"
+						/>
 					</div>
 				</a>
-			))}
-		</div>
+			</div>
+		</section>
 	</div>
 </MainGridLayout>
