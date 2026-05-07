@@ -23,17 +23,23 @@ export async function GET(context: APIContext) {
 		description: siteConfig.subtitle || "No description",
 		site: context.site ?? "https://fuwari.vercel.app",
 		items: blog.map((post) => {
+			const isProtected =
+				typeof post.data.password === "string" && post.data.password.length > 0;
 			const content =
 				typeof post.body === "string" ? post.body : String(post.body || "");
 			const cleanedContent = stripInvalidXmlChars(content);
 			return {
 				title: post.data.title,
 				pubDate: post.data.published,
-				description: post.data.description || "",
+				description:
+					post.data.description ||
+					(isProtected ? "This post is password protected." : ""),
 				link: `/posts/${post.slug}/`,
-				content: sanitizeHtml(parser.render(cleanedContent), {
-					allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
-				}),
+				content: isProtected
+					? "<p>This post is password protected.</p>"
+					: sanitizeHtml(parser.render(cleanedContent), {
+							allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+						}),
 			};
 		}),
 		customData: `<language>${siteConfig.lang}</language>`,

@@ -57,6 +57,11 @@
           "type": "boolean"
         },
         {
+          "title": "password",
+          "name": "password",
+          "type": "string"
+        },
+        {
           "title": "language",
           "name": "language",
           "type": "string"
