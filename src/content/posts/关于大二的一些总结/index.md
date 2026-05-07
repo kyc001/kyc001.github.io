@@ -3,7 +3,7 @@ title: 关于大二的一些总结
 published: 2026-05-03 15:36:22
 tags: ["大学生活", "总结", "大二"] # 将 tags 修改为数组，并添加了一些常见的标签作为示例
 category: "大学生活"
-password: "82902373"
+password: "1234567"
 image: ./bg.jpg
 ---
 
