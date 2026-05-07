@@ -2,6 +2,7 @@
 import path from "node:path";
 import License from "@components/misc/License.astro";
 import Markdown from "@components/misc/Markdown.astro";
+import ProtectedContent from "@components/ProtectedContent.astro";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
@@ -23,9 +24,14 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content, headings } = await entry.render();
-
-const { remarkPluginFrontmatter } = await entry.render();
+const isProtected =
+	typeof entry.data.password === "string" && entry.data.password.length > 0;
+const renderedEntry = await entry.render();
+const { Content } = renderedEntry;
+const headings = isProtected ? [] : renderedEntry.headings;
+const remarkPluginFrontmatter = isProtected
+	? { words: 0, minutes: 0 }
+	: renderedEntry.remarkPluginFrontmatter;
 
 const jsonLd = {
 	"@context": "https://schema.org",
@@ -53,20 +59,31 @@ const jsonLd = {
         ]}>
             <!-- word count and reading time -->
             <div class="flex flex-row text-black/30 dark:text-white/30 gap-5 mb-3 transition onload-animation">
-                <div class="flex flex-row items-center">
-                    <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
-                        <Icon name="material-symbols:notes-rounded"></Icon>
+                {isProtected ? (
+                    <div class="flex flex-row items-center">
+                        <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
+                            <Icon name="material-symbols:lock-outline"></Icon>
+                        </div>
+                        <div class="text-sm">Password protected</div>
                     </div>
-                    <div class="text-sm">{remarkPluginFrontmatter.words} {" " + i18n(I18nKey.wordsCount)}</div>
-                </div>
-                <div class="flex flex-row items-center">
+                ) : (
+                    <>
+                    <div class="flex flex-row items-center">
+                        <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
+                            <Icon name="material-symbols:notes-rounded"></Icon>
+                        </div>
+                        <div class="text-sm">{remarkPluginFrontmatter.words} {" " + i18n(I18nKey.wordsCount)}</div>
+                    </div>
+                    <div class="flex flex-row items-center">
                     <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
                         <Icon name="material-symbols:schedule-outline-rounded"></Icon>
                     </div>
                     <div class="text-sm">
                         {remarkPluginFrontmatter.minutes} {" " + i18n(remarkPluginFrontmatter.minutes === 1 ? I18nKey.minuteCount : I18nKey.minutesCount)}
                     </div>
-                </div>
+                    </div>
+                    </>
+                )}
             </div>
 
             <!-- title -->
@@ -102,9 +119,17 @@ const jsonLd = {
             }
 
 
-            <Markdown class="mb-6 markdown-content onload-animation">
-                <Content />
-            </Markdown>
+            {isProtected ? (
+                <ProtectedContent password={entry.data.password} storageKey={`post:${entry.slug}`}>
+                    <Markdown class="mb-6 markdown-content onload-animation">
+                        <Content />
+                    </Markdown>
+                </ProtectedContent>
+            ) : (
+                <Markdown class="mb-6 markdown-content onload-animation">
+                    <Content />
+                </Markdown>
+            )}
 
             {licenseConfig.enable && <License title={entry.data.title} slug={entry.slug} pubDate={entry.data.published} class="mb-6 rounded-xl license-container onload-animation"></License>}
 

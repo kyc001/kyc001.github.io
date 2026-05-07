@@ -6,7 +6,7 @@ category: "大学生活"
 image: ./bg.jpg
 ---
 
-<!--more-->
+<!--more--> 
 
 # 关于大二的一些总结
 

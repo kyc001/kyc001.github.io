@@ -1,0 +1,165 @@
+---
+import { Icon } from "astro-icon/components";
+import { encryptHtmlForPassword } from "../utils/protected-content";
+
+interface Props {
+	password: string;
+	storageKey: string;
+}
+
+const { password, storageKey } = Astro.props;
+const html = await Astro.slots.render("default");
+const payload = await encryptHtmlForPassword(html, password);
+---
+
+<section
+	data-pagefind-ignore
+	class="protected-content mb-6 rounded-xl border border-black/10 bg-black/[0.03] p-5 transition dark:border-white/10 dark:bg-white/[0.04]"
+>
+	<form data-protected-form class="flex flex-col gap-4">
+		<div class="flex items-center gap-3 text-black/75 transition dark:text-white/75">
+			<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-black/5 text-black/50 transition dark:bg-white/10 dark:text-white/60">
+				<Icon name="material-symbols:lock-outline" class="text-2xl" />
+			</div>
+			<div>
+				<div class="font-bold text-black/90 transition dark:text-white/90">This post is password protected</div>
+				<div class="text-sm text-black/50 transition dark:text-white/50">Enter the password to decrypt the article in this browser.</div>
+			</div>
+		</div>
+		<div class="flex flex-col gap-3 sm:flex-row">
+			<input
+				data-protected-password
+				type="password"
+				autocomplete="current-password"
+				class="min-w-0 flex-1 rounded-lg border border-black/10 bg-white/80 px-4 py-3 text-sm text-black/75 outline-0 transition placeholder:text-black/30 focus:border-[var(--primary)] dark:border-white/10 dark:bg-white/10 dark:text-white/75 dark:placeholder:text-white/30"
+				placeholder="Password"
+			/>
+			<button
+				type="submit"
+				class="btn-regular flex h-12 items-center justify-center gap-2 rounded-lg px-5 font-bold active:scale-95"
+			>
+				<Icon name="material-symbols:key-rounded" class="text-xl" />
+				Unlock
+			</button>
+		</div>
+		<p data-protected-message class="hidden text-sm text-red-500"></p>
+	</form>
+	<div data-protected-output class="hidden"></div>
+</section>
+
+<script is:inline define:vars={{ payload, storageKey }}>
+(() => {
+	const script = document.currentScript;
+	const root = script?.previousElementSibling;
+	if (!(root instanceof HTMLElement) || root.dataset.protectedInitialized) {
+		return;
+	}
+
+	root.dataset.protectedInitialized = "true";
+
+	const form = root.querySelector("[data-protected-form]");
+	const input = root.querySelector("[data-protected-password]");
+	const message = root.querySelector("[data-protected-message]");
+	const output = root.querySelector("[data-protected-output]");
+	const decoder = new TextDecoder();
+	const encoder = new TextEncoder();
+
+	if (!(form instanceof HTMLFormElement) || !(input instanceof HTMLInputElement) || !(message instanceof HTMLElement) || !(output instanceof HTMLElement)) {
+		return;
+	}
+
+	function fromBase64(value) {
+		const binary = atob(value);
+		const bytes = new Uint8Array(binary.length);
+		for (let i = 0; i < binary.length; i += 1) {
+			bytes[i] = binary.charCodeAt(i);
+		}
+		return bytes;
+	}
+
+	async function deriveKey(password) {
+		const baseKey = await crypto.subtle.importKey(
+			"raw",
+			encoder.encode(password),
+			"PBKDF2",
+			false,
+			["deriveKey"],
+		);
+
+		return crypto.subtle.deriveKey(
+			{
+				name: "PBKDF2",
+				hash: "SHA-256",
+				salt: fromBase64(payload.salt),
+				iterations: payload.iterations,
+			},
+			baseKey,
+			{ name: "AES-GCM", length: 256 },
+			false,
+			["decrypt"],
+		);
+	}
+
+	async function decrypt(password) {
+		const key = await deriveKey(password);
+		const decrypted = await crypto.subtle.decrypt(
+			{
+				name: "AES-GCM",
+				iv: fromBase64(payload.iv),
+			},
+			key,
+			fromBase64(payload.ciphertext),
+		);
+
+		return decoder.decode(decrypted);
+	}
+
+	function showMessage(text) {
+		message.textContent = text;
+		message.classList.remove("hidden");
+	}
+
+	function clearMessage() {
+		message.textContent = "";
+		message.classList.add("hidden");
+	}
+
+	async function unlock(password, options = {}) {
+		clearMessage();
+		const html = await decrypt(password);
+		output.innerHTML = html;
+		output.classList.remove("hidden");
+		form.classList.add("hidden");
+		if (!options.skipStorage) {
+			sessionStorage.setItem(storageKey, password);
+		}
+		document.dispatchEvent(new CustomEvent("protected-content:unlocked", { detail: { storageKey } }));
+	}
+
+	form.addEventListener("submit", async (event) => {
+		event.preventDefault();
+		const password = input.value;
+		if (!password) {
+			showMessage("Please enter the password.");
+			return;
+		}
+
+		try {
+			await unlock(password);
+		} catch {
+			sessionStorage.removeItem(storageKey);
+			showMessage("Password is incorrect.");
+			input.select();
+		}
+	});
+
+	const savedPassword = sessionStorage.getItem(storageKey);
+	if (savedPassword) {
+		input.value = savedPassword;
+		unlock(savedPassword, { skipStorage: true }).catch(() => {
+			sessionStorage.removeItem(storageKey);
+			input.value = "";
+		});
+	}
+})();
+</script>
